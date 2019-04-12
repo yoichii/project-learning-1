@@ -16,10 +16,9 @@ githubの本質を一言でいうなら、「バージョン管理を楽にす�
 
 という考えで解決しています。
 
-## githubの仕組み
+## githubの仕組み・使い方
+こちらを参照してください。
+https://backlog.com/ja/git-tutorial/?gclid=Cj0KCQjw7sDlBRC9ARIsAD-pDFrCzUt0nhg9p93EfELwDQBkjRUpKXE0k4hZIYR4rSVCtW5a4pxKo2IaAumPEALw_wcB
 
 
-# ブラウザ経由での使い方
-githubはgitコマンドを使用する方法が一般的ですが、導入に一手間かかるので、ここではブラウザ経由での使い方を紹介します。
 
-## 
