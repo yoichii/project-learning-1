@@ -20,5 +20,12 @@ githubの本質を一言でいうなら、「バージョン管理を楽にす�
 こちらを参照してください。
 https://backlog.com/ja/git-tutorial/?gclid=Cj0KCQjw7sDlBRC9ARIsAD-pDFrCzUt0nhg9p93EfELwDQBkjRUpKXE0k4hZIYR4rSVCtW5a4pxKo2IaAumPEALw_wcB
 
+# ソースコードの説明
+## Controller.java
+Controller クラス用のもの。このファイルを実行することで画面が起動する。現在は.setVisible(true)になっている画面を出力するだけ。
 
+## images
+使用する画像フォルダ
 
+## othelloScreen
+オセロスクリーンパッケージ。import othelloScreen.\*;をすることで、このパッケージ内のクラスを使用することができる。現に、Controller.javaではインポートしている。
