@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 
 public class PlayScreen extends BaseScreen {
@@ -23,7 +24,7 @@ public class PlayScreen extends BaseScreen {
         JPanel boardPanel = new JPanel();
         boardPanel.setPreferredSize(new Dimension(300, 300));
         boardPanel.setLayout(new GridLayout(8, 8));
-
+        // pieces init
         for(int i = 0; i < 64; ++i) {
             pieces[i] = 0;
             if(i == 27 || i == 36) {
@@ -32,9 +33,10 @@ public class PlayScreen extends BaseScreen {
                 pieces[i] = 2;
             }
         }
-
+        // instanciate buttons
         for(int i = 0; i < pieces.length; ++i) {
             JButton square = new JButton();
+            square.setBorder(new LineBorder(Color.black, 1, false));
             board[i/8][i%8] = square;
 
             if (pieces[i] == 0) {
@@ -66,13 +68,5 @@ public class PlayScreen extends BaseScreen {
         wholePanel.add(boardPanel);
         wholePanel.add(resignPanel);
         add(wholePanel, BorderLayout.CENTER);
-
-                //wholePanel.add(boardPanel);
-    }
-
-    public void paint(Graphics g) {
-        super.paint(g);
- 
-
     }
 }
