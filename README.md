@@ -75,6 +75,7 @@ JSON形式(ジェイソン形式)
 * 下の例は見やすさのため改行を入れているが、本当に送信するときは改行しない想定（readLine()で１つのJSONデータを読み込むことができるように)
 
 ログイン時
+
 client to server
 ```
 {
@@ -92,6 +93,7 @@ server to client
 ```
 
 会員登録時
+
 client to server
 ```
 {
@@ -109,6 +111,7 @@ server to client
 ```
 
 対局開始
+
 client to server
 ```
 {
@@ -126,6 +129,7 @@ server to client
 ```
 
 操作の情報
+
 client to server
 ```
 {
