@@ -6,6 +6,7 @@ public class PlayScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
 
     private int pieces[] = new int[64];
+    private JButton board[][] = new JButton[8][8];
     private Controller controller;
 
     public PlayScreen(Controller controller) {
@@ -19,19 +20,35 @@ public class PlayScreen extends BaseScreen {
         wholePanel.setBackground(getBackgroundColor());
 
         // boards
-        //JPanel boardPanel = new JPanel();
-        //boardPanel.setPreferredSize(new Dimension(400, 400));
-        //boardPanel.setLayout(new GridLayout(8, 8));
-
-        JLabel boardLabel = new JLabel(new ImageIcon("images/board.png"));
+        JPanel boardPanel = new JPanel();
+        boardPanel.setPreferredSize(new Dimension(300, 300));
+        boardPanel.setLayout(new GridLayout(8, 8));
 
         for(int i = 0; i < 64; ++i) {
             pieces[i] = 0;
-            if(i == 26 || i == 35) {
+            if(i == 27 || i == 36) {
                 pieces[i] = 1;
-            } else if( i == 27 || i == 34) {
+            } else if( i == 28 || i == 35) {
                 pieces[i] = 2;
             }
+        }
+
+        for(int i = 0; i < pieces.length; ++i) {
+            JButton square = new JButton();
+            board[i/8][i%8] = square;
+
+            if (pieces[i] == 0) {
+                square.setIcon(new ImageIcon("images/green.png"));
+                square.setOpaque(true);
+            } else if(pieces[i] == 1) {
+                square.setIcon(new ImageIcon("images/black.png"));
+                square.setOpaque(true);
+            } else {
+                square.setIcon(new ImageIcon("images/white.png"));
+                square.setOpaque(true);
+            }
+
+            boardPanel.add(square);
         }
 
         // resign button
@@ -46,39 +63,11 @@ public class PlayScreen extends BaseScreen {
         resignPanel.add(resignButton);
 
         // add
-        wholePanel.add(boardLabel);
+        wholePanel.add(boardPanel);
         wholePanel.add(resignPanel);
         add(wholePanel, BorderLayout.CENTER);
 
-        /*
-        for(int i = 0; i < pieces.length; ++i) {
-            JPanel square;
-
-            if (pieces[i] == 0) {
-                square = new JPanel();
-                square.setBorder(new EtchedBorder());
-                square.setColor(Color.green);
-                square.setOpaque(true);
-            } else if(pieces[i] == 1) {
-                square = new JPanel();
-                square.setBorder(new EtchedBorder());
-                square.setColor(Color.green);
-                square.setOpaque(true);
-                square.add(new 
-            } else {
-                square = new JPanel();
-                square.setBorder(new EtchedBorder());
-                square.setColor(Color.green);
-                square.setOpaque(true);
-            }
-
-            square.setIcon(image);
-
-            boardPanel.add(square);
-        }
-        */
-
-        //wholePanel.add(boardPanel);
+                //wholePanel.add(boardPanel);
     }
 
     public void paint(Graphics g) {
