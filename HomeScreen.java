@@ -1,9 +1,9 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 
 public class HomeScreen extends BaseScreen {
+	private static final long serialVersionUID = 1L;
 
     private Controller controller;
 

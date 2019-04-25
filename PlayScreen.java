@@ -3,6 +3,7 @@ import javax.swing.*;
 
 
 public class PlayScreen extends BaseScreen {
+	private static final long serialVersionUID = 1L;
 
     private int pieces[] = new int[64];
     private Controller controller;
@@ -22,7 +23,7 @@ public class PlayScreen extends BaseScreen {
         //boardPanel.setPreferredSize(new Dimension(400, 400));
         //boardPanel.setLayout(new GridLayout(8, 8));
 
-        JLabel boardLabel = new JLabel(new ImageIcon("./images/board.png"));
+        JLabel boardLabel = new JLabel(new ImageIcon("images/board.png"));
 
         for(int i = 0; i < 64; ++i) {
             pieces[i] = 0;

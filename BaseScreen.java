@@ -4,6 +4,7 @@ import javax.swing.border.*;
 
 
 public abstract class BaseScreen extends JFrame {
+	private static final long serialVersionUID = 1L;
 
     private String text;
     private ImageIcon icon;
@@ -22,7 +23,7 @@ public abstract class BaseScreen extends JFrame {
         topPanel.setBackground(backgroundColor);
         //// title
         JLabel titleLabel = new JLabel();
-        ImageIcon titleimage = new ImageIcon("./images/title.png");
+        ImageIcon titleimage = new ImageIcon("images/title.png");
         titleLabel.setIcon(titleimage);
         //// add
         topPanel.add(titleLabel);
@@ -33,7 +34,7 @@ public abstract class BaseScreen extends JFrame {
         bottomPanel.setBackground(backgroundColor);
         //// icon
         JLabel iconlabel = new JLabel();
-        icon = new ImageIcon("./images/othello-kun.png");
+        icon = new ImageIcon("images/othello-kun.png");
         iconlabel.setIcon(icon);
         //// add
         bottomPanel.add(iconlabel);

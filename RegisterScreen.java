@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class RegisterScreen extends BaseScreen {
+	private static final long serialVersionUID = 1L;
+
     private Controller controller;
 
     public RegisterScreen(Controller controller) {

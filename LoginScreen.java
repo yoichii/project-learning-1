@@ -1,8 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 public class LoginScreen extends BaseScreen {
+	private static final long serialVersionUID = 1L;
 
     private Controller controller;
 

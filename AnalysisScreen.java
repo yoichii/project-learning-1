@@ -3,6 +3,8 @@ import javax.swing.*;
 
 
 public class AnalysisScreen extends BaseScreen {
+	private static final long serialVersionUID = 1L;
+	
     private Controller controller;
 
     public AnalysisScreen(Controller controller) {
