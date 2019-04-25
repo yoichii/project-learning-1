@@ -1,13 +1,15 @@
-package othelloScreen;
-
 import java.awt.*;
 import javax.swing.*;
 
 
 public class AnalysisScreen extends BaseScreen {
+    private Controller controller;
 
-    public AnalysisScreen() {
+    public AnalysisScreen(Controller controller) {
         super("OTHELLO -- 記録解析");
+
+        // controller
+        this.controller = controller;
 
         String[][] sampleData = {
             {"tommy", "勝利", "先手", "43-23"},
@@ -43,7 +45,19 @@ public class AnalysisScreen extends BaseScreen {
         JScrollPane recordScrollPane = new JScrollPane(recordTable);
         recordScrollPane.setPreferredSize(new Dimension(400, 200));
 
+        // resign button
+        JPanel backPanel = new JPanel();
+        backPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        backPanel.setPreferredSize(new Dimension(600, 100));
+        backPanel.setBackground(getBackgroundColor());
+        JButton backButton = new JButton("戻る");
+        backButton.setPreferredSize(new Dimension(80, 30));
+        backButton.setActionCommand("back");
+        backButton.addActionListener(this.controller);
+        backPanel.add(backButton);
+
         wholePanel.add(recordScrollPane);
+        wholePanel.add(backPanel);
         wholePanel.setBackground(getBackgroundColor());
 
         getContentPane().add(wholePanel, BorderLayout.CENTER);

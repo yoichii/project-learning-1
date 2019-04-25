@@ -1,5 +1,3 @@
-package othelloScreen;
-
 import java.awt.*;
 import javax.swing.*;
 
@@ -7,9 +5,14 @@ import javax.swing.*;
 public class PlayScreen extends BaseScreen {
 
     private int pieces[] = new int[64];
+    private Controller controller;
 
-    public PlayScreen() {
+    public PlayScreen(Controller controller) {
         super("OTHELLO -- プレイ画面");
+
+        // controller
+        this.controller = controller;
+
         // whole panel
         JPanel wholePanel = new JPanel();
         wholePanel.setBackground(getBackgroundColor());
@@ -30,13 +33,15 @@ public class PlayScreen extends BaseScreen {
             }
         }
 
-        // rule button
+        // resign button
         JPanel resignPanel = new JPanel();
         resignPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         resignPanel.setPreferredSize(new Dimension(600, 100));
         resignPanel.setBackground(getBackgroundColor());
         JButton resignButton = new JButton("中断");
         resignButton.setPreferredSize(new Dimension(80, 30));
+        resignButton.setActionCommand("resign");
+        resignButton.addActionListener(this.controller);
         resignPanel.add(resignButton);
 
         // add

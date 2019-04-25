@@ -1,13 +1,17 @@
-package othelloScreen;
-
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 
 public class HomeScreen extends BaseScreen {
 
-    public HomeScreen() {
+    private Controller controller;
+
+    public HomeScreen(Controller controller) {
         super("OTHELLO -- ホーム画面");
+
+        // controller
+        this.controller = controller;
 
         // whole panel
         JPanel wholePanel = new JPanel();
@@ -19,15 +23,19 @@ public class HomeScreen extends BaseScreen {
         startPanel.setBackground(getBackgroundColor());
         JButton startButton = new JButton("プレイ開始");
         startButton.setPreferredSize(new Dimension(200, 60));
+        startButton.setActionCommand("play start");
+        startButton.addActionListener(this.controller);
         startPanel.add(startButton);
 
         // record button
-        JPanel recordPanel = new JPanel();
-        recordPanel.setPreferredSize(new Dimension(600, 100));
-        recordPanel.setBackground(getBackgroundColor());
-        JButton recordButton = new JButton("記録解析");
-        recordButton.setPreferredSize(new Dimension(200, 60));
-        recordPanel.add(recordButton);
+        JPanel analysisPanel = new JPanel();
+        analysisPanel.setPreferredSize(new Dimension(600, 100));
+        analysisPanel.setBackground(getBackgroundColor());
+        JButton analysisButton = new JButton("記録解析");
+        analysisButton.setPreferredSize(new Dimension(200, 60));
+        analysisButton.setActionCommand("analysis");
+        analysisButton.addActionListener(controller);
+        analysisPanel.add(analysisButton);
 
         // rule button
         JPanel rulePanel = new JPanel();
@@ -39,7 +47,7 @@ public class HomeScreen extends BaseScreen {
 
         // add
         wholePanel.add(startPanel);
-        wholePanel.add(recordPanel);
+        wholePanel.add(analysisPanel);
         wholePanel.add(rulePanel);
         add(wholePanel, BorderLayout.CENTER);
     }

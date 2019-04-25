@@ -1,15 +1,14 @@
-package othelloScreen;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class BaseScreen extends JFrame {
+public abstract class BaseScreen extends JFrame {
 
     private String text;
     private ImageIcon icon;
     private Color backgroundColor;
+    private JLabel speechBubbleLabel;
 
     public BaseScreen(String title) {
         // config
@@ -40,7 +39,7 @@ public class BaseScreen extends JFrame {
         bottomPanel.add(iconlabel);
         //// speech bubble
         text = " 調子がいいね！"; 
-        JLabel speechBubbleLabel = new JLabel(text);
+        speechBubbleLabel = new JLabel(text);
         speechBubbleLabel.setOpaque(true);
         speechBubbleLabel.setBackground(Color.white);
         speechBubbleLabel.setPreferredSize(new Dimension(400, 80));
@@ -54,19 +53,20 @@ public class BaseScreen extends JFrame {
     }
 
 
-    void setText(String text) {
+    public void setText(String text) {
         this.text = text;
+        speechBubbleLabel.setText(text);
     }
 
-    void setIcon(ImageIcon icon) {
+    public void setIcon(ImageIcon icon) {
         this.icon = icon;
     }
 
-    Color getBackgroundColor() {
+    public Color getBackgroundColor() {
         return this.backgroundColor;
     }
 
-    void setBackgroundColor(Color color) {
+    public void setBackgroundColor(Color color) {
         this.backgroundColor = color;
     }
 
