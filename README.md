@@ -28,4 +28,5 @@ Controller クラス用のもの。このファイルを実行することで画
 使用する画像フォルダ
 
 ## othelloScreen
-オセロスクリーンパッケージ。import othelloScreen.\*;をすることで、このパッケージ内のクラスを使用することができる。現に、Controller.javaではインポートしている。
+~~オセロスクリーンパッケージ。import othelloScreen.\*;をすることで、このパッケージ内のクラスを使用することができる。現に、Controller.javaではインポートしている。~~
+諸事情あってやめました。
