@@ -2,11 +2,14 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Controller implements ActionListener {
+    // screen
     LoginScreen loginScreen;
     HomeScreen homeScreen;
     RegisterScreen registerScreen;
     PlayScreen playScreen;
     AnalysisScreen analysisScreen;
+    // player
+    Player player;
 
     public static void main(String[] args) {
         Controller controller = new Controller();
@@ -36,7 +39,9 @@ public class Controller implements ActionListener {
             loginScreen.setVisible(true);
             registerScreen.setVisible(false);
         } else if(command.equals("play start")) {
-            playScreen = new PlayScreen(this, 1);
+            this.player =  new Player();
+            player.setMyColor(2);
+            playScreen = new PlayScreen(this, player);
             playScreen.setText(" 君は後手だ！有利だぞ！");
             playScreen.setVisible(true);
             homeScreen.setVisible(false);

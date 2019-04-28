@@ -1,5 +1,54 @@
 class Othello {
-    void getNextBorder(int[][] pieces, int[][] puttable, int[] move, int myColor) {
+    private int pieces[][] = {
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,2,1,0,0,0},
+        {0,0,0,1,2,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0}
+    };
+    private int puttable[][] = {
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0}
+    };
+
+    int row = 8;
+    int column = 8;
+
+    void initPuttable(int myColor) {
+        if (myColor==1) {
+            puttable[2][3] = 1;
+            puttable[3][2] = 1;
+            puttable[4][5] = 1;
+            puttable[5][4] = 1;
+        } else if (myColor==2) {
+            puttable[2][4] = 1;
+            puttable[4][2] = 1;
+            puttable[3][5] = 1;
+            puttable[5][3] = 1;
+        }
+    }
+
+
+    boolean piecesEqual(int i, int j, int equal) {
+        return pieces[i][j] == equal;
+    }
+
+
+    boolean puttableEqual(int i, int j, int equal) {
+        return puttable[i][j] == equal;
+    }
+
+
+    void getNextBorder(int[] move, int myColor) {
 
         // update pieces
         pieces[move[0]][move[1]] = myColor;
