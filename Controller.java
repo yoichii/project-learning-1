@@ -36,7 +36,7 @@ public class Controller implements ActionListener {
             loginScreen.setVisible(true);
             registerScreen.setVisible(false);
         } else if(command.equals("play start")) {
-            playScreen = new PlayScreen(this);
+            playScreen = new PlayScreen(this, 1);
             playScreen.setText(" 君は後手だ！有利だぞ！");
             playScreen.setVisible(true);
             homeScreen.setVisible(false);
