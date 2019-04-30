@@ -81,10 +81,10 @@ public class PlayScreen extends BaseScreen implements ActionListener {
             for(int j = 0; j < othello.column; ++j) {
 
                 // pieces
-                if (othello.piecesEqual(i, j, 0)) {
+                if (othello.pieceEquals(i, j, 0)) {
                     board[i][j].setIcon(new ImageIcon("images/green.png"));
                     board[i][j].setOpaque(true);
-                } else if(othello.piecesEqual(i, j, 1)) {
+                } else if(othello.pieceEquals(i, j, 1)) {
                     board[i][j].setIcon(new ImageIcon("images/black.png"));
                     board[i][j].setOpaque(true);
                 } else {
@@ -93,9 +93,9 @@ public class PlayScreen extends BaseScreen implements ActionListener {
                 }
 
                 // puttable
-                if(othello.puttableEqual(i, j, 0))
+                if(othello.puttableEquals(i, j, 0))
                     board[i][j].setEnabled(false);
-                else if(othello.puttableEqual(i, j, 1))
+                else if(othello.puttableEquals(i, j, 1))
                     board[i][j].setEnabled(true);
 
             }
