@@ -23,7 +23,7 @@ public class HomeScreen extends BaseScreen {
         startPanel.setBackground(getBackgroundColor());
         JButton startButton = new JButton("プレイ開始");
         startButton.setPreferredSize(new Dimension(200, 60));
-        startButton.setActionCommand("play start");
+        startButton.setActionCommand("play");
         startButton.addActionListener(this.controller);
         startPanel.add(startButton);
 

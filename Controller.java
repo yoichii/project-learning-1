@@ -26,46 +26,76 @@ public class Controller implements ActionListener {
         String command = e.getActionCommand();
 
         if(command.equals("login")) {
-            homeScreen = new HomeScreen(this);
-            homeScreen.setText(" このオセロは制限時間があるから注意だ！");
-            homeScreen.setVisible(true);
-            loginScreen.setVisible(false);
+            controllLogin();
         } else if(command.equals("register")) {
-            registerScreen = new RegisterScreen(this);
-            registerScreen.setText(" ようこそ！これからよろしくね！");
-            registerScreen.setVisible(true);
-            loginScreen.setVisible(false);
+            controllRegister();
         } else if(command.equals("register send")) {
-            loginScreen.setVisible(true);
-            registerScreen.setVisible(false);
-        } else if(command.equals("play start")) {
-            this.player =  new Player();
-            player.setMyColor(2);
-            playScreen = new PlayScreen(this, player);
-            playScreen.setText(" 君は後手だ！有利だぞ！");
-            playScreen.setVisible(true);
-            homeScreen.setVisible(false);
+            controllRegisterSend();
+        } else if(command.equals("play")) {
+            controllPlay();
         } else if(command.equals("resign")) {
-            playScreen.setText("中断したから負けだよ！");
-
-            ActionListener listener = new ActionListener(){
-                public void actionPerformed(ActionEvent event){
-                    homeScreen.setVisible(true);
-                    playScreen.setVisible(false);
-                }
-            };
-            Timer timer = new Timer(3000, listener);
-            timer.setRepeats(false);
-            timer.start();
+            controllResign();
         } else if(command.equals("analysis")) {
-            analysisScreen = new AnalysisScreen(this);
-            analysisScreen.setText(" 君は強いぞ！");
-            analysisScreen.setVisible(true);
-            homeScreen.setVisible(false);
+            controllAnalysis();
         } else if(command.equals("back")) {
-            homeScreen.setVisible(true);
-            analysisScreen.setVisible(false);
+            controllBack();
         }
+
+    }
+
+    void controllLogin() {
+        homeScreen = new HomeScreen(this);
+        homeScreen.setText(" このオセロは制限時間があるから注意だ！");
+        homeScreen.setVisible(true);
+        loginScreen.setVisible(false);
+    }
+
+    void controllRegister() {
+        registerScreen = new RegisterScreen(this);
+        registerScreen.setText(" ようこそ！これからよろしくね！");
+        registerScreen.setVisible(true);
+        loginScreen.setVisible(false);
+    }
+
+    void controllRegisterSend() {
+        loginScreen.setVisible(true);
+        registerScreen.setVisible(false);
+    }
+
+
+    void controllPlay() {
+        this.player =  new Player();
+        player.setMyColor(2);
+        playScreen = new PlayScreen(this, player);
+        playScreen.setText(" 君は後手だ！有利だぞ！");
+        playScreen.setVisible(true);
+        homeScreen.setVisible(false);
+    }
+
+    void controllResign() {
+        playScreen.setText("中断したから負けだよ！");
+
+        ActionListener listener = new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                homeScreen.setVisible(true);
+                playScreen.setVisible(false);
+            }
+        };
+        Timer timer = new Timer(3000, listener);
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    void controllAnalysis() {
+        analysisScreen = new AnalysisScreen(this);
+        analysisScreen.setText(" 君は強いぞ！");
+        analysisScreen.setVisible(true);
+        homeScreen.setVisible(false);
+    }
+
+    void controllBack() {
+        homeScreen.setVisible(true);
+        analysisScreen.setVisible(false);
     }
 }
 
