@@ -5,6 +5,8 @@ public class LoginScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
 
     private Controller controller;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
 
     public LoginScreen(Controller controller) {
         super("OTHELLO -- ログイン画面");
@@ -23,13 +25,13 @@ public class LoginScreen extends BaseScreen {
         JLabel usernameLabel = new JLabel("ユーザ名");
         usernameLabel.setHorizontalAlignment(JLabel.CENTER);
         usernameLabel.setPreferredSize(new Dimension(160, 40));
-        JTextField usernameField = new JTextField("");
+        usernameField = new JTextField("");
         usernameField.setPreferredSize(new Dimension(280, 50));
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordLabel.setPreferredSize(new Dimension(160, 40));
-        JPasswordField passwordField = new JPasswordField();
+        passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(280, 50));
         //// add
         formPanel.add(usernameLabel);
@@ -67,4 +69,40 @@ public class LoginScreen extends BaseScreen {
         wholePanel.add(registerPanel);
         add(wholePanel, BorderLayout.CENTER);
     }
+
+    public String[] getFormData() {
+        String[] data = {"", ""};
+        data[0] = usernameField.getText();
+        char[] tmp = passwordField.getPassword();
+        data[1] = new String(tmp);
+
+        return data;
+    }
+
+
+    public void showError(Message message) {
+        switch(message.getStatus()) {
+            case invalidUsername:
+                setText("ユーザ名が間違ってるよ");
+                break;
+            case invalidPassword:
+                setText("パスワードが間違ってるよ");
+                break;
+            case unknownError:
+                setText("エラーが起きたよ\nもう一度試してね");
+                break;
+            case classNotFoundException:
+                setText("サーバから受信できなかったよ\nもう一度試してね");
+                break;
+            case ioException:
+                setText("サーバと通信ができなかったよ\nもう一度試してね");
+                break;
+            case nullObject:
+               setText("サーバと接続ができてないよ\nもう一度試してね");
+                break;
+            default:
+                setText("エラーが起きたよ\nもう一度試してね");
+        }
+    }
+
 }
