@@ -78,19 +78,19 @@ class Othello {
     //  よくわかんなくなったら相談乗ります、、
     //
     void getNextBorder(int[] move, int myColor) {
-        getNextPieces();
-        getNextPuttable();
+        getNextPieces(int[] move, int myColor);
+        getNextPuttable(int[] move, int myColor);
     }
 
 
-    void getNextPieces() {
+    void getNextPieces(int[] move, int myColor) {
          // update pieces
         pieces[move[0]][move[1]] = myColor;
         puttable[move[0]][move[1]] = 0;
     }
 
 
-    void getNextPuttable() {
+    void getNextPuttable(int[] move, int myColor) {
          // around the piece
         for(int i = move[0]-1; i <= move[0]+1; ++i) {
             for(int j = move[1]-1; j <= move[1]+1; ++j) {
