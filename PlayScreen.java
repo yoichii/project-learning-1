@@ -10,11 +10,12 @@ public class PlayScreen extends BaseScreen implements ActionListener {
     private Controller controller;
     private Othello othello;
     private Player player;
+    private JLabel timerLabel;
 
     private int[] move = new int[2];
     private JButton board[][] = new JButton[8][8];
 
-    public PlayScreen(Controller controller, Player player) {
+    PlayScreen(Controller controller, Player player) {
         super("OTHELLO -- プレイ画面");
 
         // init variables
@@ -48,10 +49,10 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         }
         drawBoard();
 
-        // resign button
         JPanel resignPanel = new JPanel();
-        resignPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        resignPanel.setPreferredSize(new Dimension(600, 100));
+        // resign button
+        resignPanel.setLayout(new FlowLayout());
+        resignPanel.setPreferredSize(new Dimension(150, 100));
         resignPanel.setBackground(getBackgroundColor());
         JButton resignButton = new JButton("中断");
         resignButton.setPreferredSize(new Dimension(80, 30));
@@ -59,9 +60,25 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         resignButton.addActionListener(this.controller);
         resignPanel.add(resignButton);
 
+        // timer label
+        JPanel timerPanel = new JPanel();
+        timerPanel.setBackground(getBackgroundColor());
+        timerPanel.setPreferredSize(new Dimension(150, 100));
+        timerLabel = new JLabel("120");
+        timerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 16));
+        timerPanel.add(timerLabel);
+
+        // middle panel
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BorderLayout());
+        middlePanel.setPreferredSize(new Dimension(600, 100));
+        middlePanel.setBackground(getBackgroundColor());
+        middlePanel.add(resignPanel, BorderLayout.EAST);
+        middlePanel.add(timerPanel, BorderLayout.WEST);
+
         // add
         wholePanel.add(boardPanel);
-        wholePanel.add(resignPanel);
+        wholePanel.add(middlePanel);
         add(wholePanel, BorderLayout.CENTER);
     }
 
@@ -82,13 +99,19 @@ public class PlayScreen extends BaseScreen implements ActionListener {
 
                 // pieces
                 if (othello.pieceEquals(i, j, 0)) {
-                    board[i][j].setIcon(new ImageIcon("images/green.png"));
+                    ImageIcon green = new ImageIcon("images/green.png");
+                    board[i][j].setIcon(green);
+                    board[i][j].setDisabledIcon(green);
                     board[i][j].setOpaque(true);
                 } else if(othello.pieceEquals(i, j, 1)) {
-                    board[i][j].setIcon(new ImageIcon("images/black.png"));
+                    ImageIcon black = new ImageIcon("images/black.png");
+                    board[i][j].setIcon(black);
+                    board[i][j].setDisabledIcon(black);
                     board[i][j].setOpaque(true);
                 } else {
-                    board[i][j].setIcon(new ImageIcon("images/white.png"));
+                    ImageIcon white = new ImageIcon("images/white.png");
+                    board[i][j].setIcon(white);
+                    board[i][j].setDisabledIcon(white);
                     board[i][j].setOpaque(true);
                 }
 
