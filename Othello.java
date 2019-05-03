@@ -1,6 +1,6 @@
 public class Othello {
 	// 0: no piece, 1: black, 2: white
-     int pieces[][] = {
+     private int pieces[][] = {
 
 	        {0,0,0,0,0,0,0,0},
 
@@ -22,7 +22,7 @@ public class Othello {
 
 	    // 0: not puttable, 1: puttable
 
-	    int puttable[][] = {
+	    private int puttable[][] = {
 
 	        {0,0,0,0,0,0,0,0},
 
@@ -44,8 +44,11 @@ public class Othello {
 
 
      // 8*8 board
-    int row = 8;
-    int column = 8;
+    private final int row = 8;
+    private final int column = 8;
+
+    int getRow() { return row; }
+    int getColumn() { return column;}
 
     // initialize puttable[][]
     void initPuttable(int myColor) {

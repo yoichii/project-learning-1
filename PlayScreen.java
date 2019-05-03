@@ -12,7 +12,6 @@ public class PlayScreen extends BaseScreen implements ActionListener {
     private Player player;
     private JLabel timerLabel;
 
-    private int[] move = new int[2];
     private JButton board[][] = new JButton[8][8];
 
     PlayScreen(Controller controller, Player player) {
@@ -36,8 +35,8 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         boardPanel.setLayout(new GridLayout(8, 8));
 
         // buttons
-        for(int i = 0; i < othello.row; ++i) {
-            for(int j = 0; j < othello.column; ++j) {
+        for(int i = 0; i < othello.getRow(); ++i) {
+            for(int j = 0; j < othello.getColumn(); ++j) {
                 JButton square = new JButton();
                 square.setBorder(new LineBorder(Color.black, 1, false));
                 square.setActionCommand(String.valueOf(i)+","+String.valueOf(j));
@@ -85,6 +84,7 @@ public class PlayScreen extends BaseScreen implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // set action command like "2,4" to move[]
         String[] command = e.getActionCommand().split(",");
+        int[] move = new int[2];
         for(int i = 0; i < 2; ++i)
             move[i] = Integer.parseInt(command[i]);
 
@@ -94,14 +94,13 @@ public class PlayScreen extends BaseScreen implements ActionListener {
     }
 
     void drawBoard() {
-        for(int i = 0; i < othello.row; ++i) {
-            for(int j = 0; j < othello.column; ++j) {
+        for(int i = 0; i < othello.getRow(); ++i) {
+            for(int j = 0; j < othello.getColumn(); ++j) {
 
                 // pieces
                 if (othello.pieceEquals(i, j, 0)) {
-                    ImageIcon green = new ImageIcon("images/green.png");
-                    board[i][j].setIcon(green);
-                    board[i][j].setDisabledIcon(green);
+                    board[i][j].setIcon(new ImageIcon("images/green-able.png"));
+                    board[i][j].setDisabledIcon(new ImageIcon("images/green.png"));
                     board[i][j].setOpaque(true);
                 } else if(othello.pieceEquals(i, j, 1)) {
                     ImageIcon black = new ImageIcon("images/black.png");
