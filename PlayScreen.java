@@ -35,8 +35,8 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         boardPanel.setLayout(new GridLayout(8, 8));
 
         // buttons
-        for(int i = 0; i < othello.getRow(); ++i) {
-            for(int j = 0; j < othello.getColumn(); ++j) {
+        for(int i = 0; i < othello.ROW; ++i) {
+            for(int j = 0; j < othello.COLUMN; ++j) {
                 JButton square = new JButton();
                 square.setBorder(new LineBorder(Color.black, 1, false));
                 square.setActionCommand(String.valueOf(i)+","+String.valueOf(j));
@@ -94,8 +94,8 @@ public class PlayScreen extends BaseScreen implements ActionListener {
     }
 
     void drawBoard() {
-        for(int i = 0; i < othello.getRow(); ++i) {
-            for(int j = 0; j < othello.getColumn(); ++j) {
+        for(int i = 0; i < othello.ROW; ++i) {
+            for(int j = 0; j < othello.COLUMN; ++j) {
 
                 // pieces
                 if (othello.pieceEquals(i, j, 0)) {
