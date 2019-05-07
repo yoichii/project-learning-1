@@ -131,9 +131,11 @@ public class Othello {
 				if(pieces[i][j]==0) {
 					for(int m=0;m<ROW;m++) {
 						int count=0;
-						while(count>2) {
-								int x=i+dir[m][0];
-								int y=j+dir[m][1];
+                        int x = i;
+                        int y = j;
+						while(count<2) {
+								x+=dir[m][0];
+								y+=dir[m][1];
 								if(x>=0&&x<ROW&&y>=0&&y<COLUMN) {
 									if(pieces[x][y]==0) {
 										count=3;
