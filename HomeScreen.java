@@ -1,8 +1,9 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 
-public class HomeScreen extends BaseScreen {
+public class HomeScreen extends BaseScreen implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
     private Controller controller;
@@ -43,6 +44,7 @@ public class HomeScreen extends BaseScreen {
         rulePanel.setBackground(getBackgroundColor());
         JButton ruleButton = new JButton("ルール説明");
         ruleButton.setPreferredSize(new Dimension(150, 30));
+        ruleButton.addActionListener(this);
         rulePanel.add(ruleButton);
 
         // add
@@ -50,5 +52,10 @@ public class HomeScreen extends BaseScreen {
         wholePanel.add(analysisPanel);
         wholePanel.add(rulePanel);
         add(wholePanel, BorderLayout.CENTER);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        JLabel label = new JLabel("<html>基本的には普通のオセロのルールと同じです。<br />制限時間があるので気を付けましょう</html>");
+        JOptionPane.showMessageDialog(this,label,"ルール説明",JOptionPane.PLAIN_MESSAGE);
     }
 }
