@@ -25,6 +25,14 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         // init puttable
         othello.initPuttable(player.getMyColor());
 
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initPlayUI();
+            }
+        });
+    }
+
+    void initPlayUI() {
         // whole panel
         JPanel wholePanel = new JPanel();
         wholePanel.setBackground(getBackgroundColor());
@@ -46,6 +54,7 @@ public class PlayScreen extends BaseScreen implements ActionListener {
                 boardPanel.add(square);
             }
         }
+
         drawBoard();
 
         JPanel resignPanel = new JPanel();
@@ -81,18 +90,6 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         add(wholePanel, BorderLayout.CENTER);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        // set action command like "2,4" to move[]
-        String[] command = e.getActionCommand().split(",");
-        int[] move = new int[2];
-        for(int i = 0; i < 2; ++i)
-            move[i] = Integer.parseInt(command[i]);
-
-        othello.getNextBorder(move, player.getMyColor());
-
-        drawBoard();
-    }
-
     void drawBoard() {
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
@@ -123,4 +120,22 @@ public class PlayScreen extends BaseScreen implements ActionListener {
             }
         }
     }
+
+     public void actionPerformed(ActionEvent e) {
+        // set action command like "2,4" to move[]
+        String[] command = e.getActionCommand().split(",");
+        int[] move = new int[2];
+        for(int i = 0; i < 2; ++i)
+            move[i] = Integer.parseInt(command[i]);
+
+        othello.getNextBorder(move, player.getMyColor());
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                drawBoard();
+            }
+        });
+    }
+
+
 }

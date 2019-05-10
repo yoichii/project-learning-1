@@ -12,6 +12,14 @@ public abstract class BaseScreen extends JFrame {
     private JLabel speechBubbleLabel;
 
     public BaseScreen(String title) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initBaseUI(title);
+            }
+        });
+    }
+
+    void initBaseUI(String title) {
         // config
         setTitle(title);
         setBounds(100, 100, 600, 600);
@@ -19,7 +27,9 @@ public abstract class BaseScreen extends JFrame {
 
         // top panel
         JPanel topPanel = new JPanel();
-        backgroundColor = new Color(255, 193, 157);
+        backgroundColor = new Color(204, 187, 163);
+        //backgroundColor = new Color(255, 193, 157);
+        //backgroundColor = Color.white;
         topPanel.setBackground(backgroundColor);
         //// title
         JLabel titleLabel = new JLabel();
@@ -34,12 +44,12 @@ public abstract class BaseScreen extends JFrame {
         bottomPanel.setBackground(backgroundColor);
         //// icon
         JLabel iconlabel = new JLabel();
-        icon = new ImageIcon("images/othello-kun.png");
+        icon = new ImageIcon("images/samurai3.png");
         iconlabel.setIcon(icon);
         //// add
         bottomPanel.add(iconlabel);
         //// speech bubble
-        text = " 調子がいいね！"; 
+        text = " 調子がいいね！";
         speechBubbleLabel = new JLabel(text);
         speechBubbleLabel.setOpaque(true);
         speechBubbleLabel.setBackground(Color.white);
@@ -51,12 +61,17 @@ public abstract class BaseScreen extends JFrame {
         // add
         getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(bottomPanel, BorderLayout.SOUTH);
-    }
 
+    }
 
     public void setText(String text) {
         this.text = text;
-        speechBubbleLabel.setText(text);
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                speechBubbleLabel.setText(text);
+            }
+        });
     }
 
     public void setIcon(ImageIcon icon) {

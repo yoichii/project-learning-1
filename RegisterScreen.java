@@ -12,6 +12,14 @@ public class RegisterScreen extends BaseScreen {
         // controller
         this.controller = controller;
 
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initRegisterUI();
+            }
+        });
+    }
+
+    void initRegisterUI() {
         // whole panel
         JPanel wholePanel = new JPanel();
         wholePanel.setBackground(getBackgroundColor());

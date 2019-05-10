@@ -4,8 +4,9 @@ import javax.swing.*;
 
 public class AnalysisScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
-	
     private Controller controller;
+    private String[][] sampleData;
+    private final String[] sampleColumns = {"プレイヤ名", "結果", "順番", "コマ数"};
 
     public AnalysisScreen(Controller controller) {
         super("OTHELLO -- 記録解析");
@@ -40,8 +41,16 @@ public class AnalysisScreen extends BaseScreen {
             {"勉", "引き分け", "後手", "32-32"}
         };
 
-        String[] sampleColumns = {"プレイヤ名", "結果", "順番", "コマ数"};
+        this.sampleData = sampleData;
 
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initAnalysisUI();
+            }
+        });
+    }
+
+    void initAnalysisUI() {
         JPanel wholePanel = new JPanel();
         JTable recordTable = new JTable(sampleData, sampleColumns);
         JScrollPane recordScrollPane = new JScrollPane(recordTable);

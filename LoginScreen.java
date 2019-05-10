@@ -13,7 +13,16 @@ public class LoginScreen extends BaseScreen {
 
         // set controller
         this.controller = controller;
-        // whole panel
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initLoginUI();
+            }
+        });
+    }
+
+    void initLoginUI() {
+         // whole panel
         JPanel wholePanel = new JPanel();
         wholePanel.setBackground(getBackgroundColor());
 

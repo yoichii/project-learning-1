@@ -14,7 +14,15 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         // controller
         this.controller = controller;
 
-        // whole panel
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initHomeUI();
+            }
+        });
+    }
+
+    void initHomeUI() {
+         // whole panel
         JPanel wholePanel = new JPanel();
         wholePanel.setBackground(getBackgroundColor());
 
@@ -22,7 +30,9 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         JPanel startPanel = new JPanel();
         startPanel.setPreferredSize(new Dimension(600, 100));
         startPanel.setBackground(getBackgroundColor());
-        JButton startButton = new JButton("プレイ開始");
+        //JButton startButton = new JButton("プレイ開始");
+        JButton startButton = new JButton(new ImageIcon("images/start.png"));
+        startButton.setOpaque(false);
         startButton.setPreferredSize(new Dimension(200, 60));
         startButton.setActionCommand("play");
         startButton.addActionListener(this.controller);
@@ -32,7 +42,9 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         JPanel analysisPanel = new JPanel();
         analysisPanel.setPreferredSize(new Dimension(600, 100));
         analysisPanel.setBackground(getBackgroundColor());
-        JButton analysisButton = new JButton("記録解析");
+        //JButton analysisButton = new JButton("記録解析");
+        JButton analysisButton = new JButton(new ImageIcon("images/analysis.png"));
+        analysisButton.setOpaque(false);
         analysisButton.setPreferredSize(new Dimension(200, 60));
         analysisButton.setActionCommand("analysis");
         analysisButton.addActionListener(controller);
@@ -55,7 +67,11 @@ public class HomeScreen extends BaseScreen implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        JLabel label = new JLabel("<html>基本的には普通のオセロのルールと同じです。<br />制限時間があるので気を付けましょう</html>");
-        JOptionPane.showMessageDialog(this,label,"ルール説明",JOptionPane.PLAIN_MESSAGE);
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                JLabel label = new JLabel("<html>基本的には普通のオセロのルールと同じです。<br />制限時間があるので気を付けましょう</html>");
+                JOptionPane.showMessageDialog(HomeScreen.this,label,"ルール説明",JOptionPane.PLAIN_MESSAGE);
+            }
+        });
     }
 }

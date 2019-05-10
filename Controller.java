@@ -1,8 +1,10 @@
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class Controller implements ActionListener {
     // screen
+    private WaitingScreen waitingScreen = null;
     private LoginScreen loginScreen = null;
     private HomeScreen homeScreen = null;
     private RegisterScreen registerScreen = null;
@@ -15,13 +17,26 @@ public class Controller implements ActionListener {
     public static void main(String[] args) {
         Controller controller = new Controller();
 
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                WaitingScreen waitingScreen = new WaitingScreen();
+                controller.waitingScreen = waitingScreen;
+                waitingScreen.setVisible(true);
+            }
+        });
+
         LoginScreen loginScreen = new LoginScreen(controller);
         controller.loginScreen = loginScreen;
-        loginScreen.setText(" 久しぶりだね！");
-        loginScreen.setVisible(true);
-
-
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                loginScreen.setText(" 久しぶりだね！");
+                loginScreen.setVisible(true);
+                //controller.waitingScreen.setVisible(false);
+            }
+        });
     }
+
+   
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
@@ -67,9 +82,13 @@ public class Controller implements ActionListener {
         // send a message
         String err2 = client.sendMessage(message);
         if(!err2.equals("")) {
-            loginScreen.setText(err2);
-            return;
-        }
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    loginScreen.setText(err2);
+                }
+            });
+                return;
+            }
 
         // receive a message
         Message received = client.receiveMessage();
@@ -78,8 +97,12 @@ public class Controller implements ActionListener {
         if (received.getStatus() == Status.success) {
             homeScreen = new HomeScreen(this);
             homeScreen.setText(" このオセロは制限時間があるから注意だ！");
-            homeScreen.setVisible(true);
-            loginScreen.setVisible(false);
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    homeScreen.setVisible(true);
+                    loginScreen.setVisible(false);
+                }
+            });
         } else {
             loginScreen.showError(received);
         }
@@ -88,13 +111,21 @@ public class Controller implements ActionListener {
     void controllRegister() {
         registerScreen = new RegisterScreen(this);
         registerScreen.setText(" ようこそ！これからよろしくね！");
-        registerScreen.setVisible(true);
-        loginScreen.setVisible(false);
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                registerScreen.setVisible(true);
+                loginScreen.setVisible(false);
+            }
+        });
     }
 
     void controllRegisterSend() {
-        loginScreen.setVisible(true);
-        registerScreen.setVisible(false);
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                loginScreen.setVisible(true);
+                registerScreen.setVisible(false);
+            }
+        });
     }
 
 
@@ -103,8 +134,12 @@ public class Controller implements ActionListener {
         player.setMyColor(2);
         playScreen = new PlayScreen(this, player);
         playScreen.setText(" 君は後手だ！有利だぞ！");
-        playScreen.setVisible(true);
-        homeScreen.setVisible(false);
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                playScreen.setVisible(true);
+                homeScreen.setVisible(false);
+            }
+        });
     }
 
     void controllResign() {
@@ -112,8 +147,12 @@ public class Controller implements ActionListener {
 
         ActionListener listener = new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                homeScreen.setVisible(true);
-                playScreen.setVisible(false);
+                EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        homeScreen.setVisible(true);
+                        playScreen.setVisible(false);
+                    }
+                });
             }
         };
         Timer timer = new Timer(3000, listener);
@@ -124,17 +163,36 @@ public class Controller implements ActionListener {
     void controllAnalysis() {
         analysisScreen = new AnalysisScreen(this);
         analysisScreen.setText(" 君は強いぞ！");
-        analysisScreen.setVisible(true);
-        homeScreen.setVisible(false);
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                analysisScreen.setVisible(true);
+                homeScreen.setVisible(false);
+            }
+        });
     }
 
     void controllBack() {
-        homeScreen.setVisible(true);
-        analysisScreen.setVisible(false);
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                homeScreen.setVisible(true);
+                analysisScreen.setVisible(false);
+            }
+        });
     }
 }
 
 
+class WaitingScreen extends JFrame {
+    public WaitingScreen() {
+        // config
+        setTitle("waiting...");
+        setBounds(100, 100, 600, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel label = new JLabel(new ImageIcon("images/background.jpg"));
+        add(label);
+    }
+}
 
 
 
