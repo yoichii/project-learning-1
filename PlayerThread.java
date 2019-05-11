@@ -182,12 +182,10 @@ private Message log(String username, String password) {
 		try(FileReader fr = new FileReader("player.txt"); BufferedReader br = new BufferedReader(fr)){
 
             String str = br.readLine();				
-            System.out.println(str);	
 
 			while(str!=null) {
 				if(str.equals(username)) {
 					str=br.readLine();
-			        System.out.println(str);	
 
 						if(str.equals(password)) {
 							
@@ -212,9 +210,7 @@ private Message log(String username, String password) {
 				}
 				
 				str = br.readLine();
-                System.out.println(str);	
 				str = br.readLine();
-                System.out.println(str);	
 			}
 			
             if(str == null)
@@ -286,7 +282,6 @@ private Message log(String username, String password) {
 
 	public void sendmessage(Message message){
 
-        System.out.println(message);
 		try {
 			//out = new ObjectOutputStream(socket.getOutputStream());
 			out.writeObject(message);
