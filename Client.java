@@ -2,9 +2,16 @@ import java.io.*;
 import java.net.*;
 
 class Client {
-        private Socket socket = null;
-        private ObjectOutputStream out = null;
-        private ObjectInputStream in = null;
+    private Socket socket = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
+    private Controller controller = null;
+
+
+    public Client(Controller controller) {
+        this.controller = controller;
+    }
+
 
     public String establishConnection() {
         try {
@@ -49,18 +56,60 @@ class Client {
         return "";
     }
 
+/*
+    public void run() {
+        Message received;
+
+        if (socket == null) {
+            establishConnection();
+        }
+
+        try {
+            while(true) {
+                if (in != null) {
+                    // client <- server´
+                    received = (Message)(in.readObject());
+                } else {
+                    received = new Message();
+                    received.setType(Type.none);
+                    received.setStatus(Status.nullObject);
+                }
+
+                //controller.receiveMessage();
+            }
+        } catch (ClassNotFoundException nfe) {
+            received = new Message();
+            received.setType(Type.none);
+            received.setStatus(Status.classNotFoundException);
+        } catch (IOException ioe) {
+            received = new Message();
+            received.setType(Type.none);
+            received.setStatus(Status.ioException);
+        }
+
+    }
+*/
 
     public Message receiveMessage() {
-        Message received;
+         Message received;
+
+        if (socket == null) {
+            establishConnection();
+        }
+
         try {
-            if (in != null) {
-                // client <- server´
-                received = (Message)(in.readObject());
-            } else {
-                received = new Message();
-                received.setType(Type.none);
-                received.setStatus(Status.nullObject);
-            }
+            //while(true) {
+                if (in != null) {
+                    // client <- server´
+                    received = (Message)(in.readObject());
+                } else {
+                    received = new Message();
+                    received.setType(Type.none);
+                    received.setStatus(Status.nullObject);
+                }
+
+                //controller.receiveMessage();
+            //}
         } catch (ClassNotFoundException nfe) {
             received = new Message();
             received.setType(Type.none);
@@ -73,6 +122,7 @@ class Client {
 
         return received;
     }
+
 
     public void close() {
         try {

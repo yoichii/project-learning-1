@@ -33,7 +33,9 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         //JButton startButton = new JButton("プレイ開始");
         JButton startButton = new JButton(new ImageIcon("images/start.png"));
         startButton.setOpaque(false);
-        startButton.setPreferredSize(new Dimension(200, 60));
+        startButton.setContentAreaFilled(false);
+        startButton.setBorderPainted(false);
+        startButton.setPreferredSize(new Dimension(300, 100));
         startButton.setActionCommand("play");
         startButton.addActionListener(this.controller);
         startPanel.add(startButton);
@@ -45,7 +47,9 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         //JButton analysisButton = new JButton("記録解析");
         JButton analysisButton = new JButton(new ImageIcon("images/analysis.png"));
         analysisButton.setOpaque(false);
-        analysisButton.setPreferredSize(new Dimension(200, 60));
+        analysisButton.setContentAreaFilled(false);
+        analysisButton.setBorderPainted(false);
+        analysisButton.setPreferredSize(new Dimension(200, 100));
         analysisButton.setActionCommand("analysis");
         analysisButton.addActionListener(controller);
         analysisPanel.add(analysisButton);
@@ -59,11 +63,17 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         ruleButton.addActionListener(this);
         rulePanel.add(ruleButton);
 
+        // transparent
+        startPanel.setOpaque(false);
+        analysisPanel.setOpaque(false);
+        rulePanel.setOpaque(false);
+        wholePanel.setOpaque(false);
+
         // add
         wholePanel.add(startPanel);
         wholePanel.add(analysisPanel);
         wholePanel.add(rulePanel);
-        add(wholePanel, BorderLayout.CENTER);
+        backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 
     public void actionPerformed(ActionEvent e) {

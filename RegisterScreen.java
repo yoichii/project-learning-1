@@ -64,9 +64,14 @@ public class RegisterScreen extends BaseScreen {
         registerButton.addActionListener(this.controller);
         registerPanel.add(registerButton);
 
+        // transparent
+        formPanel.setOpaque(false);
+        registerPanel.setOpaque(false);
+        wholePanel.setOpaque(false);
+
         // add
         wholePanel.add(formPanel);
         wholePanel.add(registerPanel);
-        add(wholePanel, BorderLayout.CENTER);
+        backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 }

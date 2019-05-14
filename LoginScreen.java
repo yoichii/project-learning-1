@@ -72,11 +72,17 @@ public class LoginScreen extends BaseScreen {
         registerButton.setActionCommand("register");
         registerPanel.add(registerButton);
 
+        // transparent
+        wholePanel.setOpaque(false);
+        formPanel.setOpaque(false);
+        loginPanel.setOpaque(false);
+        registerPanel.setOpaque(false);
+
         // add
         wholePanel.add(formPanel);
         wholePanel.add(loginPanel);
         wholePanel.add(registerPanel);
-        add(wholePanel, BorderLayout.CENTER);
+        backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 
     public String[] getFormData() {

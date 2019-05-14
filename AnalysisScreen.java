@@ -67,10 +67,15 @@ public class AnalysisScreen extends BaseScreen {
         backButton.addActionListener(this.controller);
         backPanel.add(backButton);
 
+        // transparent
+        recordScrollPane.setOpaque(false);
+        backPanel.setOpaque(false);
+        wholePanel.setOpaque(false);
+
         wholePanel.add(recordScrollPane);
         wholePanel.add(backPanel);
         wholePanel.setBackground(getBackgroundColor());
 
-        getContentPane().add(wholePanel, BorderLayout.CENTER);
+        backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 }

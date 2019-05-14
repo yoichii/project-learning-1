@@ -48,7 +48,7 @@ public class PlayScreen extends BaseScreen implements ActionListener {
                 JButton square = new JButton();
                 square.setBorder(new LineBorder(Color.black, 1, false));
                 square.setActionCommand(String.valueOf(i)+","+String.valueOf(j));
-                square.addActionListener(this);
+                square.addActionListener(this.controller);
                 board[i][j] = square;
 
                 boardPanel.add(square);
@@ -84,10 +84,15 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         middlePanel.add(resignPanel, BorderLayout.EAST);
         middlePanel.add(timerPanel, BorderLayout.WEST);
 
+        // transparent
+        boardPanel.setOpaque(false);
+        middlePanel.setOpaque(false);
+        wholePanel.setOpaque(false);
+
         // add
         wholePanel.add(boardPanel);
         wholePanel.add(middlePanel);
-        add(wholePanel, BorderLayout.CENTER);
+        backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 
     void drawBoard() {
@@ -112,13 +117,23 @@ public class PlayScreen extends BaseScreen implements ActionListener {
                 }
 
                 // puttable
-                if(othello.puttableEquals(i, j, 0))
+                if(!othello.puttableEquals(i, j))
                     board[i][j].setEnabled(false);
-                else if(othello.puttableEquals(i, j, 1))
+                else if(othello.puttableEquals(i, j))
                     board[i][j].setEnabled(true);
 
             }
         }
+    }
+
+    public void updateBorder(int[] move) {
+        othello.getNextBorder(move, player.getMyColor());
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                drawBoard();
+            }
+        });
     }
 
      public void actionPerformed(ActionEvent e) {

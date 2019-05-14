@@ -10,6 +10,7 @@ public abstract class BaseScreen extends JFrame {
     private ImageIcon icon;
     private Color backgroundColor;
     private JLabel speechBubbleLabel;
+    protected ImagePanel backgroundPanel;
 
     public BaseScreen(String title) {
         EventQueue.invokeLater(new Runnable() {
@@ -22,14 +23,16 @@ public abstract class BaseScreen extends JFrame {
     void initBaseUI(String title) {
         // config
         setTitle(title);
-        setBounds(100, 100, 600, 600);
+        setBounds(100, 100, 600, 630);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // background panel
+        backgroundPanel = new ImagePanel();
+        backgroundPanel.setLayout(new BorderLayout());
 
         // top panel
         JPanel topPanel = new JPanel();
         backgroundColor = new Color(204, 187, 163);
-        //backgroundColor = new Color(255, 193, 157);
-        //backgroundColor = Color.white;
         topPanel.setBackground(backgroundColor);
         //// title
         JLabel titleLabel = new JLabel();
@@ -58,9 +61,14 @@ public abstract class BaseScreen extends JFrame {
         //// add
         bottomPanel.add(speechBubbleLabel);
 
+        // transparent
+        topPanel.setOpaque(false);
+        bottomPanel.setOpaque(false);
+
         // add
-        getContentPane().add(topPanel, BorderLayout.NORTH);
-        getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+        backgroundPanel.add(topPanel, BorderLayout.NORTH);
+        backgroundPanel.add(bottomPanel, BorderLayout.SOUTH);
+        add(backgroundPanel);
 
     }
 

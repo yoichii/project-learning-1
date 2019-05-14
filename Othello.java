@@ -68,8 +68,8 @@ public class Othello {
     }
 
 
-    boolean puttableEquals(int i, int j, int equal) {
-        return puttable[i][j] == equal;
+    boolean puttableEquals(int i, int j) {
+        return puttable[i][j] == 1;
     }
 
 

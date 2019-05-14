@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class Controller implements ActionListener {
     // screen
-    private WaitingScreen waitingScreen = null;
     private LoginScreen loginScreen = null;
     private HomeScreen homeScreen = null;
     private RegisterScreen registerScreen = null;
@@ -17,26 +16,16 @@ public class Controller implements ActionListener {
     public static void main(String[] args) {
         Controller controller = new Controller();
 
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                WaitingScreen waitingScreen = new WaitingScreen();
-                controller.waitingScreen = waitingScreen;
-                waitingScreen.setVisible(true);
-            }
-        });
-
         LoginScreen loginScreen = new LoginScreen(controller);
         controller.loginScreen = loginScreen;
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 loginScreen.setText(" 久しぶりだね！");
                 loginScreen.setVisible(true);
-                //controller.waitingScreen.setVisible(false);
             }
         });
     }
 
-   
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
@@ -55,6 +44,8 @@ public class Controller implements ActionListener {
             controllAnalysis();
         } else if(command.equals("back")) {
             controllBack();
+        } else {
+            controllPut(command);
         }
 
     }
@@ -62,7 +53,7 @@ public class Controller implements ActionListener {
     void controllLogin() {
 
         if (client == null) {
-            client = new Client();
+            client = new Client(this);
         }
 
         // establish connection
@@ -88,7 +79,7 @@ public class Controller implements ActionListener {
                 }
             });
                 return;
-            }
+        }
 
         // receive a message
         Message received = client.receiveMessage();
@@ -179,33 +170,36 @@ public class Controller implements ActionListener {
             }
         });
     }
-}
 
+    void controllPut(String command) {
+        // command("i,j") to move[](i,j)
+        String[] splited = command.split(",");
+        int[] put = new int[2];
+        for(int i = 0; i < 2; ++i)
+            put[i] = Integer.parseInt(splited[i]);
 
-class WaitingScreen extends JFrame {
-    public WaitingScreen() {
-        // config
-        setTitle("waiting...");
-        setBounds(100, 100, 600, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         // set a message
+        Message message = new Message();
+        message.setType(Type.put);
+        message.setPut(put);
 
-        JLabel label = new JLabel(new ImageIcon("images/background.jpg"));
-        add(label);
+        // send a message
+        String err = client.sendMessage(message);
+        if(!err.equals("")) {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    playScreen.setText(err);
+                }
+            });
+                return;
+        }
+
+        // update border
+        playScreen.updateBorder(put);
+    }
+
+    void transit(String from, String to) {
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
