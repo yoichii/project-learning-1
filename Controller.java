@@ -87,7 +87,7 @@ public class Controller implements ActionListener {
         // process
         if (received.getStatus() == Status.success) {
             homeScreen = new HomeScreen(this);
-            homeScreen.setText(" このオセロは制限時間があるから注意だ！");
+            homeScreen.setText(" 時間制限に注意して戦いに挑め！");
             EventQueue.invokeLater(new Runnable() {
                 public void run() {
                     homeScreen.setVisible(true);
@@ -99,9 +99,11 @@ public class Controller implements ActionListener {
         }
     }
 
+
     void controllRegister() {
-        registerScreen = new RegisterScreen(this);
-        registerScreen.setText(" ようこそ！これからよろしくね！");
+        if(registerScreen == null)
+            registerScreen = new RegisterScreen(this);
+        registerScreen.setText(" 新入り！　よろしく頼もう");
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 registerScreen.setVisible(true);
@@ -110,15 +112,53 @@ public class Controller implements ActionListener {
         });
     }
 
+
     void controllRegisterSend() {
-        EventQueue.invokeLater(new Runnable() {
+        if (client == null) {
+            client = new Client(this);
+        }
+
+        // establish connection
+        String err = client.establishConnection();
+        if (!err.equals("")) {
+            registerScreen.setText(err);
+            return;
+        }
+
+        // set a message
+        Message message = new Message();
+        message.setType(Type.login);
+        String[] data = registerScreen.getFormData();
+        message.setUsername(data[0]);
+        message.setPassword(data[1]);
+
+        // send a message
+        String err2 = client.sendMessage(message);
+        if(!err2.equals("")) {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    registerScreen.setText(err2);
+                }
+            });
+                return;
+        }
+
+        // receive a message
+        Message received = client.receiveMessage();
+
+        // process
+        if (received.getStatus() == Status.success) {
+            EventQueue.invokeLater(new Runnable() {
             public void run() {
                 loginScreen.setVisible(true);
                 registerScreen.setVisible(false);
             }
         });
-    }
 
+        } else {
+            registerScreen.showError(received);
+        }
+    }
 
     void controllPlay() {
         this.player =  new Player();

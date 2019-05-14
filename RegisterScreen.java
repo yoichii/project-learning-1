@@ -5,6 +5,8 @@ public class RegisterScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
 
     private Controller controller;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
 
     public RegisterScreen(Controller controller) {
         super("OTHELLO -- 会員登録");
@@ -73,5 +75,14 @@ public class RegisterScreen extends BaseScreen {
         wholePanel.add(formPanel);
         wholePanel.add(registerPanel);
         backgroundPanel.add(wholePanel, BorderLayout.CENTER);
+    }
+
+    public String[] getFormData() {
+        String[] data = {"", ""};
+        data[0] = usernameField.getText();
+        char[] tmp = passwordField.getPassword();
+        data[1] = new String(tmp);
+
+        return data;
     }
 }

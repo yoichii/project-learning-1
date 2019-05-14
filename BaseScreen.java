@@ -94,6 +94,31 @@ public abstract class BaseScreen extends JFrame {
         this.backgroundColor = color;
     }
 
+    public void showError(Message message) {
+        switch(message.getStatus()) {
+            case invalidUsername:
+                setText("ユーザ名が間違ってるよ");
+                break;
+            case invalidPassword:
+                setText("パスワードが間違ってるよ");
+                break;
+            case unknownError:
+                setText("エラーが起きたよ\nもう一度試してね");
+                break;
+            case classNotFoundException:
+                setText("サーバから受信できなかったよ\nもう一度試してね");
+                break;
+            case ioException:
+                setText("サーバと通信ができなかったよ\nもう一度試してね");
+                break;
+            case nullObject:
+               setText("サーバと接続ができてないよ\nもう一度試してね");
+                break;
+            default:
+                setText("エラーが起きたよ\nもう一度試してね");
+        }
+    }
+
 
     // Border for speechBubbleLabel
     class BubbleBorder implements Border {

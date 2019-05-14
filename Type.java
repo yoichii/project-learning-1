@@ -3,5 +3,6 @@ enum Type {
     register,
     play,
     put,
+    finish,
     none
 }
