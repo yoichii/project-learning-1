@@ -160,6 +160,7 @@ public class Controller implements ActionListener {
         }
     }
 
+
     void controllPlay() {
         this.player =  new Player();
         player.setMyColor(2);
@@ -172,6 +173,7 @@ public class Controller implements ActionListener {
             }
         });
     }
+
 
     void controllResign() {
         playScreen.setText("中断したから負けだよ！");
@@ -191,6 +193,7 @@ public class Controller implements ActionListener {
         timer.start();
     }
 
+
     void controllAnalysis() {
         analysisScreen = new AnalysisScreen(this);
         analysisScreen.setText(" 君は強いぞ！");
@@ -202,6 +205,7 @@ public class Controller implements ActionListener {
         });
     }
 
+
     void controllBack() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -210,6 +214,7 @@ public class Controller implements ActionListener {
             }
         });
     }
+
 
     void controllPut(String command) {
         // command("i,j") to move[](i,j)
@@ -237,6 +242,7 @@ public class Controller implements ActionListener {
         // update border
         playScreen.updateBorder(put);
     }
+
 
     void transit(String from, String to) {
 

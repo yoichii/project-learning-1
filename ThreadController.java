@@ -1,5 +1,4 @@
 
-
 public class ThreadController {
 	
 	
@@ -25,6 +24,7 @@ public class ThreadController {
 			playerthread.sendmessage(message2);
 			
 			player.opponentThread=playerthread;
+			
 			
 			player=null;
 
