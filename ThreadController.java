@@ -11,14 +11,20 @@ public class ThreadController {
 	public static void firstplayer(PlayerThread playerthread) {	
 		
 		
-		if(playerthread!=null) {	
+		if(player!=null) {	
 
 			playerthread.opponentThread=ThreadController.threadcontroller(playerthread);
 
+            message1 = new Message();
+            message2 = new Message();
 			message1.setType(Type.play);
 			message2.setType(Type.play);
+			message1.setStatus(Status.success);
+			message2.setStatus(Status.success);
+            message1.setOpponentName("opponent2");
 			message1.setOrder(Order.first);
 			message2.setOrder(Order.passive);
+            message2.setOpponentName("opponent1");
 			
 			player.sendmessage(message1);
 			playerthread.sendmessage(message2);
@@ -29,7 +35,7 @@ public class ThreadController {
 			player=null;
 
 			
-		}else if(playerthread==null) {
+		}else if(player==null) {
 			
 		player=playerthread;//player is first
 		

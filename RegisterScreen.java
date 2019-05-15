@@ -7,6 +7,7 @@ public class RegisterScreen extends BaseScreen {
     private Controller controller;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JPasswordField passwordCheckField;
 
     public RegisterScreen(Controller controller) {
         super("OTHELLO -- 会員登録");
@@ -34,19 +35,19 @@ public class RegisterScreen extends BaseScreen {
         JLabel usernameLabel = new JLabel("ユーザ名");
         usernameLabel.setHorizontalAlignment(JLabel.CENTER);
         usernameLabel.setPreferredSize(new Dimension(160, 40));
-        JTextField usernameField = new JTextField("");
+        usernameField = new JTextField("");
         usernameField.setPreferredSize(new Dimension(280, 50));
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordLabel.setPreferredSize(new Dimension(160, 40));
-        JPasswordField passwordField = new JPasswordField();
+        passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(280, 50));
         //// password check
         JLabel passwordCheckLabel = new JLabel("パスワード確認");
         passwordCheckLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordCheckLabel.setPreferredSize(new Dimension(160, 40));
-        JPasswordField passwordCheckField = new JPasswordField();
+        passwordCheckField = new JPasswordField();
         passwordCheckField.setPreferredSize(new Dimension(280, 50));
         //// add
         formPanel.add(usernameLabel);
@@ -76,6 +77,7 @@ public class RegisterScreen extends BaseScreen {
         wholePanel.add(registerPanel);
         backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
+
 
     public String[] getFormData() {
         String[] data = {"", ""};

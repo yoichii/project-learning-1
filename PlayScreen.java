@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.border.*;
 
 
-public class PlayScreen extends BaseScreen implements ActionListener {
+public class PlayScreen extends BaseScreen { 
 	private static final long serialVersionUID = 1L;
 
     private Controller controller;
@@ -136,6 +136,7 @@ public class PlayScreen extends BaseScreen implements ActionListener {
         });
     }
 
+    /*
      public void actionPerformed(ActionEvent e) {
         // set action command like "2,4" to move[]
         String[] command = e.getActionCommand().split(",");
@@ -151,6 +152,7 @@ public class PlayScreen extends BaseScreen implements ActionListener {
             }
         });
     }
+    */
 
 
 }

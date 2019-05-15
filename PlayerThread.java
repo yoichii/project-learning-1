@@ -1,4 +1,3 @@
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -50,7 +49,8 @@ class PlayerThread extends Thread{
 		      		username = msg.getUsername();
 		      		password = msg.getPassword();
 		      		Message msg2= new Message();		
-		      		
+		      		msg2.setType(Type.login);
+
 		      		if(username!=null && password!=null) {
 		      			
 
@@ -97,6 +97,7 @@ class PlayerThread extends Thread{
 		      		username2 = msg.getUsername();
 		      		password2 = msg.getPassword();
 	      			Message msg3= new Message();
+		      		msg3.setType(Type.register);
 		      		
 		      		if(username2!=null && password2!=null) {
 		      			msg3=register(username2, password2);
@@ -217,6 +218,7 @@ private Message log(String username, String password) {
 							pw.close();
 							
                             System.out.println("close");
+                            message.setType(Type.login);
 							message.setStatus(Status.success);
 							message.setUsername(username);
 							message.setPassword(password);

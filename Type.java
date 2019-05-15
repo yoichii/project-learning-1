@@ -4,10 +4,12 @@ enum Type {
 
     register,
 
+    analysis,
+
     play,
 
     put,
-    
+ 
     finish,
 
     none

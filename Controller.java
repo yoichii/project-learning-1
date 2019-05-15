@@ -1,4 +1,4 @@
-import java.awt.*;
+ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -78,25 +78,9 @@ public class Controller implements ActionListener {
                     loginScreen.setText(err2);
                 }
             });
-                return;
+            return;
         }
 
-        // receive a message
-        Message received = client.receiveMessage();
-
-        // process
-        if (received.getStatus() == Status.success) {
-            homeScreen = new HomeScreen(this);
-            homeScreen.setText(" 時間制限に注意して戦いに挑め！");
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    homeScreen.setVisible(true);
-                    loginScreen.setVisible(false);
-                }
-            });
-        } else {
-            loginScreen.showError(received);
-        }
     }
 
 
@@ -140,39 +124,29 @@ public class Controller implements ActionListener {
                     registerScreen.setText(err2);
                 }
             });
-                return;
-        }
-
-        // receive a message
-        Message received = client.receiveMessage();
-
-        // process
-        if (received.getStatus() == Status.success) {
-            EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                loginScreen.setVisible(true);
-                registerScreen.setVisible(false);
-            }
-        });
-
-        } else {
-            registerScreen.showError(received);
+            return;
         }
     }
 
 
     void controllPlay() {
-        this.player =  new Player();
-        player.setMyColor(2);
-        playScreen = new PlayScreen(this, player);
-        playScreen.setText(" 君は後手だ！有利だぞ！");
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                playScreen.setVisible(true);
-                homeScreen.setVisible(false);
-            }
-        });
-    }
+         // set a message
+        Message message = new Message();
+        message.setType(Type.play);
+        message.setUsername(player.getUsername());
+
+        // send a message
+        String err2 = client.sendMessage(message);
+        if(!err2.equals("")) {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    homeScreen.setText(err2);
+                }
+            });
+            return;
+        }
+
+           }
 
 
     void controllResign() {
@@ -236,7 +210,7 @@ public class Controller implements ActionListener {
                     playScreen.setText(err);
                 }
             });
-                return;
+            return;
         }
 
         // update border
@@ -244,8 +218,86 @@ public class Controller implements ActionListener {
     }
 
 
-    void transit(String from, String to) {
+    public void processMessage(Message message) {
+        System.out.println("process");
+        switch(message.getType()) {
+            case login:
+                processLogin(message);
+                break;
 
+            case register:
+                processRegister(message);
+                break;
+
+            case play:
+                processPlay(message);
+            default:
+                break;
+        }
     }
+
+
+    void processLogin(Message message) {
+        // process
+        if (message.getStatus() == Status.success) {
+            // create player
+            this.player =  new Player();
+            player.setUsername(message.getUsername());
+            // transition
+            homeScreen = new HomeScreen(this);
+            homeScreen.setText(" 時間制限に注意して戦いに挑め！");
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    homeScreen.setVisible(true);
+                    loginScreen.setVisible(false);
+                }
+            });
+        } else {
+            loginScreen.showError(message);
+        }
+    }
+
+    void processRegister(Message message) {
+        // process
+        if (message.getStatus() == Status.success) {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    loginScreen.setVisible(true);
+                    registerScreen.setVisible(false);
+                }
+            });
+        } else {
+            registerScreen.showError(message);
+        }
+    }
+
+    void processPlay(Message message) {
+        // process
+        if (message.getStatus() == Status.success) {
+            String text = "";
+            // player
+            if (message.getOrder() == Order.first) {
+                player.setMyColor(1);
+                text = " 先手必勝！黒がお主の色だ";
+            } else if (message.getOrder() == Order.passive) {
+                player.setMyColor(2);
+                text = " 虎視眈々！白がお主の色だ";
+            }
+            // play screen
+            playScreen = new PlayScreen(this, player);
+            playScreen.setText(text);
+            // transit
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    playScreen.setVisible(true);
+                    homeScreen.setVisible(false);
+                }
+            });
+
+        } else {
+            homeScreen.showError(message);
+        }
+    }
+
 }
 

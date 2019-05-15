@@ -14,7 +14,9 @@ class Message implements Serializable {
     
     private Result result = Result.none;
 
-    private String oponentName = "";
+    private String opponentName = "";
+
+    private int myColor = 0;
 
     private int[] put = {-1, -1};
 
@@ -34,6 +36,11 @@ class Message implements Serializable {
 
     void setUsername(String username) { this.username = username; }
 
+
+
+    String getOpponentName() { return opponentName; }
+
+    void setOpponentName(String opponentName) { this.opponentName = opponentName; }
 
 
     String getPassword() { return password; }
@@ -66,6 +73,7 @@ class Message implements Serializable {
 
     void setTotalPieces(int[] totalPieces) { this.totalPieces[0] = totalPieces[0]; this.totalPieces[1] = totalPieces[1];}
     
-    
+    int getMyColor() { return this.myColor; }
+    void setMyColor(int myColor) { this.myColor = myColor; }
 
 }

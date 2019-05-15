@@ -28,7 +28,8 @@ class Client {
                 in = new ObjectInputStream(socket.getInputStream());
             }
 
-            
+            (new ReceiveThread()).start();
+
         } catch (UnknownHostException uhe) {
             socket=null;
             out=null;
@@ -58,14 +59,25 @@ class Client {
         return "";
     }
 
-    class ReceiveThread {
+
+    public void close() {
+        try {
+            if (socket != null)
+                socket.close();
+            if (out != null)
+                out.close();
+            if (in != null)
+                in.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    class ReceiveThread extends Thread {
 
         public void run() {
             Message received;
-
-            if (socket == null) {
-                establishConnection();
-            }
 
             try {
                 while(true) {
@@ -78,7 +90,8 @@ class Client {
                         received.setStatus(Status.nullObject);
                     }
 
-                    //controller.processMessage(received);
+                    // process
+                    controller.processMessage(received);
                 }
             } catch (ClassNotFoundException nfe) {
                 received = new Message();
@@ -93,51 +106,4 @@ class Client {
         }
     }
 
-    public Message receiveMessage() {
-         Message received;
-         System.out.println("in");
-
-        if (socket == null) {
-            establishConnection();
-        }
-
-        try {
-            //while(true) {
-                if (in != null) {
-                    // client <- server´
-                    received = (Message)(in.readObject());
-                } else {
-                    received = new Message();
-                    received.setType(Type.none);
-                    received.setStatus(Status.nullObject);
-                }
-
-                //controller.receiveMessage();
-            //}
-        } catch (ClassNotFoundException nfe) {
-            received = new Message();
-            received.setType(Type.none);
-            received.setStatus(Status.classNotFoundException);
-        } catch (IOException ioe) {
-            received = new Message();
-            received.setType(Type.none);
-            received.setStatus(Status.ioException);
-        }
-
-        return received;
-    }
-
-
-    public void close() {
-        try {
-            if (socket != null)
-                socket.close();
-            if (out != null)
-                out.close();
-            if (in != null)
-                in.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
