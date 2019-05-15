@@ -141,6 +141,8 @@ class PlayerThread extends Thread{
 		      		
 		      		a = msg.getPut();
 		      		
+                    putmessage.setType(Type.put);
+                    putmessage.setStatus(Status.success);
 		      		putmessage.setPut(a);
 		      		
 		      		opponentThread.sendmessage(putmessage);

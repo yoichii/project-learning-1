@@ -16,8 +16,6 @@ class Message implements Serializable {
 
     private String opponentName = "";
 
-    private int myColor = 0;
-
     private int[] put = {-1, -1};
 
     private int[] totalPieces = {-1, -1};
@@ -72,8 +70,5 @@ class Message implements Serializable {
     int[] getTotalPieces() { return totalPieces.clone(); }
 
     void setTotalPieces(int[] totalPieces) { this.totalPieces[0] = totalPieces[0]; this.totalPieces[1] = totalPieces[1];}
-    
-    int getMyColor() { return this.myColor; }
-    void setMyColor(int myColor) { this.myColor = myColor; }
 
 }

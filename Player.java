@@ -22,7 +22,7 @@ class Player {
 
 
     int getMyColor() { return myColor; }
-    //0:first 1:second
+    //1:first,black  2:passive,white
     
     void setMyColor(int myColor) { this.myColor = myColor; }
 

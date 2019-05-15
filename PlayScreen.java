@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.border.*;
 
 
-public class PlayScreen extends BaseScreen { 
+public class PlayScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
 
     private Controller controller;
@@ -19,11 +19,11 @@ public class PlayScreen extends BaseScreen {
 
         // init variables
         this.controller = controller;
-        this.othello = new Othello();
+        this.othello = new Othello(player);
         this.player = player;
 
         // init puttable
-        othello.initPuttable(player.getMyColor());
+        othello.initPuttable();
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -32,7 +32,7 @@ public class PlayScreen extends BaseScreen {
         });
     }
 
-    void initPlayUI() {
+    private void initPlayUI() {
         // whole panel
         JPanel wholePanel = new JPanel();
         wholePanel.setBackground(getBackgroundColor());
@@ -95,7 +95,19 @@ public class PlayScreen extends BaseScreen {
         backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 
-    void drawBoard() {
+
+    public void updateBorder(int[] put, int color) {
+        othello.getNextBorder(put, color);
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                drawBoard();
+            }
+        });
+    }
+
+
+    private void drawBoard() {
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
 
@@ -121,38 +133,7 @@ public class PlayScreen extends BaseScreen {
                     board[i][j].setEnabled(false);
                 else if(othello.puttableEquals(i, j))
                     board[i][j].setEnabled(true);
-
             }
         }
     }
-
-    public void updateBorder(int[] move) {
-        othello.getNextBorder(move, player.getMyColor());
-
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                drawBoard();
-            }
-        });
-    }
-
-    /*
-     public void actionPerformed(ActionEvent e) {
-        // set action command like "2,4" to move[]
-        String[] command = e.getActionCommand().split(",");
-        int[] move = new int[2];
-        for(int i = 0; i < 2; ++i)
-            move[i] = Integer.parseInt(command[i]);
-
-        othello.getNextBorder(move, player.getMyColor());
-
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                drawBoard();
-            }
-        });
-    }
-    */
-
-
 }

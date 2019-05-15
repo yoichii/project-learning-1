@@ -50,7 +50,7 @@ public class Controller implements ActionListener {
 
     }
 
-    void controllLogin() {
+    private void controllLogin() {
 
         if (client == null) {
             client = new Client(this);
@@ -84,7 +84,7 @@ public class Controller implements ActionListener {
     }
 
 
-    void controllRegister() {
+    private void controllRegister() {
         if(registerScreen == null)
             registerScreen = new RegisterScreen(this);
         registerScreen.setText(" 新入り！　よろしく頼もう");
@@ -129,7 +129,7 @@ public class Controller implements ActionListener {
     }
 
 
-    void controllPlay() {
+    private void controllPlay() {
          // set a message
         Message message = new Message();
         message.setType(Type.play);
@@ -149,7 +149,7 @@ public class Controller implements ActionListener {
            }
 
 
-    void controllResign() {
+    private void controllResign() {
         playScreen.setText("中断したから負けだよ！");
 
         ActionListener listener = new ActionListener(){
@@ -168,7 +168,7 @@ public class Controller implements ActionListener {
     }
 
 
-    void controllAnalysis() {
+    private void controllAnalysis() {
         analysisScreen = new AnalysisScreen(this);
         analysisScreen.setText(" 君は強いぞ！");
         EventQueue.invokeLater(new Runnable() {
@@ -180,7 +180,7 @@ public class Controller implements ActionListener {
     }
 
 
-    void controllBack() {
+    private void controllBack() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 homeScreen.setVisible(true);
@@ -190,7 +190,7 @@ public class Controller implements ActionListener {
     }
 
 
-    void controllPut(String command) {
+    private void controllPut(String command) {
         // command("i,j") to move[](i,j)
         String[] splited = command.split(",");
         int[] put = new int[2];
@@ -214,12 +214,11 @@ public class Controller implements ActionListener {
         }
 
         // update border
-        playScreen.updateBorder(put);
+        playScreen.updateBorder(put, player.getMyColor());
     }
 
 
     public void processMessage(Message message) {
-        System.out.println("process");
         switch(message.getType()) {
             case login:
                 processLogin(message);
@@ -231,13 +230,19 @@ public class Controller implements ActionListener {
 
             case play:
                 processPlay(message);
+                break;
+
+            case put:
+                processPut(message);
+                break;
+
             default:
                 break;
         }
     }
 
 
-    void processLogin(Message message) {
+    private void processLogin(Message message) {
         // process
         if (message.getStatus() == Status.success) {
             // create player
@@ -257,7 +262,7 @@ public class Controller implements ActionListener {
         }
     }
 
-    void processRegister(Message message) {
+    private void processRegister(Message message) {
         // process
         if (message.getStatus() == Status.success) {
             EventQueue.invokeLater(new Runnable() {
@@ -271,7 +276,7 @@ public class Controller implements ActionListener {
         }
     }
 
-    void processPlay(Message message) {
+    private void processPlay(Message message) {
         // process
         if (message.getStatus() == Status.success) {
             String text = "";
@@ -299,5 +304,11 @@ public class Controller implements ActionListener {
         }
     }
 
+
+    private void processPut(Message message) {
+       if(message.getStatus() == Status.success) {
+           playScreen.updateBorder(message.getPut(), 3 - player.getMyColor());
+       }
+    }
 }
 
