@@ -130,9 +130,9 @@ public class Othello {
                 }
             }
             if(count==2) {
+                int s=move[0];
+                int t=move[1];
                 for(int n=0;n<c;n++) {
-                        int s=move[0];
-                        int t=move[1];
                         s=s+dir[i][0];
                         t=t+dir[i][1];
                         pieces[s][t]=myColor;

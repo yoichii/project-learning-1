@@ -65,7 +65,7 @@ public class LoginScreen extends BaseScreen {
         JButton registerButton = new JButton("会員登録はこちらから");
         registerButton.setPreferredSize(new Dimension(200, 30));
         registerButton.setBackground(new Color(190, 190, 190));
-        //registerButton.setForeground(Color.white);
+
         registerButton.setOpaque(true);
         registerButton.setBorderPainted(false);
         registerButton.addActionListener(this.controller);

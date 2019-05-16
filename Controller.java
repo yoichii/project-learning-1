@@ -71,29 +71,14 @@ public class Controller implements ActionListener {
         message.setPassword(data[1]);
 
         // send a message
-        String err2 = client.sendMessage(message);
-        if(!err2.equals("")) {
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    loginScreen.setText(err2);
-                }
-            });
-            return;
-        }
-
+        sendMessage(message, loginScreen);
     }
 
 
     private void controllRegister() {
         if(registerScreen == null)
             registerScreen = new RegisterScreen(this);
-        registerScreen.setText(" 新入り！　よろしく頼もう");
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                registerScreen.setVisible(true);
-                loginScreen.setVisible(false);
-            }
-        });
+            transit(loginScreen, registerScreen, " 新入り！　よろしく頼もう");
     }
 
 
@@ -117,15 +102,7 @@ public class Controller implements ActionListener {
         message.setPassword(data[1]);
 
         // send a message
-        String err2 = client.sendMessage(message);
-        if(!err2.equals("")) {
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    registerScreen.setText(err2);
-                }
-            });
-            return;
-        }
+        sendMessage(message, registerScreen);
     }
 
 
@@ -136,30 +113,14 @@ public class Controller implements ActionListener {
         message.setUsername(player.getUsername());
 
         // send a message
-        String err2 = client.sendMessage(message);
-        if(!err2.equals("")) {
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    homeScreen.setText(err2);
-                }
-            });
-            return;
-        }
-
-           }
+        sendMessage(message, homeScreen);
+    }
 
 
     private void controllResign() {
-        playScreen.setText("中断したから負けだよ！");
-
         ActionListener listener = new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        homeScreen.setVisible(true);
-                        playScreen.setVisible(false);
-                    }
-                });
+                transit(playScreen, homeScreen, " 中断は敗北である！");
             }
         };
         Timer timer = new Timer(3000, listener);
@@ -170,23 +131,12 @@ public class Controller implements ActionListener {
 
     private void controllAnalysis() {
         analysisScreen = new AnalysisScreen(this);
-        analysisScreen.setText(" 君は強いぞ！");
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                analysisScreen.setVisible(true);
-                homeScreen.setVisible(false);
-            }
-        });
+        transit(homeScreen, analysisScreen, " お主、なかなか強いの");
     }
 
 
     private void controllBack() {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                homeScreen.setVisible(true);
-                analysisScreen.setVisible(false);
-            }
-        });
+        transit(analysisScreen, homeScreen, " 制限時間に注意だ");
     }
 
 
@@ -202,16 +152,7 @@ public class Controller implements ActionListener {
         message.setType(Type.put);
         message.setPut(put);
 
-        // send a message
-        String err = client.sendMessage(message);
-        if(!err.equals("")) {
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    playScreen.setText(err);
-                }
-            });
-            return;
-        }
+        sendMessage(message, playScreen);
 
         // update border
         playScreen.updateBorder(put, player.getMyColor());
@@ -248,15 +189,11 @@ public class Controller implements ActionListener {
             // create player
             this.player =  new Player();
             player.setUsername(message.getUsername());
+
             // transition
             homeScreen = new HomeScreen(this);
-            homeScreen.setText(" 時間制限に注意して戦いに挑め！");
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    homeScreen.setVisible(true);
-                    loginScreen.setVisible(false);
-                }
-            });
+            transit(loginScreen, homeScreen, " 時間制限に注意して戦いに挑め！");
+
         } else {
             loginScreen.showError(message);
         }
@@ -265,12 +202,7 @@ public class Controller implements ActionListener {
     private void processRegister(Message message) {
         // process
         if (message.getStatus() == Status.success) {
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    loginScreen.setVisible(true);
-                    registerScreen.setVisible(false);
-                }
-            });
+            transit(registerScreen, loginScreen, " 登録できたらログインだ");
         } else {
             registerScreen.showError(message);
         }
@@ -290,15 +222,7 @@ public class Controller implements ActionListener {
             }
             // play screen
             playScreen = new PlayScreen(this, player);
-            playScreen.setText(text);
-            // transit
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    playScreen.setVisible(true);
-                    homeScreen.setVisible(false);
-                }
-            });
-
+            transit(homeScreen, playScreen, text);
         } else {
             homeScreen.showError(message);
         }
@@ -309,6 +233,34 @@ public class Controller implements ActionListener {
        if(message.getStatus() == Status.success) {
            playScreen.updateBorder(message.getPut(), 3 - player.getMyColor());
        }
+    }
+
+
+    private void transit(BaseScreen fromScreen, BaseScreen toScreen, String text) {
+        // set bounds
+        toScreen.setText(text);
+        Rectangle rectangle = fromScreen.getBounds();
+        toScreen.setBounds((int)(rectangle.getX()), (int)(rectangle.getY()), (int)(rectangle.getWidth()), (int)(rectangle.getHeight()));
+
+        // transit
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                toScreen.setVisible(true);
+                fromScreen.setVisible(false);
+            }
+        });
+    }
+
+    private void sendMessage(Message message, BaseScreen errorScreen) {
+        String err2 = client.sendMessage(message);
+        if(!err2.equals("")) {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    errorScreen.setText(err2);
+                }
+            });
+            return;
+        }
     }
 }
 

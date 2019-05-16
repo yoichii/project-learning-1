@@ -1,16 +1,21 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
 
-public abstract class BaseScreen extends JFrame {
+public abstract class BaseScreen extends JFrame implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
     private String text;
     private ImageIcon icon;
+    private JLabel iconLabel;
     private Color backgroundColor;
     private JLabel speechBubbleLabel;
     protected ImagePanel backgroundPanel;
+    private String[] imageURL = {"images/level1.png", "images/level2.png", "images/level3.png", "images/level4.png", "images/level5.png"};
+    private int urlIndex = 0;
+
 
     public BaseScreen(String title) {
         EventQueue.invokeLater(new Runnable() {
@@ -23,7 +28,7 @@ public abstract class BaseScreen extends JFrame {
     void initBaseUI(String title) {
         // config
         setTitle(title);
-        setBounds(100, 100, 600, 630);
+        setBounds(100, 100, 600, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // background panel
@@ -46,18 +51,20 @@ public abstract class BaseScreen extends JFrame {
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
         bottomPanel.setBackground(backgroundColor);
         //// icon
-        JLabel iconlabel = new JLabel();
-        icon = new ImageIcon("images/samurai3.png");
-        iconlabel.setIcon(icon);
+        iconLabel = new JLabel();
+        icon = new ImageIcon(imageURL[urlIndex]);
+        iconLabel.setIcon(icon);
+        iconLabel.addMouseListener(this);
+
         //// add
-        bottomPanel.add(iconlabel);
+        bottomPanel.add(iconLabel);
+        bottomPanel.setPreferredSize(new Dimension(600, 120));
         //// speech bubble
-        text = " 調子がいいね！";
-        speechBubbleLabel = new JLabel(text);
-        speechBubbleLabel.setOpaque(true);
+        speechBubbleLabel = new JLabel();
+        speechBubbleLabel.setIcon(new ImageIcon("images/roll.png"));
+        speechBubbleLabel.setOpaque(false);
         speechBubbleLabel.setBackground(Color.white);
-        speechBubbleLabel.setPreferredSize(new Dimension(400, 80));
-        speechBubbleLabel.setBorder(new BubbleBorder());
+        speechBubbleLabel.setPreferredSize(new Dimension(400, 120));
         //// add
         bottomPanel.add(speechBubbleLabel);
 
@@ -119,74 +126,25 @@ public abstract class BaseScreen extends JFrame {
         }
     }
 
-
-    // Border for speechBubbleLabel
-    class BubbleBorder implements Border {
-
-        private int inset;
-        private int angleWidth;
-        private int angleHeight;
-
-        public Insets getBorderInsets(Component c){
-            inset = 3;
-            return new Insets(inset, inset, inset, inset);
-        }
-
-        public boolean isBorderOpaque(){
-            return false;
-        }
-
-        public void paintBorder (Component c, Graphics g, int x, int y, int width, int height){
-            /*                  1
-             *       6 /-------------------\ 7
-             *         |                   |
-             *    5    |                   |
-             *         |                   |
-             *        <                    |   2
-             *      10 |                   |
-             *    4    |                   |
-             *         |                   |
-             *       9 \-------------------/ 8
-             *                  3
-             *
-             *                                          */
-            Insets insets = getBorderInsets(c);
-
-            int top = insets.top;
-            int bottom = insets.bottom;
-            int right = insets.right;
-            int left = insets.left;
-
-            angleWidth = 0;
-            angleHeight = 0;
-
-            int xPoints[] = {x, x-angleWidth, x};
-            int yPoints[] = {y+height/2-angleHeight/2, y+height/2, y+height/2+angleHeight/2};
-
-            g.setColor(Color.black);
-            g.fillRect(x+left, y, width-left-right, top); // 1
-            g.fillRect(x+width-right, y+top, right, height-top-bottom); // 2
-            g.fillRect(x+left, y+height-bottom, width-left-right, bottom); // 3
-            g.fillRect(x, y+height/2+angleHeight/2, left, height/2-bottom-angleHeight/2); // 4
-            g.fillRect(x, y+top, left, height/2-top-angleHeight/2); // 5
-            g.fillArc(x, y, 2*left, 2*top, 90, 90); // 6
-            g.fillArc(x+width-2*right, y, 2*right, 2*top, 0, 90); // 7
-            g.fillArc(x+width-2*right, y+height-2*bottom, 2*right, 2*bottom, 270, 90); // 8
-            g.fillArc(x, y+height-2*bottom, 2*left, 2*bottom, 180, 90); // 9
-            g.drawPolygon(xPoints, yPoints, 3); // 10
-        }
-
-        void setInset(int inset) {
-            this.inset = inset;
-        }
-
-        void setAngleWidth(int angleWidth) {
-            this.angleWidth = angleWidth;
-        }
-
-        void setAngleHeight(int angleHeight) {
-            this.angleHeight = angleHeight;
-        }
-
+    public void mouseEntered(MouseEvent e){
     }
+
+    public void mouseExited(MouseEvent e){
+    }
+
+    public void mousePressed(MouseEvent e){
+    }
+
+    public void mouseReleased(MouseEvent e){
+    }
+
+    public void mouseClicked(MouseEvent e){
+        urlIndex = (urlIndex + 1) % 5;
+        icon = new ImageIcon(imageURL[urlIndex]);
+        iconLabel.setIcon(icon);
+    }
+
+    private void msgChange(String msg){
+    }
+
 }
