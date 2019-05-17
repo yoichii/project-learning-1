@@ -39,17 +39,14 @@ class PlayerThread extends Thread{
 		      switch(type) {
 		      	case login:
 		      		
-		      		System.out.println("login");
-		      		
-		      		
+                    System.out.println("login");
 		      		String username;
 		      		String password;
-		      		String status;
 		      		
 		      		username = msg.getUsername();
 		      		password = msg.getPassword();
-		      		Message msg2= new Message();		
-		      		msg2.setType(Type.login);
+
+		      		Message msg2= new Message();
 
 		      		if(username!=null && password!=null) {
 		      			
@@ -59,19 +56,16 @@ class PlayerThread extends Thread{
 		      		
 		      		}else if(username==null && password==null) {
 		      			
-		      		//	status = "invalidUsername and invalidPassword";
 						msg2.setStatus(Status.invalidUsername);
 
 		      			
 		      		}else if(username==null) {
 		      			
-		      		//	status = "invalidUsername";
 						msg2.setStatus(Status.invalidUsername);
 
 		      			
 		      		}else if(password==null) {
 		      			
-		      		//	status = "invalidPassword";
 						msg2.setStatus(Status.invalidPassword);
 						
 
@@ -79,7 +73,6 @@ class PlayerThread extends Thread{
 		      			
 						msg2.setStatus(Status.unknownError);
 
-		      			status = "unknownError";
 		      		}
 		      		
 	    			sendmessage(msg2);
@@ -88,11 +81,9 @@ class PlayerThread extends Thread{
 		      		break;
 		      		
 		      	case register:
-		      		System.out.println("register");
 		      		
 		      		String username2;
 		      		String password2;
-		      		String status2;
 		      		
 		      		username2 = msg.getUsername();
 		      		password2 = msg.getPassword();
@@ -105,24 +96,17 @@ class PlayerThread extends Thread{
 		      			
 		      		}else if(username2==null && password2==null) {
 		      			
-		      			status2 = "invalidUsername and invalidPassword";
-		      		//	networkOut.write(status2); ;
-		      			
+		      			msg3.setStatus(Status.invalidUsername);
+
 		      		}else if(username2==null) {
 		      			
-		      			status2 = "invalidUsername";
-		      		//	networkOut.write(status2); ;
+		      			msg3.setStatus(Status.invalidUsername);
 		      			
 		      		}else if(password2==null) {
 		      			
-		      			status2 = "invalidPassword";
-		      		//	networkOut.write(status2);
+		      			msg3.setStatus(Status.invalidPassword);
 
-		      		}else {
-		      			status2 = "unknownError";
-		      		//	networkOut.write(status2);
 		      		}
-		      		
 	    			sendmessage(msg3);
 
 		      		
@@ -133,6 +117,9 @@ class PlayerThread extends Thread{
 		      		
 		      		break;
 		      		
+                case analysis:
+                    break;
+
 		      	case put:
 		      		
 		      		Message putmessage = new Message();
@@ -181,37 +168,41 @@ class PlayerThread extends Thread{
 		        }
 		      } catch (IOException e) {}
 		      
-		      
+		      String a;
+		      a = player.getUsername();
+
 		      System.out.println("切断されました "
 		                         + socket.getRemoteSocketAddress());
-		  //    logout();
-		     
+
+		      if(a!=null)
+		        logout();
 		    }
 		
 	}
 	
 	
  /*login可能かどうかの判断を行う, 結果をstatusでreturn　loginしたとき、その記録をファイルに書き込む*/	
-private Message log(String username, String password) {
+	private Message log(String username, String password) {
 		
-        System.out.println(username);
-        System.out.println(password);
-
+		int point;
 		Message message= new Message();
+        message.setType(Type.login);
 		
 		try(FileReader fr = new FileReader("player.txt"); BufferedReader br = new BufferedReader(fr)){
 
 			String str = br.readLine();
 			
-            System.out.println(str);
 			while(str!=null) {
 			
 				
 				if(str.equals(username)) {
 					str=br.readLine();
-                    System.out.println(str);
 						if(str.equals(password)) {
-                            System.out.println("equal");
+							
+							str=br.readLine();
+							point=Integer.parseInt(str);//キャストする
+							player.setmyPoint(point);
+							
 							FileWriter fw = new FileWriter("log.txt",true);
 							PrintWriter pw = new PrintWriter(fw);
 					        Date date = new Date();
@@ -219,27 +210,20 @@ private Message log(String username, String password) {
 
 							pw.close();
 							
-                            System.out.println("close");
-                            message.setType(Type.login);
 							message.setStatus(Status.success);
 							message.setUsername(username);
 							message.setPassword(password);
 							
-                            System.out.println("set");
 
 							player.setPassword(password);
 							player.setUsername(username);
 							
-                            System.out.println("set");
-							
-							//System.out.println(username+", "+password);
-							//status="success";							
+				
 							break;
 						}
 					
 					message.setStatus(Status.invalidPassword);
 					
-				//	status="invalidPassword";
 					break;
 				}
 				
@@ -247,14 +231,10 @@ private Message log(String username, String password) {
 				str = br.readLine();
 				str = br.readLine();
 			}
-			
-			if(str==null) {
-			message.setStatus(Status.invalidUsername);
-			//System.out.println(username+", "+password);
-			}
+
+			if(str==null)
+			    message.setStatus(Status.invalidUsername);
 	
-			
-			
 		}catch ( IOException e ) {
 			e.printStackTrace();
 		}
@@ -262,7 +242,7 @@ private Message log(String username, String password) {
 			return message;
 	}
 
-	
+
 	private Message register(String username,String password) {
 		
 		
@@ -279,7 +259,6 @@ private Message log(String username, String password) {
 				
 				if(str.equals(username)) {
 					
-//					status="invalidUsername";
 					message.setStatus(Status.invalidUsername);
 					
 					break;
@@ -326,26 +305,46 @@ private Message log(String username, String password) {
 		int totalpieces[];
 		int mycolor;
 		Message resultmsg = new Message();
+		resultmsg.setType(Type.finish);
+		int point = player.getmyPoint();
 		
 		totalpieces = message.getTotalPieces();
 		mycolor = player.getMyColor();
 		if(((mycolor==0)&&(totalpieces[0]>totalpieces[1]))||((mycolor==1)&&(totalpieces[0]<totalpieces[1]))) {
 			
-			resultmsg.setResult(Result.win);
-			
+			resultmsg.setResult(Result.win);	
+
+				point = point + 500;
+
 			
 		}else if(totalpieces[0]==totalpieces[1]) {
 			
 			resultmsg.setResult(Result.draw);
 			
+			point = point + 300;
+			
 		}else if(((mycolor==0)&&(totalpieces[0]<totalpieces[1]))||((mycolor==1)&&(totalpieces[0]>totalpieces[1]))) {
+			
 			
 			resultmsg.setResult(Result.lose);
 
+			if(point>=10000) {
+				point = point - 500;
+			}else if(point<10000&&point>=7000) {
+				point = point - 500;
+			}else if(point<7000&&point>=4000) {
+				
+			}else if(point<4000&&point>=1000) {
+				point = point + 100;
+			}else if(point<1000) {
+				point = point + 200;
+			}
+			
+			player.setmyPoint(point);
+			
 		}
 
 		return resultmsg;
-		
 		
 	}
 	
@@ -363,7 +362,30 @@ private Message log(String username, String password) {
 		//send only
 	}
 	
-//	public
+	public void logout() {
+        String username = player.getUsername();
+
+        FileWriter fw;
+        try {
+                fw = new FileWriter("log.txt",true);
+                PrintWriter pw = new PrintWriter(fw);
+                Date date = new Date();
+                pw.println(date.toString()+","+username+",logout");
+                pw.close();
+                
+        } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+	}
+	
+	public void analysis() {
+		String username;
+		int x;
+		
+		username = player.getUsername();
+		
+	}
 	
 
 	

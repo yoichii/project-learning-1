@@ -1,6 +1,10 @@
  import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
+import javax.sound.sampled.Clip;
+import javax.swing.Timer;
+
 
 public class Controller implements ActionListener {
     // screen
@@ -13,6 +17,10 @@ public class Controller implements ActionListener {
     private Player player = null;
     private Client client = null;
 
+    // BGM
+    Clip clip = null;
+    Clip clip1 = null;
+
     public static void main(String[] args) {
         Controller controller = new Controller();
 
@@ -24,6 +32,11 @@ public class Controller implements ActionListener {
                 loginScreen.setVisible(true);
             }
         });
+
+        /*
+        controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
+      	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        */
     }
 
 
@@ -37,7 +50,11 @@ public class Controller implements ActionListener {
         } else if(command.equals("register send")) {
             controllRegisterSend();
         } else if(command.equals("play")) {
-            controllPlay();
+            try {
+                controllPlay();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         } else if(command.equals("resign")) {
             controllResign();
         } else if(command.equals("analysis")) {
@@ -106,7 +123,7 @@ public class Controller implements ActionListener {
     }
 
 
-    private void controllPlay() {
+    private void controllPlay() throws Exception {
          // set a message
         Message message = new Message();
         message.setType(Type.play);
@@ -223,9 +240,15 @@ public class Controller implements ActionListener {
             // play screen
             playScreen = new PlayScreen(this, player);
             transit(homeScreen, playScreen, text);
-        } else {
-            homeScreen.showError(message);
         }
+            // change bgm
+            /*
+            clip.stop();
+            clip.flush();
+            clip.setFramePosition(0);
+            clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
+            clip1.loop(Clip.LOOP_CONTINUOUSLY);
+            */
     }
 
 

@@ -26,7 +26,8 @@ class Player {
     
     void setMyColor(int myColor) { this.myColor = myColor; }
 
-    int myPoint() { return myPoint; }
+    int getmyPoint() { return myPoint; }
+    void setmyPoint(int myPoint) { this.myPoint = myPoint; }
     
     
 }
