@@ -26,16 +26,21 @@ public class AnalysisScreen extends BaseScreen {
     void initAnalysisUI() {
         JPanel wholePanel = new JPanel();
         JTable recordTable = new JTable(tableData, sampleColumns);
+        recordTable.setBackground(new Color(244, 226, 208));
         JScrollPane recordScrollPane = new JScrollPane(recordTable);
         recordScrollPane.setPreferredSize(new Dimension(400, 200));
+        recordScrollPane.getViewport().setBackground(new Color(244, 226, 208));
 
         // resign button
         JPanel backPanel = new JPanel();
         backPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         backPanel.setPreferredSize(new Dimension(600, 100));
         backPanel.setBackground(getBackgroundColor());
-        JButton backButton = new JButton("戻る");
-        backButton.setPreferredSize(new Dimension(80, 30));
+        JButton backButton = new JButton(new ImageIcon("images/back.png"));
+        backButton.setOpaque(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setBorderPainted(false);
+        backButton.setPreferredSize(new Dimension(100, 80));
         backButton.setActionCommand("back");
         backButton.addActionListener(this.controller);
         backPanel.add(backButton);

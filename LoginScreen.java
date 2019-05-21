@@ -9,7 +9,7 @@ public class LoginScreen extends BaseScreen {
     private JPasswordField passwordField;
 
     public LoginScreen(Controller controller) {
-        super("OTHELLO -- ログイン画面", new Rectangle(100, 100, 600, 650));
+        super("OTHELLO -- ログイン画面", new Rectangle(100, 100, 600, 700));
 
         // set controller
         this.controller = controller;
@@ -35,12 +35,14 @@ public class LoginScreen extends BaseScreen {
         usernameLabel.setHorizontalAlignment(JLabel.CENTER);
         usernameLabel.setPreferredSize(new Dimension(160, 40));
         usernameField = new JTextField("");
+        usernameField.setBackground(new Color(244, 226, 208));
         usernameField.setPreferredSize(new Dimension(280, 50));
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordLabel.setPreferredSize(new Dimension(160, 40));
         passwordField = new JPasswordField();
+        passwordField.setBackground(new Color(244, 226, 208));
         passwordField.setPreferredSize(new Dimension(280, 50));
         //// add
         formPanel.add(usernameLabel);
@@ -52,7 +54,11 @@ public class LoginScreen extends BaseScreen {
         JPanel loginPanel = new JPanel();
         loginPanel.setPreferredSize(new Dimension(600, 100));
         loginPanel.setBackground(getBackgroundColor());
-        JButton loginButton = new JButton("ログイン");
+        JButton loginButton = new JButton(new ImageIcon("images/login.png"));
+        loginButton.setOpaque(false);
+        loginButton.setContentAreaFilled(false);
+        loginButton.setBorderPainted(false);
+
         loginButton.setPreferredSize(new Dimension(200, 60));
         loginButton.addActionListener(this.controller);
         loginButton.setActionCommand("login");
@@ -62,12 +68,13 @@ public class LoginScreen extends BaseScreen {
         JPanel registerPanel = new JPanel();
         registerPanel.setPreferredSize(new Dimension(600, 100));
         registerPanel.setBackground(getBackgroundColor());
-        JButton registerButton = new JButton("会員登録はこちらから");
-        registerButton.setPreferredSize(new Dimension(200, 30));
-        registerButton.setBackground(new Color(190, 190, 190));
-
-        registerButton.setOpaque(true);
+        JButton registerButton = new JButton(new ImageIcon("images/register.png"));
+        registerButton.setOpaque(false);
+        registerButton.setContentAreaFilled(false);
         registerButton.setBorderPainted(false);
+
+        registerButton.setPreferredSize(new Dimension(200, 60));
+        //registerButton.setBackground(new Color(190, 190, 190));
         registerButton.addActionListener(this.controller);
         registerButton.setActionCommand("register");
         registerPanel.add(registerButton);

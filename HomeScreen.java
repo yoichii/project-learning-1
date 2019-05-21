@@ -58,8 +58,11 @@ public class HomeScreen extends BaseScreen implements ActionListener {
         JPanel rulePanel = new JPanel();
         rulePanel.setPreferredSize(new Dimension(600, 100));
         rulePanel.setBackground(getBackgroundColor());
-        JButton ruleButton = new JButton("ルール説明");
-        ruleButton.setPreferredSize(new Dimension(150, 30));
+        JButton ruleButton = new JButton(new ImageIcon("images/rule.png"));
+        ruleButton.setOpaque(false);
+        ruleButton.setContentAreaFilled(false);
+        ruleButton.setBorderPainted(false);
+        ruleButton.setPreferredSize(new Dimension(200, 100));
         ruleButton.addActionListener(this);
         rulePanel.add(ruleButton);
 

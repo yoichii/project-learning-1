@@ -89,7 +89,6 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
 
     public void setText(String text) {
         this.text = text;
-        System.out.println(text);
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {

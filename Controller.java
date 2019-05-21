@@ -34,10 +34,8 @@ public class Controller implements ActionListener {
             }
         });
 
-        /*
         controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
       	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
-        */
     }
 
 
@@ -147,15 +145,6 @@ public class Controller implements ActionListener {
 
         // send a message
         sendMessage(message, playScreen);
-        playScreen.setText("中断は敗北である！");
-        ActionListener listener = new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                transit(playScreen, homeScreen, "中断は敗北である！");
-            }
-        };
-        Timer timer = new Timer(3000, listener);
-        timer.setRepeats(false);
-        timer.start();
     }
 
 
@@ -221,6 +210,10 @@ public class Controller implements ActionListener {
                 processAnalysis(message);
                 break;
 
+            case finish:
+                processFinish(message);
+                break;
+
             default:
                 break;
         }
@@ -246,7 +239,6 @@ public class Controller implements ActionListener {
     }
 
     private void processRegister(Message message) {
-        System.out.println("in");
         // process
         if (message.getStatus() == Status.success) {
             transit(registerScreen, loginScreen, "登録できたらログインだ");
@@ -261,12 +253,10 @@ public class Controller implements ActionListener {
             String text = "";
             // player
             if (message.getOrder() == Order.first) {
-                System.out.println("first");
                 //playScreen.getPlayer().setMyColor(1);
                 player.setMyColor(1);
                 text = "先手必勝！黒がお主の色だ";
             } else if (message.getOrder() == Order.passive) {
-                System.out.println("passive");
                //playScreen.getPlayer().setMyColor(2);
                 player.setMyColor(2);
                 text = "虎視眈々！白がお主の色だ";
@@ -277,14 +267,12 @@ public class Controller implements ActionListener {
             // play screen
             transit(homeScreen, playScreen, text);
         }
-        /*
             // change bgm
             clip.stop();
             clip.flush();
             clip.setFramePosition(0);
             clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
             clip1.loop(Clip.LOOP_CONTINUOUSLY);
-            */
     }
 
 
@@ -303,6 +291,31 @@ public class Controller implements ActionListener {
         if(message.getStatus() == Status.success) {
             analysisScreen = new AnalysisScreen(this, message.getHistory(), homeScreen.getBounds());
             transit(homeScreen, analysisScreen, "お主、なかなか強いの");
+        }
+    }
+
+    private void processFinish(Message message) {
+        String result = "";
+
+        if(message.getStatus() == Status.success) {
+            if(message.getResult() == Result.win) {
+                result = "お主の勝ちだ！よくやった！";
+            } else if(message.getResult() == Result.lose) {
+                result = "お主の負けだ！無念！";
+            } else if(message.getResult() == Result.draw) {
+                result = "引き分けだ！善戦だ！";
+            }
+
+            playScreen.setText(result);
+
+            ActionListener listener = new ActionListener(){
+                public void actionPerformed(ActionEvent event){
+                    transit(playScreen, homeScreen, "次の戦を楽しむんだ！");
+                }
+            };
+            Timer timer = new Timer(3000, listener);
+            timer.setRepeats(false);
+            timer.start();
         }
     }
 

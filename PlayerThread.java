@@ -33,7 +33,6 @@ class PlayerThread extends Thread{
 		      switch(type) {
 		      	case login:
 		      		
-                    System.out.println("login");
 		      		String username;
 		      		String password;
 		      		
@@ -86,7 +85,6 @@ class PlayerThread extends Thread{
                     msg3.setType(Type.register);
 		      		
 		      		if(username2!=null && password2!=null) {
-                        System.out.println("in");
 		      			msg3=register(username2, password2);
 		      			
 		      			
@@ -466,6 +464,7 @@ class PlayerThread extends Thread{
 				if(j==3) {
 					j=0;
                     i++;
+                    continue;
 				}
 				j++;				
 				

@@ -37,25 +37,29 @@ public class RegisterScreen extends BaseScreen {
         usernameLabel.setPreferredSize(new Dimension(160, 40));
         usernameField = new JTextField("");
         usernameField.setPreferredSize(new Dimension(280, 50));
+        usernameField.setBackground(new Color(244, 226, 208));
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordLabel.setPreferredSize(new Dimension(160, 40));
         passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(280, 50));
+        passwordField.setBackground(new Color(244, 226, 208));
+        /*
         //// password check
         JLabel passwordCheckLabel = new JLabel("パスワード確認");
         passwordCheckLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordCheckLabel.setPreferredSize(new Dimension(160, 40));
         passwordCheckField = new JPasswordField();
         passwordCheckField.setPreferredSize(new Dimension(280, 50));
+        */
         //// add
         formPanel.add(usernameLabel);
         formPanel.add(usernameField);
         formPanel.add(passwordLabel);
         formPanel.add(passwordField);
-        formPanel.add(passwordCheckLabel);
-        formPanel.add(passwordCheckField);
+        //formPanel.add(passwordCheckLabel);
+        //formPanel.add(passwordCheckField);
 
         // login button
         JPanel registerPanel = new JPanel();

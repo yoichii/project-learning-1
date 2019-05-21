@@ -69,7 +69,6 @@ public class Othello {
 
     // initialize puttable[][]
     public void initPuttable() {
-        System.out.println(player.getMyColor());
         if (player.getMyColor()==1) {
             puttable[2][3] = 1;
             puttable[3][2] = 1;

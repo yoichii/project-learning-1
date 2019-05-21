@@ -62,8 +62,11 @@ public class PlayScreen extends BaseScreen {
         resignPanel.setLayout(new FlowLayout());
         resignPanel.setPreferredSize(new Dimension(150, 100));
         resignPanel.setBackground(getBackgroundColor());
-        JButton resignButton = new JButton("中断");
-        resignButton.setPreferredSize(new Dimension(80, 30));
+        JButton resignButton = new JButton(new ImageIcon("images/resign.png"));
+        resignButton.setOpaque(false);
+        resignButton.setContentAreaFilled(false);
+        resignButton.setBorderPainted(false);
+        resignButton.setPreferredSize(new Dimension(100, 100));
         resignButton.setActionCommand("resign");
         resignButton.addActionListener(this.controller);
         resignPanel.add(resignButton);
@@ -85,6 +88,8 @@ public class PlayScreen extends BaseScreen {
         middlePanel.add(timerPanel, BorderLayout.WEST);
 
         // transparent
+        resignPanel.setOpaque(false);
+        timerPanel.setOpaque(false);
         boardPanel.setOpaque(false);
         middlePanel.setOpaque(false);
         wholePanel.setOpaque(false);
@@ -110,7 +115,6 @@ public class PlayScreen extends BaseScreen {
 
 
     private void drawBoard() {
-        System.out.println("drawBoard");
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
 
