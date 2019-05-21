@@ -2,16 +2,16 @@
 public class ThreadController {
 	
 	
-	static PlayerThread player=null;
+	static PlayerThread playerthread1=null;
 	static Message message1;
 	static Message message2;
-	
-
+	Player pl1;
+	Player pl2;
 		
 	public static void firstplayer(PlayerThread playerthread) {	
 		
 		
-		if(player!=null) {	
+		if(playerthread1!=null) {	
 
 			playerthread.opponentThread=ThreadController.threadcontroller(playerthread);
 
@@ -21,30 +21,32 @@ public class ThreadController {
 			message2.setType(Type.play);
 			message1.setStatus(Status.success);
 			message2.setStatus(Status.success);
-            message1.setOpponentName("opponent2");
 			message1.setOrder(Order.first);
 			message2.setOrder(Order.passive);
-            message2.setOpponentName("opponent1");
+			message1.setOpponentname(playerthread.player.getUsername());
+			message2.setOpponentname(playerthread1.player.getUsername());
 			
-			player.sendmessage(message1);
+			playerthread1.sendmessage(message1);
 			playerthread.sendmessage(message2);
 			
-			player.opponentThread=playerthread;
+			playerthread1.opponentThread=playerthread;
+			playerthread1.player.setOpponentname(playerthread.player.getUsername());
+			playerthread.player.setOpponentname(playerthread1.player.getUsername());
 			
 			
-			player=null;
+			playerthread1=null;
 
 			
-		}else if(player==null) {
+		}else if(playerthread1==null) {
 			
-		player=playerthread;//player is first
+		playerthread1=playerthread;//player is first
 		
 		}
 	}
 
 
 	public static PlayerThread threadcontroller(PlayerThread playerthread) {
-		return player;
+		return playerthread1;
 	}
 	
 	

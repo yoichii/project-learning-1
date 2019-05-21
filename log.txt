@@ -65,3 +65,7 @@ Wed May 22 00:13:51 JST 2019,user,login
 Wed May 22 00:14:04 JST 2019,user,login
 Wed May 22 00:14:18 JST 2019,user,logout
 Wed May 22 00:14:20 JST 2019,user,logout
+Wed May 22 00:27:13 JST 2019,user,login
+Wed May 22 00:27:18 JST 2019,user2,login
+Wed May 22 00:28:22 JST 2019,user2,logout
+Wed May 22 00:28:23 JST 2019,user,logout

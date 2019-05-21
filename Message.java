@@ -14,7 +14,7 @@ class Message implements Serializable {
     
     private Result result = Result.none;
 
-    private String opponentName = "";
+    private String opponentname = "";
 
     private int[] put = {-1, -1};
 
@@ -36,9 +36,9 @@ class Message implements Serializable {
 
 
 
-    String getOpponentName() { return opponentName; }
+    String getOpponentname() { return opponentname; }
 
-    void setOpponentName(String opponentName) { this.opponentName = opponentName; }
+    void setOpponentname(String opponentname) { this.opponentname = opponentname; }
 
 
     String getPassword() { return password; }
