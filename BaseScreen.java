@@ -25,18 +25,18 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     private String[] imageURL = {"images/level1.png", "images/level2.png", "images/level3.png", "images/level4.png", "images/level5.png"};
     private int urlIndex = 0;
 
-    public BaseScreen(String title) {
+    public BaseScreen(String title, Rectangle rectangle) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                initBaseUI(title);
+                initBaseUI(title, rectangle);
             }
         });
     }
 
-    void initBaseUI(String title) {
+    void initBaseUI(String title, Rectangle rectangle) {
         // config
         setTitle(title);
-        setBounds(100, 100, 600, 650);
+        setBounds((int)(rectangle.getX()), (int)(rectangle.getY()), (int)(rectangle.getWidth()), (int)(rectangle.getHeight()));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // background panel
@@ -219,12 +219,23 @@ class BottomLabel extends JLabel {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, null);
 
-        g.setFont(new Font("ＭＳ 明朝", Font.BOLD, 24));
-        g.drawString(text, 60, 80);
+        /*
+        try {
+        Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/YAKITORI.ttf")).deriveFont(Font.BOLD, 24);
+        g.setFont(font);
+        g.drawString(text, 60, 50);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
+
+        g.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+        g.drawString(text, 60, 60);
     }
 
     public void setText(String text) {
         this.text = text;
+        repaint();
     }
 
 }

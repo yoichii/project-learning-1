@@ -9,7 +9,7 @@ public class HomeScreen extends BaseScreen implements ActionListener {
     private Controller controller;
 
     public HomeScreen(Controller controller) {
-        super("OTHELLO -- ホーム画面");
+        super("OTHELLO -- ホーム画面", new Rectangle(100, 100, 600, 650));
 
         // controller
         this.controller = controller;

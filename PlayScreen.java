@@ -14,8 +14,8 @@ public class PlayScreen extends BaseScreen {
 
     private JButton board[][] = new JButton[8][8];
 
-    PlayScreen(Controller controller, Player player) {
-        super("OTHELLO -- プレイ画面");
+    PlayScreen(Controller controller, Player player, Rectangle rectangle) {
+        super("OTHELLO -- プレイ画面", rectangle);
 
         // init variables
         this.controller = controller;
@@ -96,18 +96,21 @@ public class PlayScreen extends BaseScreen {
     }
 
 
-    public void updateBorder(int[] put, int color) {
-        othello.getNextBorder(put, color);
+    public boolean updateBorder(int[] put, int color) {
+        boolean pass = othello.getNextBorder(put, color);
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 drawBoard();
             }
         });
+
+        return pass;
     }
 
 
     private void drawBoard() {
+        System.out.println("drawBoard");
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
 
@@ -139,5 +142,9 @@ public class PlayScreen extends BaseScreen {
 
     public int[] getTotalPieces() {
         return othello.getTotalPieces();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

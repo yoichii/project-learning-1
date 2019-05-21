@@ -6,7 +6,7 @@ class Client {
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
     private Controller controller = null;
-
+    public boolean shouldEstablishConnection = true;
 
     public Client(Controller controller) {
         this.controller = controller;
@@ -29,6 +29,8 @@ class Client {
             }
 
             (new ReceiveThread()).start();
+
+            shouldEstablishConnection = false;
 
         } catch (UnknownHostException uhe) {
             socket=null;

@@ -69,6 +69,7 @@ public class Othello {
 
     // initialize puttable[][]
     public void initPuttable() {
+        System.out.println(player.getMyColor());
         if (player.getMyColor()==1) {
             puttable[2][3] = 1;
             puttable[3][2] = 1;
@@ -88,16 +89,19 @@ public class Othello {
     }
 
 
-	public void getNextBorder(int[] move,int color){
+	public boolean getNextBorder(int[] move,int color){
 
-        // upadte pieces[][]
-        getNextPieces(move, color);
-        getNextTotalPieces();
+        // upadte pieces[][], if not pass
+        if(move[0] != -1) {
+            getNextPieces(move, color);
+            getNextTotalPieces();
+        }
         // if my turn, update puttable[][]
         if(color != player.getMyColor()) {
-            getNextPuttable(player.getMyColor());
+            return getNextPuttable(player.getMyColor());
         } else
             fillPuttableZero();
+            return false;
     }
 
 
@@ -158,7 +162,9 @@ public class Othello {
         }
     }
 
-    private void getNextPuttable(int myColor) {
+    private boolean getNextPuttable(int myColor) {
+        boolean pass = true;
+
     	/*駒を置けるか否かの情報の更新*/
 		for(int i=0;i<ROW;i++) {
 			for(int j=0;j<COLUMN;j++) {
@@ -193,12 +199,15 @@ public class Othello {
 						}
 						if(count==2) {
 							puttable[i][j]=1;
+                            pass = false;
 							break;
 						}
 					}
 				}
 			}
 		}
+
+        return pass;
     }
 
 

@@ -20,7 +20,7 @@ class Message implements Serializable {
 
     private int[] totalPieces = {-1, -1};
     
-    
+    private String[][] history;
 
 
 
@@ -71,4 +71,6 @@ class Message implements Serializable {
 
     void setTotalPieces(int[] totalPieces) { this.totalPieces[0] = totalPieces[0]; this.totalPieces[1] = totalPieces[1];}
 
+    String[][] getHistory() { return history; }
+    void setHistory(String[][] history) { this.history  = history; }
 }

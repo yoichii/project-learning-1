@@ -8,6 +8,8 @@ class Player {
 
     private int myPoint = 0;
 
+    private String opponentname  = "";
+
 
     String getUsername() { return username;}
 
@@ -29,5 +31,7 @@ class Player {
     int getmyPoint() { return myPoint; }
     void setmyPoint(int myPoint) { this.myPoint = myPoint; }
     
+    String getOpponentname() { return opponentname; }
+    void setOpponentname(String opponentname) { this.opponentname = opponentname; }
     
 }

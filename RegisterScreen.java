@@ -9,8 +9,8 @@ public class RegisterScreen extends BaseScreen {
     private JPasswordField passwordField;
     private JPasswordField passwordCheckField;
 
-    public RegisterScreen(Controller controller) {
-        super("OTHELLO -- 会員登録");
+    public RegisterScreen(Controller controller, Rectangle rectangle) {
+        super("OTHELLO -- 会員登録", rectangle);
 
         // controller
         this.controller = controller;

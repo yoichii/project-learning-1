@@ -5,43 +5,16 @@ import javax.swing.*;
 public class AnalysisScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
     private Controller controller;
-    private String[][] sampleData;
+    private String[][] tableData;
     private final String[] sampleColumns = {"プレイヤ名", "結果", "順番", "コマ数"};
 
-    public AnalysisScreen(Controller controller) {
-        super("OTHELLO -- 記録解析");
+    public AnalysisScreen(Controller controller, String[][] tableData, Rectangle rectangle) {
+        super("OTHELLO -- 記録解析", rectangle);
 
         // controller
         this.controller = controller;
 
-        String[][] sampleData = {
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"},
-            {"tommy", "勝利", "先手", "43-23"},
-            {"shirashira", "負け", "先手", "12-52"},
-            {"勉", "引き分け", "後手", "32-32"}
-        };
-
-        this.sampleData = sampleData;
+        this.tableData = tableData;
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -52,7 +25,7 @@ public class AnalysisScreen extends BaseScreen {
 
     void initAnalysisUI() {
         JPanel wholePanel = new JPanel();
-        JTable recordTable = new JTable(sampleData, sampleColumns);
+        JTable recordTable = new JTable(tableData, sampleColumns);
         JScrollPane recordScrollPane = new JScrollPane(recordTable);
         recordScrollPane.setPreferredSize(new Dimension(400, 200));
 

@@ -11,8 +11,9 @@ public class Controller implements ActionListener {
     private LoginScreen loginScreen = null;
     private HomeScreen homeScreen = null;
     private RegisterScreen registerScreen = null;
-    private PlayScreen playScreen = null;
     private AnalysisScreen analysisScreen = null;
+    private PlayScreen playScreen = null;
+
     // player and client
     private Player player = null;
     private Client client = null;
@@ -28,13 +29,15 @@ public class Controller implements ActionListener {
         controller.loginScreen = loginScreen;
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                loginScreen.setText(" 久しぶりだね！");
+                loginScreen.setText("よく来た！");
                 loginScreen.setVisible(true);
             }
         });
 
+        /*
         controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
       	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        */
     }
 
 
@@ -71,11 +74,13 @@ public class Controller implements ActionListener {
             client = new Client(this);
         }
 
-        // establish connection
-        String err = client.establishConnection();
-        if (!err.equals("")) {
-            loginScreen.setText(err);
-            return;
+        if (client.shouldEstablishConnection) {
+            // establish connection
+            String err = client.establishConnection();
+            if (!err.equals("")) {
+                loginScreen.setText(err);
+                return;
+            }
         }
 
         // set a message
@@ -92,8 +97,8 @@ public class Controller implements ActionListener {
 
     private void controllRegister() {
         if(registerScreen == null) {
-            registerScreen = new RegisterScreen(this);
-            transit(loginScreen, registerScreen, " 新入り！　よろしく頼もう");
+            registerScreen = new RegisterScreen(this, loginScreen.getBounds());
+            transit(loginScreen, registerScreen, "新入り！　よろしく頼もう");
         }
     }
 
@@ -103,11 +108,13 @@ public class Controller implements ActionListener {
             client = new Client(this);
         }
 
-        // establish connection
-        String err = client.establishConnection();
-        if (!err.equals("")) {
-            registerScreen.setText(err);
-            return;
+        if (client.shouldEstablishConnection) {
+            // establish connection
+            String err = client.establishConnection();
+            if (!err.equals("")) {
+                registerScreen.setText(err);
+                return;
+            }
         }
 
         // set a message
@@ -140,10 +147,10 @@ public class Controller implements ActionListener {
 
         // send a message
         sendMessage(message, playScreen);
-
+        playScreen.setText("中断は敗北である！");
         ActionListener listener = new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                transit(playScreen, homeScreen, " 中断は敗北である！");
+                transit(playScreen, homeScreen, "中断は敗北である！");
             }
         };
         Timer timer = new Timer(3000, listener);
@@ -153,12 +160,18 @@ public class Controller implements ActionListener {
 
 
     private void controllAnalysis() {
-        transit(homeScreen, analysisScreen, " お主、なかなか強いの");
+        // set a message
+        Message message = new Message();
+        message.setType(Type.analysis);
+
+        // send a message
+        sendMessage(message, homeScreen);
+
     }
 
 
     private void controllBack() {
-        transit(analysisScreen, homeScreen, " 制限時間に注意だ");
+        transit(analysisScreen, homeScreen, "制限時間に注意して戦え！");
     }
 
 
@@ -170,8 +183,6 @@ public class Controller implements ActionListener {
 
         for(int i = 0; i < 2; ++i)
             put[i] = Integer.parseInt(splited[i]);
-        for(int i = 2; i < 4; ++i)
-            totalPieces[i] = Integer.parseInt(splited[i]);
 
          // set a message
         Message message = new Message();
@@ -183,6 +194,8 @@ public class Controller implements ActionListener {
 
         // update border
         playScreen.updateBorder(put, player.getMyColor());
+
+
     }
 
 
@@ -204,6 +217,10 @@ public class Controller implements ActionListener {
                 processPut(message);
                 break;
 
+            case analysis:
+                processAnalysis(message);
+                break;
+
             default:
                 break;
         }
@@ -219,9 +236,9 @@ public class Controller implements ActionListener {
 
             // transition
             homeScreen = new HomeScreen(this);
-            playScreen = new PlayScreen(this, player);
-            analysisScreen = new AnalysisScreen(this);
-            transit(loginScreen, homeScreen, " 時間制限に注意して戦いに挑め！");
+            //playScreen = new PlayScreen(this, player);
+            //analysisScreen = new AnalysisScreen(this);
+            transit(loginScreen, homeScreen, "時間制限に注意して戦え！");
 
         } else {
             loginScreen.showError(message);
@@ -232,7 +249,7 @@ public class Controller implements ActionListener {
         System.out.println("in");
         // process
         if (message.getStatus() == Status.success) {
-            transit(registerScreen, loginScreen, " 登録できたらログインだ");
+            transit(registerScreen, loginScreen, "登録できたらログインだ");
         } else {
             registerScreen.showError(message);
         }
@@ -245,31 +262,49 @@ public class Controller implements ActionListener {
             // player
             if (message.getOrder() == Order.first) {
                 System.out.println("first");
+                //playScreen.getPlayer().setMyColor(1);
                 player.setMyColor(1);
-                text = " 先手必勝！黒がお主の色だ";
+                text = "先手必勝！黒がお主の色だ";
             } else if (message.getOrder() == Order.passive) {
                 System.out.println("passive");
+               //playScreen.getPlayer().setMyColor(2);
                 player.setMyColor(2);
-                text = " 虎視眈々！白がお主の色だ";
+                text = "虎視眈々！白がお主の色だ";
             }
+
+            playScreen = new PlayScreen(this, player, homeScreen.getBounds());
+
             // play screen
             transit(homeScreen, playScreen, text);
         }
+        /*
             // change bgm
             clip.stop();
             clip.flush();
             clip.setFramePosition(0);
             clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
             clip1.loop(Clip.LOOP_CONTINUOUSLY);
+            */
     }
 
 
     private void processPut(Message message) {
        if(message.getStatus() == Status.success) {
-           playScreen.updateBorder(message.getPut(), 3 - player.getMyColor());
+            boolean pass = playScreen.updateBorder(message.getPut(), 3 - player.getMyColor());
+
+            if(pass) {
+                playScreen.setText("置く場所がない！相手の番だ！");
+                controllPut("-1,-1");
+            }
        }
     }
 
+    private void processAnalysis(Message message) {
+        if(message.getStatus() == Status.success) {
+            analysisScreen = new AnalysisScreen(this, message.getHistory(), homeScreen.getBounds());
+            transit(homeScreen, analysisScreen, "お主、なかなか強いの");
+        }
+    }
 
     private void transit(BaseScreen fromScreen, BaseScreen toScreen, String text) {
         // set bounds

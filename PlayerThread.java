@@ -1,11 +1,5 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.Date;
 
 
@@ -47,6 +41,7 @@ class PlayerThread extends Thread{
 		      		password = msg.getPassword();
 
 		      		Message msg2 = new Message();
+                    msg2.setType(Type.login);
 
 		      		if(username!=null && password!=null) {
 		      			
@@ -88,6 +83,7 @@ class PlayerThread extends Thread{
 		      		username2 = msg.getUsername();
 		      		password2 = msg.getPassword();
 	      			Message msg3 = new Message();
+                    msg3.setType(Type.register);
 		      		
 		      		if(username2!=null && password2!=null) {
                         System.out.println("in");
@@ -118,6 +114,7 @@ class PlayerThread extends Thread{
 		      		break;
 		      		
                 case analysis:
+                    analysis();
                     break;
 
 		      	case put:
@@ -174,7 +171,7 @@ class PlayerThread extends Thread{
 		      System.out.println("切断されました "
 		                         + socket.getRemoteSocketAddress());
 
-		      if(a!=null)
+		      if(a!="")
 		        logout();
 		    }
 		
@@ -276,6 +273,9 @@ class PlayerThread extends Thread{
 			FileWriter fw = new FileWriter("player.txt",true);
 			PrintWriter pw = new PrintWriter(fw);
 
+        	File history = new File(username+".txt");
+			history.createNewFile();
+
 			pw.println(username);
 			pw.println(password);
 			pw.println("0");
@@ -308,28 +308,69 @@ class PlayerThread extends Thread{
 		Message resultmsg = new Message();
 		resultmsg.setType(Type.finish);
 		int point = player.getmyPoint();
+		String username = player.getUsername();
+		String opponentname = player.getOpponentname();
 		
-		totalpieces = message.getTotalPieces();
-		mycolor = player.getMyColor();
-		if(((mycolor==0)&&(totalpieces[0]>totalpieces[1]))||((mycolor==1)&&(totalpieces[0]<totalpieces[1]))) {
+	
+		try {
+			FileWriter fw;
+			fw = new FileWriter(username+".txt",true);
+			PrintWriter pw = new PrintWriter(fw);
 			
-			resultmsg.setResult(Result.win);	
+			pw.println(opponentname);
 
+			totalpieces = message.getTotalPieces();
+			mycolor = player.getMyColor();
+			if(((mycolor==1)&&(totalpieces[0]>totalpieces[1]))||((mycolor==2)&&(totalpieces[0]<totalpieces[1]))) {
+			
+				resultmsg.setResult(Result.win);	
+				pw.println("勝ち");
+				
+				if(mycolor==1) {
+					pw.println("先手");
+					pw.println(totalpieces[0]+"-"+totalpieces[1]);
+				}else{
+					pw.println("後手");
+					pw.println(totalpieces[1]+"-"+totalpieces[0]);
+				}
+				
 				point = point + 500;
 
 			
-		}else if(totalpieces[0]==totalpieces[1]) {
+			}else if(totalpieces[0]==totalpieces[1]) {
 			
-			resultmsg.setResult(Result.draw);
+				resultmsg.setResult(Result.draw);
+				pw.println("引き分け");
+				
+				if(mycolor==1) {
+					pw.println("先手");
+					
+				}else {
+					
+					pw.println("後手");
+					
+				}
+				
+				pw.println(totalpieces[0]+"-"+totalpieces[1]);
+				
+				point = point + 300;
 			
-			point = point + 300;
-			
-		}else if(((mycolor==0)&&(totalpieces[0]<totalpieces[1]))||((mycolor==1)&&(totalpieces[0]>totalpieces[1]))) {
+			}else if(((mycolor==1)&&(totalpieces[0]<totalpieces[1]))||((mycolor==2)&&(totalpieces[0]>totalpieces[1]))) {
 			
 			
-			resultmsg.setResult(Result.lose);
-
-			if(point>=10000) {
+				resultmsg.setResult(Result.lose);
+				pw.println("負け");
+				
+				
+				if(mycolor==1) {
+					pw.println("先手");
+					pw.println(totalpieces[0]+"-"+totalpieces[1]);
+				}else {
+					pw.println("後手");
+					pw.println(totalpieces[1]+"-"+totalpieces[0]);
+				}
+				
+/*			if(point>=10000) {
 				point = point - 500;
 			}else if(point<10000&&point>=7000) {
 				point = point - 500;
@@ -342,13 +383,24 @@ class PlayerThread extends Thread{
 			}
 			
 			player.setmyPoint(point);
+			pointRewrite(point);
+*/			
+		}
 			
+			
+		pw.close();
+		
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return resultmsg;
 		
 	}
 	
+
 	
 	public void sendmessage(Message message){
 
@@ -363,6 +415,7 @@ class PlayerThread extends Thread{
 		//send only
 	}
 	
+
 	public void logout() {
         String username = player.getUsername();
 
@@ -381,15 +434,82 @@ class PlayerThread extends Thread{
 	}
 	
 	public void analysis() {
-		String username;
-		int x;
 		
-		username = player.getUsername();
+		Message analysis = new Message();
+		analysis.setType(Type.analysis);
+		String username = player.getUsername();
+		String his[][] = null;
+		String str = null;
+		int lineNum=0;
+		int i=0,j=0;
+		
+		
+		try {
+			
+			FileReader fr1 = new FileReader(username + ".txt");
+			BufferedReader br1 = new BufferedReader(fr1);
+			while(null!=(str = br1.readLine())) {
+				lineNum++;
+			}
+			
+			lineNum = lineNum/4;
+			his = new String[lineNum][4];
+			
+			br1.close();
+			fr1.close();
+		
+			FileReader fr2 = new FileReader(username + ".txt");
+			BufferedReader br2 = new BufferedReader(fr2);
+			
+			while(null!=(str = br2.readLine())) {
+				his[i][j]=str;
+				if(j==3) {
+					j=0;
+                    i++;
+				}
+				j++;				
+				
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		analysis.setHistory(his);
+        analysis.setStatus(Status.success);
+		
+		sendmessage(analysis);
+		
+		
 		
 	}
 	
+	public void pointRewrite(int point) {
+		
+		try(FileReader fr = new FileReader("player.txt"); BufferedReader br = new BufferedReader(fr)){
 
-	
+			String str = br.readLine();
+			
+			while(str!=null) {
+			
+				
+				if(str.equals(player.getUsername())) {
+					str=br.readLine();
+					str=br.readLine();
+					
+					}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }
 
 
