@@ -136,4 +136,8 @@ public class PlayScreen extends BaseScreen {
             }
         }
     }
+
+    public int[] getTotalPieces() {
+        return othello.getTotalPieces();
+    }
 }

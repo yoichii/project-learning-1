@@ -46,7 +46,7 @@ class PlayerThread extends Thread{
 		      		username = msg.getUsername();
 		      		password = msg.getPassword();
 
-		      		Message msg2= new Message();
+		      		Message msg2 = new Message();
 
 		      		if(username!=null && password!=null) {
 		      			
@@ -87,10 +87,10 @@ class PlayerThread extends Thread{
 		      		
 		      		username2 = msg.getUsername();
 		      		password2 = msg.getPassword();
-	      			Message msg3= new Message();
-		      		msg3.setType(Type.register);
+	      			Message msg3 = new Message();
 		      		
 		      		if(username2!=null && password2!=null) {
+                        System.out.println("in");
 		      			msg3=register(username2, password2);
 		      			
 		      			
@@ -257,7 +257,7 @@ class PlayerThread extends Thread{
 			while(str!=null) {
 				
 				
-				if(str.equals(username)) {
+				if(str.equals(username)) {;
 					
 					message.setStatus(Status.invalidUsername);
 					
@@ -284,6 +284,7 @@ class PlayerThread extends Thread{
 			
 			System.out.println(username+","+password);
 			
+            message.setType(Type.register);
 			message.setUsername(username);
 			message.setStatus(Status.success);
 			

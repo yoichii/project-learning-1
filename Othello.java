@@ -57,6 +57,8 @@ public class Othello {
     public final int ROW = 8;
     public final int COLUMN = 8;
 
+    private int[] totalPieces = {0, 0};
+
     Player player = null;
 
 
@@ -90,6 +92,7 @@ public class Othello {
 
         // upadte pieces[][]
         getNextPieces(move, color);
+        getNextTotalPieces();
         // if my turn, update puttable[][]
         if(color != player.getMyColor()) {
             getNextPuttable(player.getMyColor());
@@ -141,6 +144,19 @@ public class Othello {
 		}
     }
 
+    private void getNextTotalPieces() {
+        totalPieces[0] = 0;
+        totalPieces[1] = 0;
+
+        for(int i = 0; i < ROW; ++i) {
+            for(int j = 0; j < COLUMN; ++j) {
+                if(pieces[i][j] == 1)
+                    totalPieces[0] += 1;
+                if(pieces[i][j] == 2)
+                    totalPieces[1] += 1;
+            }
+        }
+    }
 
     private void getNextPuttable(int myColor) {
     	/*駒を置けるか否かの情報の更新*/
@@ -192,5 +208,9 @@ public class Othello {
                 puttable[i][j] = 0;
             }
         }
+    }
+
+    public int[] getTotalPieces() {
+        return totalPieces;
     }
 }

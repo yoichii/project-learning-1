@@ -33,10 +33,8 @@ public class Controller implements ActionListener {
             }
         });
 
-        /*
         controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
       	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
-        */
     }
 
 
@@ -93,9 +91,10 @@ public class Controller implements ActionListener {
 
 
     private void controllRegister() {
-        if(registerScreen == null)
+        if(registerScreen == null) {
             registerScreen = new RegisterScreen(this);
             transit(loginScreen, registerScreen, " 新入り！　よろしく頼もう");
+        }
     }
 
 
@@ -113,7 +112,7 @@ public class Controller implements ActionListener {
 
         // set a message
         Message message = new Message();
-        message.setType(Type.login);
+        message.setType(Type.register);
         String[] data = registerScreen.getFormData();
         message.setUsername(data[0]);
         message.setPassword(data[1]);
@@ -135,6 +134,13 @@ public class Controller implements ActionListener {
 
 
     private void controllResign() {
+        // set a message
+        Message message = new Message();
+        message.setType(Type.resign);
+
+        // send a message
+        sendMessage(message, playScreen);
+
         ActionListener listener = new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 transit(playScreen, homeScreen, " 中断は敗北である！");
@@ -147,7 +153,6 @@ public class Controller implements ActionListener {
 
 
     private void controllAnalysis() {
-        analysisScreen = new AnalysisScreen(this);
         transit(homeScreen, analysisScreen, " お主、なかなか強いの");
     }
 
@@ -158,16 +163,21 @@ public class Controller implements ActionListener {
 
 
     private void controllPut(String command) {
-        // command("i,j") to move[](i,j)
+        // command("i,j,l,m") to move[](i,j), totalPieces[](l,m)
         String[] splited = command.split(",");
         int[] put = new int[2];
+        int[] totalPieces = new int[2];
+
         for(int i = 0; i < 2; ++i)
             put[i] = Integer.parseInt(splited[i]);
+        for(int i = 2; i < 4; ++i)
+            totalPieces[i] = Integer.parseInt(splited[i]);
 
          // set a message
         Message message = new Message();
         message.setType(Type.put);
         message.setPut(put);
+        message.setTotalPieces(playScreen.getTotalPieces());
 
         sendMessage(message, playScreen);
 
@@ -209,6 +219,8 @@ public class Controller implements ActionListener {
 
             // transition
             homeScreen = new HomeScreen(this);
+            playScreen = new PlayScreen(this, player);
+            analysisScreen = new AnalysisScreen(this);
             transit(loginScreen, homeScreen, " 時間制限に注意して戦いに挑め！");
 
         } else {
@@ -217,6 +229,7 @@ public class Controller implements ActionListener {
     }
 
     private void processRegister(Message message) {
+        System.out.println("in");
         // process
         if (message.getStatus() == Status.success) {
             transit(registerScreen, loginScreen, " 登録できたらログインだ");
@@ -231,24 +244,23 @@ public class Controller implements ActionListener {
             String text = "";
             // player
             if (message.getOrder() == Order.first) {
+                System.out.println("first");
                 player.setMyColor(1);
                 text = " 先手必勝！黒がお主の色だ";
             } else if (message.getOrder() == Order.passive) {
+                System.out.println("passive");
                 player.setMyColor(2);
                 text = " 虎視眈々！白がお主の色だ";
             }
             // play screen
-            playScreen = new PlayScreen(this, player);
             transit(homeScreen, playScreen, text);
         }
             // change bgm
-            /*
             clip.stop();
             clip.flush();
             clip.setFramePosition(0);
             clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
             clip1.loop(Clip.LOOP_CONTINUOUSLY);
-            */
     }
 
 

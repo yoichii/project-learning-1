@@ -10,6 +10,8 @@ enum Type {
 
     put,
  
+    resign,
+
     finish,
 
     none

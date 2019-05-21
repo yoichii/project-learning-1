@@ -20,11 +20,10 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     private ImageIcon icon;
     private JLabel iconLabel;
     private Color backgroundColor;
-    private JLabel speechBubbleLabel;
+    private BottomLabel speechBubbleLabel;
     protected ImagePanel backgroundPanel;
     private String[] imageURL = {"images/level1.png", "images/level2.png", "images/level3.png", "images/level4.png", "images/level5.png"};
     private int urlIndex = 0;
-
 
     public BaseScreen(String title) {
         EventQueue.invokeLater(new Runnable() {
@@ -69,8 +68,8 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
         bottomPanel.add(iconLabel);
         bottomPanel.setPreferredSize(new Dimension(600, 120));
         //// speech bubble
-        speechBubbleLabel = new JLabel();
-        speechBubbleLabel.setIcon(new ImageIcon("images/roll.png"));
+        speechBubbleLabel = new BottomLabel();
+        //speechBubbleLabel.setIcon(new ImageIcon("images/roll.png"));
         speechBubbleLabel.setOpaque(false);
         speechBubbleLabel.setBackground(Color.white);
         speechBubbleLabel.setPreferredSize(new Dimension(400, 120));
@@ -90,6 +89,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
 
     public void setText(String text) {
         this.text = text;
+        System.out.println(text);
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -196,6 +196,35 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     }
 
     private void msgChange(String msg){
+    }
+
+}
+
+class BottomLabel extends JLabel {
+    private Image img;
+    private String text = "";
+
+    public BottomLabel() {
+        this(new ImageIcon("images/roll.png").getImage());
+    }
+
+    public BottomLabel(String img) {
+        this(new ImageIcon(img).getImage());
+    }
+
+    public BottomLabel(Image img) {
+        this.img = img;
+    }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(img, 0, 0, null);
+
+        g.setFont(new Font("ＭＳ 明朝", Font.BOLD, 24));
+        g.drawString(text, 60, 80);
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 }
