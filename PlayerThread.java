@@ -42,23 +42,23 @@ class PlayerThread extends Thread{
 		      		Message msg2 = new Message();
                     msg2.setType(Type.login);
 
-		      		if(username!=null && password!=null) {
+		      		if(username!="" && password!="") {
 		      			
 
 		      			msg2=log(username, password);
 		      					      			
 		      		
-		      		}else if(username==null && password==null) {
+		      		}else if(username=="" && password=="") {
 		      			
 						msg2.setStatus(Status.invalidUsername);
 
 		      			
-		      		}else if(username==null) {
+		      		}else if(username=="") {
 		      			
 						msg2.setStatus(Status.invalidUsername);
 
 		      			
-		      		}else if(password==null) {
+		      		}else if(password=="") {
 		      			
 						msg2.setStatus(Status.invalidPassword);
 						
@@ -84,19 +84,19 @@ class PlayerThread extends Thread{
 	      			Message msg3 = new Message();
                     msg3.setType(Type.register);
 		      		
-		      		if(username2!=null && password2!=null) {
+		      		if(username2!="" && password2!="") {
 		      			msg3=register(username2, password2);
 		      			
 		      			
-		      		}else if(username2==null && password2==null) {
+		      		}else if(username2=="" && password2=="") {
 		      			
 		      			msg3.setStatus(Status.invalidUsername);
 
-		      		}else if(username2==null) {
+		      		}else if(username2=="") {
 		      			
 		      			msg3.setStatus(Status.invalidUsername);
 		      			
-		      		}else if(password2==null) {
+		      		}else if(password2=="") {
 		      			
 		      			msg3.setStatus(Status.invalidPassword);
 
@@ -120,25 +120,33 @@ class PlayerThread extends Thread{
 		      		Message putmessage = new Message();
 		      		//put[]を受け取る
 		      		int a[];
+		      		int b[];
 		      		
 		      		a = msg.getPut();
-		      		
-                    putmessage.setType(Type.put);
-                    putmessage.setStatus(Status.success);
-		      		putmessage.setPut(a);
-		      		
-		      		opponentThread.sendmessage(putmessage);
-		      		
+		      		b = msg.getTotalPieces();
+
+		      		if((b[0]+b[1])==64 || b[0]==0 || b[1]==0) {
+		      			sendmessage(showResult(msg));
+		      		}else {
+
+		      			putmessage.setType(Type.put);
+		      			putmessage.setStatus(Status.success);
+		      			putmessage.setPut(a);
+		      			opponentThread.sendmessage(putmessage);
+
+		      		}
+
 		      		//playerThreadのopponentThreadにわたす
 		      		
 		      		break;
 		      		
 		      	case finish:
 		      				     		
-		      		
 		      		sendmessage(showResult(msg));
 		      		
 		      		
+                case resign:
+                    resign(msg);
 		      	case none:
 		      		
 		      		break;
@@ -394,8 +402,79 @@ class PlayerThread extends Thread{
 			e.printStackTrace();
 		}
 
+        resultmsg.setStatus(Status.success);
+
 		return resultmsg;
 		
+	}
+	
+	public void resign(Message message) {
+		
+		Message resignMe = new Message();
+		Message resignYou = new Message();
+		
+		
+		resignMe.setType(Type.finish);
+		resignMe.setStatus(Status.success);	
+		resignMe.setResult(Result.lose);
+		
+		resignYou.setType(Type.finish);
+		resignYou.setStatus(Status.success);
+		resignYou.setResult(Result.win);
+		
+		sendmessage(resignMe);
+		opponentThread.sendmessage(resignYou);
+		
+		String username = player.getUsername();
+		String opponentname = player.getOpponentname();
+		int mycolor = player.getMyColor();
+		int[] totalpieces = message.getTotalPieces();
+		
+
+		try {		
+			
+			FileWriter fw1,fw2;
+
+
+			fw1 = new FileWriter(username+".txt",true);
+			fw2 = new FileWriter(opponentname+".txt",true);
+
+			PrintWriter pw1 = new PrintWriter(fw1);
+			PrintWriter pw2 = new PrintWriter(fw2);
+
+			pw1.println(opponentname);
+            pw1.println("負け");
+			pw2.println(username);
+            pw2.println("勝ち");
+			
+			if(mycolor==1) {
+
+				pw1.println("先手");
+				pw2.println("後手");
+				pw1.println(totalpieces[0]+"-"+totalpieces[1]);
+				pw2.println(totalpieces[1]+"-"+totalpieces[0]);
+				
+
+			}else {
+
+				pw1.println("後手");
+				pw2.println("先手");
+				pw1.println(totalpieces[1]+"-"+totalpieces[0]);
+				pw2.println(totalpieces[0]+"-"+totalpieces[1]);
+				
+
+			}
+
+			pw1.close();
+			pw2.close();
+			fw1.close();
+			fw2.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 

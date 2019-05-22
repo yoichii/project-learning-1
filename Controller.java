@@ -147,6 +147,7 @@ public class Controller implements ActionListener {
         // set a message
         Message message = new Message();
         message.setType(Type.resign);
+        message.setTotalPieces(playScreen.getTotalPieces());
 
         // send a message
         sendMessage(message, playScreen);

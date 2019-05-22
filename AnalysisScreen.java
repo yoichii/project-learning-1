@@ -6,7 +6,7 @@ public class AnalysisScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
     private Controller controller;
     private String[][] tableData;
-    private final String[] sampleColumns = {"プレイヤ名", "結果", "順番", "コマ数"};
+    private final String[] columns= {"プレイヤ名", "結果", "順番", "コマ数"};
 
     public AnalysisScreen(Controller controller, String[][] tableData, Rectangle rectangle) {
         super("OTHELLO -- 記録解析", rectangle);
@@ -25,7 +25,7 @@ public class AnalysisScreen extends BaseScreen {
 
     void initAnalysisUI() {
         JPanel wholePanel = new JPanel();
-        JTable recordTable = new JTable(tableData, sampleColumns);
+        JTable recordTable = new JTable(tableData, columns);
         recordTable.setBackground(new Color(244, 226, 208));
         JScrollPane recordScrollPane = new JScrollPane(recordTable);
         recordScrollPane.setPreferredSize(new Dimension(400, 200));
@@ -56,4 +56,6 @@ public class AnalysisScreen extends BaseScreen {
 
         backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
+
+    
 }

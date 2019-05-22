@@ -15,7 +15,7 @@ public class PlayScreen extends BaseScreen {
     private int time = 121;
 
     private JButton board[][] = new JButton[8][8];
-
+    private JLabel totalPiecesLabel;
     PlayScreen(Controller controller, Player player, Rectangle rectangle) {
         super("OTHELLO -- プレイ画面", rectangle);
 
@@ -86,7 +86,7 @@ public class PlayScreen extends BaseScreen {
         opponentLabel.setHorizontalAlignment(JLabel.CENTER);
         infoPanel.add(opponentLabel);
         // totalPiecesLabel
-        JLabel totalPiecesLabel = new JLabel("黒2   白2");
+        totalPiecesLabel = new JLabel("黒2   白2");
         totalPiecesLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         totalPiecesLabel.setOpaque(false);
         totalPiecesLabel.setPreferredSize(new Dimension(300, 40));
@@ -152,6 +152,8 @@ public class PlayScreen extends BaseScreen {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 drawBoard();
+                int[] totalPieces = othello.getTotalPieces();
+                totalPiecesLabel.setText("黒"+totalPieces[0]+"   白"+totalPieces[1]);
             }
         });
 

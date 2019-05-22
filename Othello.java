@@ -59,7 +59,7 @@ public class Othello {
     public final int ROW = 8;
     public final int COLUMN = 8;
 
-    private int[] totalPieces = {0, 0};
+    private int[] totalPieces = {2, 2};
 
     Player player = null;
 
