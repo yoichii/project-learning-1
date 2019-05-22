@@ -18,6 +18,7 @@ public class Controller implements ActionListener {
     private Player player = null;
     private Client client = null;
 
+
     // BGM
     Clip clip = null;
     Clip clip1 = null;
@@ -34,8 +35,10 @@ public class Controller implements ActionListener {
             }
         });
 
+        /*
         controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
       	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        */
     }
 
 
@@ -60,6 +63,8 @@ public class Controller implements ActionListener {
             controllAnalysis();
         } else if(command.equals("back")) {
             controllBack();
+        } else if(command.equals("back-login")) {
+            transit(registerScreen, loginScreen, "制限時間に注意して戦え！");
         } else {
             controllPut(command);
         }
@@ -96,12 +101,12 @@ public class Controller implements ActionListener {
     private void controllRegister() {
         if(registerScreen == null) {
             registerScreen = new RegisterScreen(this, loginScreen.getBounds());
-            transit(loginScreen, registerScreen, "新入り！　よろしく頼もう");
         }
+        transit(loginScreen, registerScreen, "新入り！　よろしく頼もう");
     }
 
 
-    void controllRegisterSend() {
+    private void controllRegisterSend() {
         if (client == null) {
             client = new Client(this);
         }
@@ -138,7 +143,7 @@ public class Controller implements ActionListener {
     }
 
 
-    private void controllResign() {
+    void controllResign() {
         // set a message
         Message message = new Message();
         message.setType(Type.resign);
@@ -267,12 +272,14 @@ public class Controller implements ActionListener {
             // play screen
             transit(homeScreen, playScreen, text);
         }
+        /*
             // change bgm
             clip.stop();
             clip.flush();
             clip.setFramePosition(0);
             clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
             clip1.loop(Clip.LOOP_CONTINUOUSLY);
+            */
     }
 
 
@@ -301,7 +308,7 @@ public class Controller implements ActionListener {
             if(message.getResult() == Result.win) {
                 result = "お主の勝ちだ！よくやった！";
             } else if(message.getResult() == Result.lose) {
-                result = "お主の負けだ！無念！";
+                    result = "お主の負けだ！無念！";
             } else if(message.getResult() == Result.draw) {
                 result = "引き分けだ！善戦だ！";
             }

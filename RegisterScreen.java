@@ -38,6 +38,9 @@ public class RegisterScreen extends BaseScreen {
         usernameField = new JTextField("");
         usernameField.setPreferredSize(new Dimension(280, 50));
         usernameField.setBackground(new Color(244, 226, 208));
+        usernameField.setActionCommand("register send");
+        usernameField.addActionListener(this.controller);
+
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -45,6 +48,8 @@ public class RegisterScreen extends BaseScreen {
         passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(280, 50));
         passwordField.setBackground(new Color(244, 226, 208));
+        passwordField.setActionCommand("register send");
+        passwordField.addActionListener(this.controller);
         /*
         //// password check
         JLabel passwordCheckLabel = new JLabel("パスワード確認");
@@ -53,6 +58,9 @@ public class RegisterScreen extends BaseScreen {
         passwordCheckField = new JPasswordField();
         passwordCheckField.setPreferredSize(new Dimension(280, 50));
         */
+
+       
+
         //// add
         formPanel.add(usernameLabel);
         formPanel.add(usernameField);
@@ -61,7 +69,7 @@ public class RegisterScreen extends BaseScreen {
         //formPanel.add(passwordCheckLabel);
         //formPanel.add(passwordCheckField);
 
-        // login button
+        // register button
         JPanel registerPanel = new JPanel();
         registerPanel.setPreferredSize(new Dimension(600, 100));
         registerPanel.setBackground(getBackgroundColor());
@@ -71,14 +79,30 @@ public class RegisterScreen extends BaseScreen {
         registerButton.addActionListener(this.controller);
         registerPanel.add(registerButton);
 
+         // back button
+        JPanel backPanel = new JPanel();
+        backPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        backPanel.setPreferredSize(new Dimension(600, 100));
+        backPanel.setBackground(getBackgroundColor());
+        JButton backButton = new JButton(new ImageIcon("images/back.png"));
+        backButton.setOpaque(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setBorderPainted(false);
+        backButton.setPreferredSize(new Dimension(100, 80));
+        backButton.setActionCommand("back-login");
+        backButton.addActionListener(this.controller);
+        backPanel.add(backButton);
+
         // transparent
         formPanel.setOpaque(false);
         registerPanel.setOpaque(false);
+        backPanel.setOpaque(false);
         wholePanel.setOpaque(false);
 
         // add
         wholePanel.add(formPanel);
         wholePanel.add(registerPanel);
+        wholePanel.add(backPanel);
         backgroundPanel.add(wholePanel, BorderLayout.CENTER);
     }
 

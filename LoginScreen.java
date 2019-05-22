@@ -37,6 +37,8 @@ public class LoginScreen extends BaseScreen {
         usernameField = new JTextField("");
         usernameField.setBackground(new Color(244, 226, 208));
         usernameField.setPreferredSize(new Dimension(280, 50));
+        usernameField.addActionListener(this.controller);
+        usernameField.setActionCommand("login");
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -44,6 +46,8 @@ public class LoginScreen extends BaseScreen {
         passwordField = new JPasswordField();
         passwordField.setBackground(new Color(244, 226, 208));
         passwordField.setPreferredSize(new Dimension(280, 50));
+        passwordField.addActionListener(this.controller);
+        passwordField.setActionCommand("login");
         //// add
         formPanel.add(usernameLabel);
         formPanel.add(usernameField);

@@ -11,6 +11,8 @@ public class PlayScreen extends BaseScreen {
     private Othello othello;
     private Player player;
     private JLabel timerLabel;
+    private Timer timer;
+    private int time = 121;
 
     private JButton board[][] = new JButton[8][8];
 
@@ -71,13 +73,54 @@ public class PlayScreen extends BaseScreen {
         resignButton.addActionListener(this.controller);
         resignPanel.add(resignButton);
 
+        // info panel
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new FlowLayout());
+        infoPanel.setPreferredSize(new Dimension(300, 100));
+        infoPanel.setBackground(getBackgroundColor());
+        // opponentLabel
+        JLabel opponentLabel = new JLabel("対 " + player.getUsername());
+        opponentLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        opponentLabel.setOpaque(false);
+        opponentLabel.setPreferredSize(new Dimension(300, 40));
+        opponentLabel.setHorizontalAlignment(JLabel.CENTER);
+        infoPanel.add(opponentLabel);
+        // totalPiecesLabel
+        JLabel totalPiecesLabel = new JLabel("黒2   白2");
+        totalPiecesLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        totalPiecesLabel.setOpaque(false);
+        totalPiecesLabel.setPreferredSize(new Dimension(300, 40));
+        totalPiecesLabel.setHorizontalAlignment(JLabel.CENTER);
+        infoPanel.add(totalPiecesLabel);
+
         // timer label
         JPanel timerPanel = new JPanel();
         timerPanel.setBackground(getBackgroundColor());
         timerPanel.setPreferredSize(new Dimension(150, 100));
-        timerLabel = new JLabel("120");
+        timerLabel = new JLabel("");
         timerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 16));
         timerPanel.add(timerLabel);
+
+        // timer
+        ActionListener listener = new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                if(othello.isMyTurn){
+                    time -= 1;
+                    timerLabel.setText(String.valueOf(time));
+                } else {
+                    timerLabel.setText("相手の番だ");
+                }
+                if(time <= 0) {
+                    controller.controllResign();
+                    return;
+                }
+            }
+        };
+        timer = new Timer(1000, listener);
+        timer.setRepeats(true);
+        timer.setInitialDelay(0);
+        timer.start();
+
 
         // middle panel
         JPanel middlePanel = new JPanel();
@@ -85,10 +128,12 @@ public class PlayScreen extends BaseScreen {
         middlePanel.setPreferredSize(new Dimension(600, 100));
         middlePanel.setBackground(getBackgroundColor());
         middlePanel.add(resignPanel, BorderLayout.EAST);
+        middlePanel.add(infoPanel, BorderLayout.CENTER);
         middlePanel.add(timerPanel, BorderLayout.WEST);
 
         // transparent
         resignPanel.setOpaque(false);
+        infoPanel.setOpaque(false);
         timerPanel.setOpaque(false);
         boardPanel.setOpaque(false);
         middlePanel.setOpaque(false);
@@ -109,6 +154,10 @@ public class PlayScreen extends BaseScreen {
                 drawBoard();
             }
         });
+
+        // reset timer
+        time = 121;
+        timer.restart();
 
         return pass;
     }
@@ -151,4 +200,5 @@ public class PlayScreen extends BaseScreen {
     public Player getPlayer() {
         return player;
     }
+
 }

@@ -42,6 +42,8 @@ public class Othello {
 
     };
 
+    public boolean isMyTurn = false;
+
     //move[0]:置いた駒のｘ座標、move[1]:置いた駒のy座標、myColor:置いた駒の色
     //駒の周囲８方向の座標
     private final int[][] dir={{-1,-1},// 左下
@@ -70,6 +72,7 @@ public class Othello {
     // initialize puttable[][]
     public void initPuttable() {
         if (player.getMyColor()==1) {
+            isMyTurn = true;
             puttable[2][3] = 1;
             puttable[3][2] = 1;
             puttable[4][5] = 1;
@@ -97,10 +100,13 @@ public class Othello {
         }
         // if my turn, update puttable[][]
         if(color != player.getMyColor()) {
+            isMyTurn = true;
             return getNextPuttable(player.getMyColor());
-        } else
+        } else {
+            isMyTurn = false;
             fillPuttableZero();
             return false;
+        }
     }
 
 
@@ -221,4 +227,5 @@ public class Othello {
     public int[] getTotalPieces() {
         return totalPieces;
     }
+
 }
