@@ -4,6 +4,3 @@ pass
 user2
 pass
 0
-hello
-world
-0
