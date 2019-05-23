@@ -1,0 +1,10 @@
+Thu May 23 12:38:21 JST 2019,user,login
+Thu May 23 12:38:34 JST 2019,hello,login
+Thu May 23 12:41:50 JST 2019,hello,logout
+Thu May 23 12:41:52 JST 2019,user,logout
+Thu May 23 12:51:16 JST 2019,user,login
+Thu May 23 12:51:20 JST 2019,hello,login
+Thu May 23 12:53:24 JST 2019,hello,logout
+Thu May 23 12:53:25 JST 2019,user,logout
+Thu May 23 13:09:40 JST 2019,user,login
+Thu May 23 13:11:14 JST 2019,user,logout
