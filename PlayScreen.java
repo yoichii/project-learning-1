@@ -14,7 +14,7 @@ public class PlayScreen extends BaseScreen {
     private Timer timer;
     private int time = 121;
 
-    private JButton board[][] = new JButton[8][8];
+    private OthelloButton board[][] = new OthelloButton[8][8];
     private JLabel totalPiecesLabel;
     PlayScreen(Controller controller, Player player, Rectangle rectangle) {
         super("OTHELLO -- プレイ画面", rectangle, 2, player);
@@ -47,7 +47,7 @@ public class PlayScreen extends BaseScreen {
         // buttons
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
-                JButton square = new JButton();
+                OthelloButton square = new OthelloButton(4);
                 square.setBorder(new LineBorder(Color.black, 1, false));
                 square.setActionCommand(String.valueOf(i)+","+String.valueOf(j));
                 square.addActionListener(this.controller);
@@ -169,22 +169,8 @@ public class PlayScreen extends BaseScreen {
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
 
-                // pieces
-                if (othello.pieceEquals(i, j, 0)) {
-                    board[i][j].setIcon(new ImageIcon("images/green-able.png"));
-                    board[i][j].setDisabledIcon(new ImageIcon("images/green.png"));
-                    board[i][j].setOpaque(true);
-                } else if(othello.pieceEquals(i, j, 1)) {
-                    ImageIcon black = new ImageIcon("images/black.png");
-                    board[i][j].setIcon(black);
-                    board[i][j].setDisabledIcon(black);
-                    board[i][j].setOpaque(true);
-                } else {
-                    ImageIcon white = new ImageIcon("images/white.png");
-                    board[i][j].setIcon(white);
-                    board[i][j].setDisabledIcon(white);
-                    board[i][j].setOpaque(true);
-                }
+                board[i][j].setStatus(othello.getStatus(i, j, player.getMyColor()));
+                board[i][j].restartTimer();
 
                 // puttable
                 if(!othello.puttableEquals(i, j))
@@ -207,3 +193,5 @@ public class PlayScreen extends BaseScreen {
         timer.stop();
     }
 }
+
+
