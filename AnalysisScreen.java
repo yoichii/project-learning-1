@@ -8,8 +8,8 @@ public class AnalysisScreen extends BaseScreen {
     private String[][] tableData;
     private final String[] columns= {"プレイヤ名", "結果", "順番", "コマ数"};
 
-    public AnalysisScreen(Controller controller, String[][] tableData, Rectangle rectangle) {
-        super("OTHELLO -- 記録解析", rectangle);
+    public AnalysisScreen(Controller controller, String[][] tableData, Rectangle rectangle, Player player) {
+        super("OTHELLO -- 記録解析", rectangle, 1, player);
 
         // controller
         this.controller = controller;

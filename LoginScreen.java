@@ -9,7 +9,7 @@ public class LoginScreen extends BaseScreen {
     private JPasswordField passwordField;
 
     public LoginScreen(Controller controller) {
-        super("OTHELLO -- ログイン画面", new Rectangle(100, 100, 600, 700));
+        super("OTHELLO -- ログイン画面", new Rectangle(100, 100, 600, 700), 0, new Player());
 
         // set controller
         this.controller = controller;

@@ -19,51 +19,73 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     private String text;
     private ImageIcon icon;
     private JLabel iconLabel;
+    private JLabel myDataLabel;
+    private JLabel opponentDataLabel;
     private Color backgroundColor;
     private BottomLabel speechBubbleLabel;
+    private int characterLevel = 0;
     protected ImagePanel backgroundPanel;
-    private String[] imageURL = {"images/dog.png", "images/level2.png", "images/level3.png", "images/level4.png", "images/level5.png"};
-    private int urlIndex = 0;
 
-    public BaseScreen(String title, Rectangle rectangle) {
+    public BaseScreen(String title, Rectangle rectangle, int topMode, Player player) {
+        // topMode: 0 - title, 1 - username & score
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                initBaseUI(title, rectangle);
+                initBaseUI(title, rectangle, topMode, player);
             }
         });
     }
 
-    void initBaseUI(String title, Rectangle rectangle) {
+    void initBaseUI(String title, Rectangle rectangle, int topMode, Player player) {
         // config
         setTitle(title);
         setBounds((int)(rectangle.getX()), (int)(rectangle.getY()), (int)(rectangle.getWidth()), (int)(rectangle.getHeight()));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // background panel
-        backgroundPanel = new ImagePanel();
+        backgroundPanel = new ImagePanel(characterLevel);
         backgroundPanel.setLayout(new BorderLayout());
 
         // top panel
         JPanel topPanel = new JPanel();
         backgroundColor = new Color(204, 187, 163);
         topPanel.setBackground(backgroundColor);
+        topPanel.setLayout(new BorderLayout());
+
         //// title
         JLabel titleLabel = new JLabel();
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
         ImageIcon titleimage = new ImageIcon("images/title.png");
         titleLabel.setIcon(titleimage);
         //// add
-        topPanel.add(titleLabel);
+        topPanel.add(titleLabel, BorderLayout.CENTER);
+
+        if (topMode >= 1) {
+            myDataLabel = new JLabel("<html>"+player.getUsername()+"<br>"+player.getmyPoint()+"<html>");
+            myDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+            myDataLabel.setPreferredSize(new Dimension(80, 120));
+            myDataLabel.setHorizontalAlignment(JLabel.CENTER);
+            opponentDataLabel = new JLabel();
+            opponentDataLabel.setPreferredSize(new Dimension(80, 120));
+            opponentDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+            opponentDataLabel.setHorizontalAlignment(JLabel.CENTER);
+            // add
+            topPanel.add(opponentDataLabel, BorderLayout.EAST);
+            topPanel.add(myDataLabel, BorderLayout.WEST);
+        }
+
+        if (topMode == 2) {
+            opponentDataLabel.setText("<html>"+player.getOpponentname()+"<br>"+player.getOpponentPoint()+"<html>");
+        }
 
         // bottom panel
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
         bottomPanel.setBackground(backgroundColor);
+        
         //// icon
         iconLabel = new JLabel();
-        icon = new ImageIcon(imageURL[urlIndex]);
-        iconLabel.setIcon(icon);
+        iconLabel.setPreferredSize(new Dimension(100, 100));
         iconLabel.addMouseListener(this);
-
         //// add
         bottomPanel.add(iconLabel);
         bottomPanel.setPreferredSize(new Dimension(600, 120));
@@ -189,13 +211,10 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e){
-        urlIndex = (urlIndex + 1) % 5;
-        icon = new ImageIcon(imageURL[urlIndex]);
-        iconLabel.setIcon(icon);
+        characterLevel = (characterLevel + 1) % 5;
+        backgroundPanel.changeLevel(characterLevel);
     }
 
-    private void msgChange(String msg){
-    }
 
 }
 
@@ -217,7 +236,6 @@ class BottomLabel extends JLabel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, null);
-
         /*
         try {
         Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/YAKITORI.ttf")).deriveFont(Font.BOLD, 24);

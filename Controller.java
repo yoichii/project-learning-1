@@ -35,10 +35,8 @@ public class Controller implements ActionListener {
             }
         });
 
-        /*
         controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
       	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
-        */
     }
 
 
@@ -234,7 +232,7 @@ public class Controller implements ActionListener {
             player.setUsername(message.getUsername());
 
             // transition
-            homeScreen = new HomeScreen(this);
+            homeScreen = new HomeScreen(this, player);
             transit(loginScreen, homeScreen, "時間制限に注意して戦え！");
 
         } else {
@@ -270,14 +268,13 @@ public class Controller implements ActionListener {
             // play screen
             transit(homeScreen, playScreen, text);
         }
-        /*
-            // change bgm
-            clip.stop();
-            clip.flush();
-            clip.setFramePosition(0);
-            clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
-            clip1.loop(Clip.LOOP_CONTINUOUSLY);
-            */
+
+        // change bgm
+        clip.stop();
+        clip.flush();
+        clip.setFramePosition(0);
+        clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
+        clip1.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
 
@@ -295,7 +292,7 @@ public class Controller implements ActionListener {
 
     private void processAnalysis(Message message) {
         if(message.getStatus() == Status.success) {
-            analysisScreen = new AnalysisScreen(this, message.getHistory(), homeScreen.getBounds());
+            analysisScreen = new AnalysisScreen(this, message.getHistory(), homeScreen.getBounds(), player);
             transit(homeScreen, analysisScreen, "お主、なかなか強いの");
         }
     }

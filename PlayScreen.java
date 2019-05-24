@@ -17,7 +17,7 @@ public class PlayScreen extends BaseScreen {
     private JButton board[][] = new JButton[8][8];
     private JLabel totalPiecesLabel;
     PlayScreen(Controller controller, Player player, Rectangle rectangle) {
-        super("OTHELLO -- プレイ画面", rectangle);
+        super("OTHELLO -- プレイ画面", rectangle, 2, player);
 
         // init variables
         this.controller = controller;

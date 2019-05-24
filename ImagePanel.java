@@ -6,12 +6,17 @@ class ImagePanel extends JPanel {
 
     private Image img;
     private Image fuji;
+    private String[] imageURL = {"images/dog.png", "images/horse.png", "images/daruma.png", "images/dragon.png", "images/oni.png"};
+    private int[] imageX = {20, 0, 10, 0, 0};
+    private int[] imageY = {550, 550, 520, 480, 400};
+    private Image characterImage;
     private int i = 0;
+    private int characterLevel;
 
-    public ImagePanel() {
+    public ImagePanel(int characterLevel) {
         this(new ImageIcon("images/background.jpg").getImage());
         fuji = new ImageIcon("images/fuji.png").getImage();
-
+        this.characterLevel = characterLevel;
     }
 
     public ImagePanel(String img) {
@@ -20,7 +25,6 @@ class ImagePanel extends JPanel {
 
     public ImagePanel(Image img) {
         this.img = img;
-
 
         // timer
         ActionListener listener = new ActionListener(){
@@ -44,7 +48,12 @@ class ImagePanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, null);
         g.drawImage(fuji, 0, 1100 - (int)(800*Math.sin(i*Math.PI/60)), null);
+        g.drawImage((new ImageIcon(imageURL[characterLevel])).getImage(), imageX[characterLevel], imageY[characterLevel], null);
     }
 
+    public void changeLevel(int characterLevel) {
+        this.characterLevel = characterLevel;
+        repaint();
+    }
 }
 

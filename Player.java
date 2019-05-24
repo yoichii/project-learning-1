@@ -7,6 +7,7 @@ class Player {
     private int myColor = 0;
 
     private int myPoint = 0;
+    private int opponentPoint = 0;
 
     private String opponentname  = "";
 
@@ -34,4 +35,6 @@ class Player {
     String getOpponentname() { return opponentname; }
     void setOpponentname(String opponentname) { this.opponentname = opponentname; }
     
+    int getOpponentPoint() { return opponentPoint; }
+    void setOpponentPoint(int opponentPoint) { this.opponentPoint = opponentPoint; }
 }
