@@ -73,7 +73,10 @@ public class RegisterScreen extends BaseScreen {
         JPanel registerPanel = new JPanel();
         registerPanel.setPreferredSize(new Dimension(600, 100));
         registerPanel.setBackground(getBackgroundColor());
-        JButton registerButton = new JButton("会員登録");
+        JButton registerButton = new JButton(new ImageIcon("images/register-send.png"));
+        registerButton.setOpaque(false);
+        registerButton.setContentAreaFilled(false);
+        registerButton.setBorderPainted(false);
         registerButton.setPreferredSize(new Dimension(200, 60));
         registerButton.setActionCommand("register send");
         registerButton.addActionListener(this.controller);
