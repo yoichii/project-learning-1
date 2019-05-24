@@ -51,6 +51,9 @@ class Client {
         try {
             if (out != null) {
                 // client -> server
+                System.out.print(this);
+                System.out.println(" " + message.getType());
+                System.out.println(" " + message.getPut()[0]);
                 out.writeObject(message);
             } else {
                 return "接続されてないよ";

@@ -32,6 +32,8 @@ public class ThreadController {
 			playerthread1.opponentThread=playerthread;
 			playerthread1.player.setOpponentname(playerthread.player.getUsername());
 			playerthread.player.setOpponentname(playerthread1.player.getUsername());
+			playerthread.player.setMyColor(1);
+			playerthread1.player.setMyColor(2);
 			
 			
 			playerthread1=null;

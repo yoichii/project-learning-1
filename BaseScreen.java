@@ -22,7 +22,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     private Color backgroundColor;
     private BottomLabel speechBubbleLabel;
     protected ImagePanel backgroundPanel;
-    private String[] imageURL = {"images/level1.png", "images/level2.png", "images/level3.png", "images/level4.png", "images/level5.png"};
+    private String[] imageURL = {"images/dog.png", "images/level2.png", "images/level3.png", "images/level4.png", "images/level5.png"};
     private int urlIndex = 0;
 
     public BaseScreen(String title, Rectangle rectangle) {

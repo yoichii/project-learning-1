@@ -79,7 +79,7 @@ public class PlayScreen extends BaseScreen {
         infoPanel.setPreferredSize(new Dimension(300, 100));
         infoPanel.setBackground(getBackgroundColor());
         // opponentLabel
-        JLabel opponentLabel = new JLabel("対 " + player.getUsername());
+        JLabel opponentLabel = new JLabel("対 " + player.getOpponentname());
         opponentLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         opponentLabel.setOpaque(false);
         opponentLabel.setPreferredSize(new Dimension(300, 40));
@@ -203,4 +203,7 @@ public class PlayScreen extends BaseScreen {
         return player;
     }
 
+    public void stopTimer() {
+        timer.stop();
+    }
 }

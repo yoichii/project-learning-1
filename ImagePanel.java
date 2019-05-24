@@ -43,7 +43,6 @@ class ImagePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, null);
-        //g.drawImage(fuji, 0, 0, null);
         g.drawImage(fuji, 0, 1100 - (int)(800*Math.sin(i*Math.PI/60)), null);
     }
 

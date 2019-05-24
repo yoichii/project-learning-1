@@ -235,8 +235,6 @@ public class Controller implements ActionListener {
 
             // transition
             homeScreen = new HomeScreen(this);
-            //playScreen = new PlayScreen(this, player);
-            //analysisScreen = new AnalysisScreen(this);
             transit(loginScreen, homeScreen, "時間制限に注意して戦え！");
 
         } else {
@@ -259,14 +257,13 @@ public class Controller implements ActionListener {
             String text = "";
             // player
             if (message.getOrder() == Order.first) {
-                //playScreen.getPlayer().setMyColor(1);
                 player.setMyColor(1);
                 text = "先手必勝！黒がお主の色だ";
             } else if (message.getOrder() == Order.passive) {
-               //playScreen.getPlayer().setMyColor(2);
                 player.setMyColor(2);
                 text = "虎視眈々！白がお主の色だ";
             }
+            player.setOpponentname(message.getOpponentname());
 
             playScreen = new PlayScreen(this, player, homeScreen.getBounds());
 
@@ -286,6 +283,7 @@ public class Controller implements ActionListener {
 
     private void processPut(Message message) {
        if(message.getStatus() == Status.success) {
+
             boolean pass = playScreen.updateBorder(message.getPut(), 3 - player.getMyColor());
 
             if(pass) {
@@ -314,6 +312,7 @@ public class Controller implements ActionListener {
                 result = "引き分けだ！善戦だ！";
             }
 
+            playScreen.stopTimer();
             playScreen.setText(result);
 
             ActionListener listener = new ActionListener(){
