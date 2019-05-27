@@ -20,6 +20,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     private String text;
     private ImageIcon icon;
     private JLabel iconLabel;
+    private JPanel myDataPanel;
     private JLabel myDataLabel;
     private JLabel opponentDataLabel;
     private Color backgroundColor;
@@ -62,7 +63,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
 
         if (topMode >= 1) {
             //myDataLabel = new JLabel("<html>"+player.getUsername()+"<br>"+player.getmyPoint()+"<html>");
-            myDataLabel = new JLabel("java");
+            myDataLabel = new JLabel("1000");
             //myDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
             Font font = null;
             try {
@@ -87,7 +88,8 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
         }
 
         if (topMode == 2) {
-            opponentDataLabel.setText("<html>"+player.getOpponentname()+"<br>"+player.getOpponentPoint()+"<html>");
+            //opponentDataLabel.setText("<html>"+player.getOpponentname()+"<br>"+player.getOpponentPoint()+"<html>");
+            opponentDataLabel.setText("800");
         }
 
         // bottom panel
@@ -250,7 +252,7 @@ class BottomLabel extends JLabel {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, null);
         try {
-        Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 24);
+        Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 18);
         g.setFont(font);
         g.drawString(text, 60, 50);
         } catch (Exception e) {

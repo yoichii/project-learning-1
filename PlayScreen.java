@@ -51,8 +51,10 @@ public class PlayScreen extends BaseScreen {
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
                 OthelloButton square = new OthelloButton(4);
-                square.setBorder(new LineBorder(Color.black, 1, false));
+                square.setBorder(new LineBorder(new Color(128, 0, 0), 1, false));
                 square.setActionCommand(String.valueOf(i)+","+String.valueOf(j));
+                square.setOpaque(false);
+                square.setContentAreaFilled(false);
                 square.addActionListener(this.controller);
                 board[i][j] = square;
 
