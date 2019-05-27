@@ -1,4 +1,5 @@
 import java.awt.*;
+import projectlearning1.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
@@ -60,13 +61,25 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
         topPanel.add(titleLabel, BorderLayout.CENTER);
 
         if (topMode >= 1) {
-            myDataLabel = new JLabel("<html>"+player.getUsername()+"<br>"+player.getmyPoint()+"<html>");
-            myDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+            //myDataLabel = new JLabel("<html>"+player.getUsername()+"<br>"+player.getmyPoint()+"<html>");
+            myDataLabel = new JLabel("java");
+            //myDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+            Font font = null;
+            try {
+                font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 24);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (font != null)
+                myDataLabel.setFont(font);
             myDataLabel.setPreferredSize(new Dimension(80, 120));
             myDataLabel.setHorizontalAlignment(JLabel.CENTER);
             opponentDataLabel = new JLabel();
             opponentDataLabel.setPreferredSize(new Dimension(80, 120));
-            opponentDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+            //opponentDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
+            if (font != null)
+                opponentDataLabel.setFont(font);
             opponentDataLabel.setHorizontalAlignment(JLabel.CENTER);
             // add
             topPanel.add(opponentDataLabel, BorderLayout.EAST);
@@ -236,18 +249,17 @@ class BottomLabel extends JLabel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, null);
-        /*
         try {
-        Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/YAKITORI.ttf")).deriveFont(Font.BOLD, 24);
+        Font font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 24);
         g.setFont(font);
         g.drawString(text, 60, 50);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        */
-
+/*
         g.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
         g.drawString(text, 60, 60);
+        */
     }
 
     public void setText(String text) {

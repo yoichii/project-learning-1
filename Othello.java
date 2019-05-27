@@ -1,3 +1,4 @@
+import projectlearning1.*;
 public class Othello {
 	// 0: no piece, 1: black, 2: white
     private int pieces[][][] = {

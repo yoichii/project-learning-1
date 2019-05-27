@@ -1,6 +1,9 @@
 import java.awt.*;
+import projectlearning1.*;
 import javax.swing.*;
+import java.io.*;
 import java.awt.event.*;
+import java.net.*;
 import javax.swing.border.*;
 
 
@@ -80,14 +83,24 @@ public class PlayScreen extends BaseScreen {
         infoPanel.setBackground(getBackgroundColor());
         // opponentLabel
         JLabel opponentLabel = new JLabel("対 " + player.getOpponentname());
-        opponentLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        Font font = null;
+            try {
+                font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 24);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        //opponentLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        if(font != null)
+            opponentLabel.setFont(font);
         opponentLabel.setOpaque(false);
         opponentLabel.setPreferredSize(new Dimension(300, 40));
         opponentLabel.setHorizontalAlignment(JLabel.CENTER);
         infoPanel.add(opponentLabel);
         // totalPiecesLabel
         totalPiecesLabel = new JLabel("黒2   白2");
-        totalPiecesLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        if(font != null)
+            totalPiecesLabel.setFont(font);
+        //totalPiecesLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         totalPiecesLabel.setOpaque(false);
         totalPiecesLabel.setPreferredSize(new Dimension(300, 40));
         totalPiecesLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -98,7 +111,9 @@ public class PlayScreen extends BaseScreen {
         timerPanel.setBackground(getBackgroundColor());
         timerPanel.setPreferredSize(new Dimension(150, 100));
         timerLabel = new JLabel("");
-        timerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 16));
+        if(font != null)
+            timerLabel.setFont(font);
+        //timerLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 16));
         timerPanel.add(timerLabel);
 
         // timer

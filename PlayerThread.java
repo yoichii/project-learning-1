@@ -1,3 +1,4 @@
+import projectlearning1.*;
 import java.io.*;
 import java.net.*;
 import java.util.Date;
@@ -624,9 +625,12 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 			mycolor = player.getMyColor();
 			
 			
+            System.out.print(mycolor);
+            System.out.print(totalpieces[0]);
+            System.out.println(totalpieces[1]);
 
 
-			if(((mycolor==1)&&(totalpieces[0]>totalpieces[1]))||((mycolor==2)&&(totalpieces[0]<totalpieces[1]))) {
+			if(((mycolor==1)&&(totalpieces[0]<totalpieces[1]))||((mycolor==2)&&(totalpieces[0]>totalpieces[1]))) {
 
 			
 
@@ -640,13 +644,13 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 					pw.println("先手");
 
-					pw.println(totalpieces[0]+"-"+totalpieces[1]);
+					pw.println(totalpieces[1]+"-"+totalpieces[0]);
 
 				}else{
 
 					pw.println("後手");
 
-					pw.println(totalpieces[1]+"-"+totalpieces[0]);
+					pw.println(totalpieces[0]+"-"+totalpieces[1]);
 
 				}
 
@@ -694,7 +698,7 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 			
 
-			}else if(((mycolor==1)&&(totalpieces[0]<totalpieces[1]))||((mycolor==2)&&(totalpieces[0]>totalpieces[1]))) {
+			}else if(((mycolor==1)&&(totalpieces[0]>totalpieces[1]))||((mycolor==2)&&(totalpieces[0]<totalpieces[1]))) {
 
 			
 
@@ -712,13 +716,13 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 					pw.println("先手");
 
-					pw.println(totalpieces[0]+"-"+totalpieces[1]);
+					pw.println(totalpieces[1]+"-"+totalpieces[0]);
 
 				}else {
 
 					pw.println("後手");
 
-					pw.println(totalpieces[1]+"-"+totalpieces[0]);
+					pw.println(totalpieces[0]+"-"+totalpieces[1]);
 
 				}
 
@@ -802,7 +806,7 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 		resignMe.setType(Type.finish);
 
-		resignMe.setStatus(Status.success);	
+		resignMe.setStatus(Status.success);
 
 		resignMe.setResult(Result.lose);
 
@@ -874,9 +878,9 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 				pw2.println("後手");
 
-				pw1.println(totalpieces[0]+"-"+totalpieces[1]);
+				pw1.println(totalpieces[1]+"-"+totalpieces[0]);
 
-				pw2.println(totalpieces[1]+"-"+totalpieces[0]);
+				pw2.println(totalpieces[0]+"-"+totalpieces[1]);
 
 				
 
@@ -890,9 +894,9 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 				pw2.println("先手");
 
-				pw1.println(totalpieces[1]+"-"+totalpieces[0]);
+				pw1.println(totalpieces[0]+"-"+totalpieces[1]);
 
-				pw2.println(totalpieces[0]+"-"+totalpieces[1]);
+				pw2.println(totalpieces[1]+"-"+totalpieces[0]);
 
 				
 
