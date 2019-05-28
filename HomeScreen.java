@@ -2,6 +2,7 @@ import java.awt.*;
 import projectlearning1.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 
 public class HomeScreen extends BaseScreen implements ActionListener {
@@ -83,7 +84,18 @@ public class HomeScreen extends BaseScreen implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JLabel label = new JLabel("<html>基本的には普通のオセロのルールと同じです。<br />制限時間があるので気を付けましょう</html>");
+                JLabel label = new JLabel("時間制限は120秒だ！");
+
+            Font font = null;
+            try {
+                font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 24);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (font != null)
+                label.setFont(font);
+
                 JOptionPane.showMessageDialog(HomeScreen.this,label,"ルール説明",JOptionPane.PLAIN_MESSAGE);
             }
         });

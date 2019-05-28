@@ -752,13 +752,15 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 			
 
+			
+
+		}
+
 			player.setmyPoint(point);
 
 			pointRewrite(point);
 
-			
-
-		}
+            resultmsg.setMyPoint(point);
 
 			
 
@@ -790,147 +792,241 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 	}
 
-	
+public void resign(Message message) {
+  
+  int point = player.getmyPoint();
 
-	public void resign(Message message) {
-
-		
-
-		Message resignMe = new Message();
-
-		Message resignYou = new Message();
-
-		
-
-		
-
-		resignMe.setType(Type.finish);
-
-		resignMe.setStatus(Status.success);
-
-		resignMe.setResult(Result.lose);
-
-		
-
-		resignYou.setType(Type.finish);
-
-		resignYou.setStatus(Status.success);
-
-		resignYou.setResult(Result.win);
-
-		
-
-		sendmessage(resignMe);
-
-		opponentThread.sendmessage(resignYou);
-
-		
-
-		String username = player.getUsername();
-
-		String opponentname = player.getOpponentname();
-
-		int mycolor = player.getMyColor();
-
-		int[] totalpieces = message.getTotalPieces();
-
-		
+  if(point>=10000) {
 
 
 
-		try {		
-
-			
-
-			FileWriter fw1,fw2;
+   point = point - 500;
 
 
 
-
-
-			fw1 = new FileWriter(username+".txt",true);
-
-			fw2 = new FileWriter(opponentname+".txt",true);
+  }else if(point<10000&&point>=7000) {
 
 
 
-			PrintWriter pw1 = new PrintWriter(fw1);
-
-			PrintWriter pw2 = new PrintWriter(fw2);
+   point = point - 500;
 
 
 
-			pw1.println(opponentname);
+  }else if(point<7000&&point>=4000) {
+
+
+
+   
+
+
+
+  }else if(point<4000&&point>=1000) {
+
+
+
+   point = point + 100;
+
+
+
+  }else if(point<1000) {
+
+
+
+   point = point + 200;
+
+
+
+  }
+
+  player.setmyPoint(point);
+  
+  
+  int opponentpoint = opponentThread.player.getmyPoint();
+  opponentpoint = opponentpoint + 500;
+  opponentThread.player.setmyPoint(opponentpoint);
+  
+  
+  
+  
+
+  Message resignMe = new Message();
+  Message resignYou = new Message();
+
+   
+
+  resignMe.setType(Type.finish);
+  resignMe.setStatus(Status.success);
+  resignMe.setResult(Result.lose);
+  resignMe.setMyPoint(point);
+
+  resignYou.setType(Type.finish);
+  resignYou.setStatus(Status.success);
+  resignYou.setResult(Result.win);
+  resignYou.setMyPoint(opponentpoint);
+
+  sendmessage(resignMe);
+
+  opponentThread.sendmessage(resignYou);
+
+
+
+
+  String username = player.getUsername();
+
+
+
+  String opponentname = player.getOpponentname();
+
+
+
+  int mycolor = player.getMyColor();
+
+
+
+  int[] totalpieces = message.getTotalPieces();
+
+
+
+  
+
+
+
+
+
+
+
+  try {  
+
+
+
+   
+
+
+
+   FileWriter fw1,fw2;
+
+
+
+   fw1 = new FileWriter(username+".txt",true);
+
+
+
+   fw2 = new FileWriter(opponentname+".txt",true);
+
+
+   PrintWriter pw1 = new PrintWriter(fw1);
+
+
+
+   PrintWriter pw2 = new PrintWriter(fw2);
+
+
+   pw1.println(opponentname);
+
+
 
             pw1.println("負け");
 
-			pw2.println(username);
+            
+
+   pw2.println(username);
+
+
 
             pw2.println("勝ち");
 
-			
 
-			if(mycolor==1) {
-
-
-
-				pw1.println("先手");
-
-				pw2.println("後手");
-
-				pw1.println(totalpieces[1]+"-"+totalpieces[0]);
-
-				pw2.println(totalpieces[0]+"-"+totalpieces[1]);
-
-				
+   if(mycolor==1) {
 
 
 
-			}else {
+    pw1.println("先手");
 
 
 
-				pw1.println("後手");
-
-				pw2.println("先手");
-
-				pw1.println(totalpieces[0]+"-"+totalpieces[1]);
-
-				pw2.println(totalpieces[1]+"-"+totalpieces[0]);
-
-				
+    pw2.println("後手");
 
 
 
-			}
+    pw1.println(totalpieces[1]+"-"+totalpieces[0]);
 
 
 
-			pw1.close();
-
-			pw2.close();
-
-			fw1.close();
-
-			fw2.close();
-
-			
-
-		} catch (IOException e) {
-
-			// TODO Auto-generated catch block
-
-			e.printStackTrace();
-
-		}
+    pw2.println(totalpieces[0]+"-"+totalpieces[1]);
 
 
 
-	}
 
-	
+   }else {
 
 
+
+
+
+
+
+    pw1.println("後手");
+
+
+
+    pw2.println("先手");
+
+
+
+    pw1.println(totalpieces[0]+"-"+totalpieces[1]);
+
+
+
+    pw2.println(totalpieces[1]+"-"+totalpieces[0]);
+
+
+
+   }
+   
+   pointRewrite(point);
+   opponentThread.pointRewrite(opponentpoint);
+
+
+
+   pw1.close();
+
+
+
+   pw2.close();
+
+
+
+   fw1.close();
+
+
+
+   fw2.close();
+
+
+
+   
+
+
+
+  } catch (IOException e) {
+
+
+
+   // TODO Auto-generated catch block
+
+
+
+   e.printStackTrace();
+
+
+
+  }
+
+
+  
+
+
+ }	
 
 	
 

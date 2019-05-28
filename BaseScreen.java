@@ -21,7 +21,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     private ImageIcon icon;
     private JLabel iconLabel;
     private JPanel myDataPanel;
-    private JLabel myDataLabel;
+    public JLabel myDataLabel;
     private JLabel opponentDataLabel;
     private Color backgroundColor;
     private BottomLabel speechBubbleLabel;
@@ -163,10 +163,10 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     public void showError(Message message) {
         switch(message.getStatus()) {
             case invalidUsername:
-                setText("ユーザ名が間違ってるよ");
+                setText("ユーザ名がちがうよ");
                 break;
             case invalidPassword:
-                setText("パスワードが間違ってるよ");
+                setText("パスワードがちがうよ");
                 break;
             case unknownError:
                 setText("エラーが起きたよ\nもう一度試してね");

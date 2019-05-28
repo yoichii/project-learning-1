@@ -1,9 +1,9 @@
 user
 pass
-1200
+3800
 user2
 pass
-200
+2200
 uma
 uma
 2000
@@ -12,7 +12,10 @@ daruma
 6000
 ryuu
 ryuu
-9000
+8500
 oni
 oni
 11000
+hirose
+hirose
+700
