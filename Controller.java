@@ -21,9 +21,11 @@ public class Controller implements ActionListener {
 
 
     // BGM
+    /*
     Clip clip = null;
     Clip clip1 = null;
     Clip clip2 = null;
+*/
 
     public static void main(String[] args) {
         Controller controller = new Controller();
@@ -36,9 +38,10 @@ public class Controller implements ActionListener {
                 loginScreen.setVisible(true);
             }
         });
-
+/*
         controller.clip = BaseScreen.createClip(new File("sounds/first.wav"));
       	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        */
     }
 
 
@@ -179,10 +182,10 @@ public class Controller implements ActionListener {
         for(int i = 0; i < 2; ++i)
             put[i] = Integer.parseInt(splited[i]);
 
+        /*
         clip2 = BaseScreen.createClip(new File("sounds/cat.wav"));
         clip2.start();
-      	//controller.clip2.loop(Clip.LOOP_CONTINUOUSLY);
-
+*/
          // set a message
         Message message = new Message();
         message.setType(Type.put);
@@ -277,12 +280,14 @@ public class Controller implements ActionListener {
             transit(homeScreen, playScreen, text);
         }
 
+        /*
         // change bgm
         clip.stop();
         clip.flush();
         clip.setFramePosition(0);
         clip1 = BaseScreen.createClip(new File("sounds/battle.wav"));
         clip1.loop(Clip.LOOP_CONTINUOUSLY);
+        */
     }
 
 
@@ -335,11 +340,13 @@ public class Controller implements ActionListener {
                 public void actionPerformed(ActionEvent event){
                     transit(playScreen, homeScreen, "次の戦を楽しむんだ！");
 
+                    /*
                     clip1.stop();
                     clip1.flush();
                     clip1.setFramePosition(0);
                     clip = BaseScreen.createClip(new File("sounds/first.wav"));
                     clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    */
                 }
             };
             homeScreen.myDataLabel.setText(String.valueOf(message.getMyPoint()));
