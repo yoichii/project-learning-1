@@ -29,6 +29,20 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
     protected ImagePanel backgroundPanel;
 
     public BaseScreen(String title, Rectangle rectangle, int topMode, Player player) {
+        int point = player.getmyPoint();
+
+        if(point < 1000)
+            characterLevel = 0;
+        else if(point < 4000)
+            characterLevel = 1;
+        else if(point < 7000)
+            characterLevel = 2;
+        else if(point < 10000)
+            characterLevel = 3;
+        else
+            characterLevel = 4;
+
+
         // topMode: 0 - title, 1 - username & score
         EventQueue.invokeLater(new Runnable() {
             public void run() {

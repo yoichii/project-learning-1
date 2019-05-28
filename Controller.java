@@ -36,8 +36,8 @@ public class Controller implements ActionListener {
             }
         });
 
-        //controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
-      	//controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        controller.clip = BaseScreen.createClip(new File("sounds/first.wav"));
+      	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
 
@@ -272,14 +272,12 @@ public class Controller implements ActionListener {
             transit(homeScreen, playScreen, text);
         }
 
-        /*
         // change bgm
         clip.stop();
         clip.flush();
         clip.setFramePosition(0);
-        clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
+        clip1 = BaseScreen.createClip(new File("sounds/battle.wav"));
         clip1.loop(Clip.LOOP_CONTINUOUSLY);
-        */
     }
 
 

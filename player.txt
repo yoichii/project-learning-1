@@ -4,3 +4,15 @@ pass
 user2
 pass
 200
+uma
+uma
+2000
+daruma
+daruma
+6000
+ryuu
+ryuu
+9000
+oni
+oni
+11000
