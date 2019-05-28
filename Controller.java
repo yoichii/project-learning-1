@@ -36,8 +36,8 @@ public class Controller implements ActionListener {
             }
         });
 
-        controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
-      	controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        //controller.clip = BaseScreen.createClip(new File("sounds/preparation.wav"));
+      	//controller.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
 
@@ -101,7 +101,7 @@ public class Controller implements ActionListener {
         if(registerScreen == null) {
             registerScreen = new RegisterScreen(this, loginScreen.getBounds());
         }
-        transit(loginScreen, registerScreen, "新入り！　よろしく頼もう");
+        transit(loginScreen, registerScreen, "新入り！　これからよろしく！");
     }
 
 
@@ -184,6 +184,7 @@ public class Controller implements ActionListener {
         message.setPut(put);
         message.setTotalPieces(playScreen.getTotalPieces());
 
+        System.out.println("send: "+command);
         sendMessage(message, playScreen);
 
         // update border
@@ -231,6 +232,7 @@ public class Controller implements ActionListener {
             // create player
             this.player =  new Player();
             player.setUsername(message.getUsername());
+            player.setmyPoint(message.getMyPoint());
 
             // transition
             homeScreen = new HomeScreen(this, player);
@@ -260,7 +262,7 @@ public class Controller implements ActionListener {
                 text = "先手必勝！黒がお主の色だ";
             } else if (message.getOrder() == Order.passive) {
                 player.setMyColor(2);
-                text = "虎視眈々！白がお主の色だ";
+                text = "後手有利！白がお主の色だ！";
             }
             player.setOpponentname(message.getOpponentname());
 
@@ -270,23 +272,36 @@ public class Controller implements ActionListener {
             transit(homeScreen, playScreen, text);
         }
 
+        /*
         // change bgm
         clip.stop();
         clip.flush();
         clip.setFramePosition(0);
         clip1 = BaseScreen.createClip(new File("sounds/last-war.wav"));
         clip1.loop(Clip.LOOP_CONTINUOUSLY);
+        */
     }
 
 
     private void processPut(Message message) {
        if(message.getStatus() == Status.success) {
 
+           System.out.println("receive: "+String.valueOf(message.getPut()[0])+String.valueOf(message.getPut()[1]));
+
             boolean pass = playScreen.updateBorder(message.getPut(), 3 - player.getMyColor());
 
             if(pass) {
                 playScreen.setText("置く場所がない！相手の番だ！");
-                controllPut("-1,-1");
+                
+                ActionListener listener = new ActionListener(){
+                    public void actionPerformed(ActionEvent event){
+                        controllPut("-1,-1");
+                    }
+                };
+                Timer timer = new Timer(1000, listener);
+                timer.setRepeats(false);
+                timer.start();
+
             }
        }
     }

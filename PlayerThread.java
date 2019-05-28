@@ -406,7 +406,7 @@ public PlayerThread(Socket socket,ThreadController threadcontroller) {
 
 							message.setPassword(password);
 
-							
+							message.setMyPoint(player.getmyPoint());
 
 
 

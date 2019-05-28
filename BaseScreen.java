@@ -63,7 +63,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
 
         if (topMode >= 1) {
             //myDataLabel = new JLabel("<html>"+player.getUsername()+"<br>"+player.getmyPoint()+"<html>");
-            myDataLabel = new JLabel("1000");
+            myDataLabel = new JLabel(String.valueOf(player.getmyPoint()));
             //myDataLabel.setFont(new Font("ＭＳ 明朝", Font.BOLD, 20));
             Font font = null;
             try {
@@ -89,7 +89,7 @@ public abstract class BaseScreen extends JFrame implements MouseListener {
 
         if (topMode == 2) {
             //opponentDataLabel.setText("<html>"+player.getOpponentname()+"<br>"+player.getOpponentPoint()+"<html>");
-            opponentDataLabel.setText("800");
+            //opponentDataLabel.setText(String.valueOf(player.getOpponentPoint()));
         }
 
         // bottom panel

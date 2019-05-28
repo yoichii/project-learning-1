@@ -1,6 +1,7 @@
 import java.awt.*;
 import projectlearning1.*;
 import javax.swing.*;
+import java.io.*;
 
 public class LoginScreen extends BaseScreen {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +34,16 @@ public class LoginScreen extends BaseScreen {
         formPanel.setBackground(getBackgroundColor());
         //// username
         JLabel usernameLabel = new JLabel("ユーザ名");
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/g_brushtappitsu_freeH.ttf")).deriveFont(Font.BOLD, 18);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (font != null)
+            usernameLabel.setFont(font);
+
         usernameLabel.setHorizontalAlignment(JLabel.CENTER);
         usernameLabel.setPreferredSize(new Dimension(160, 40));
         usernameField = new JTextField("");
@@ -42,6 +53,8 @@ public class LoginScreen extends BaseScreen {
         usernameField.setActionCommand("login");
         //// password
         JLabel passwordLabel = new JLabel("パスワード");
+        if (font != null)
+            passwordLabel.setFont(font);
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordLabel.setPreferredSize(new Dimension(160, 40));
         passwordField = new JPasswordField();

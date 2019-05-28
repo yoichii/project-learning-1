@@ -166,6 +166,7 @@ public class PlayScreen extends BaseScreen {
     public boolean updateBorder(int[] put, int color) {
         boolean pass = othello.getNextBorder(put, color);
 
+        System.out.println(pass);
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 drawBoard();
@@ -186,6 +187,7 @@ public class PlayScreen extends BaseScreen {
         for(int i = 0; i < othello.ROW; ++i) {
             for(int j = 0; j < othello.COLUMN; ++j) {
 
+                System.out.print(othello.getStatus(i, j, player.getMyColor()));
                 board[i][j].setStatus(othello.getStatus(i, j, player.getMyColor()));
                 board[i][j].restartTimer();
 
@@ -195,7 +197,9 @@ public class PlayScreen extends BaseScreen {
                 else if(othello.puttableEquals(i, j))
                     board[i][j].setEnabled(true);
             }
+            System.out.println();
         }
+        System.out.println();
     }
 
     public int[] getTotalPieces() {

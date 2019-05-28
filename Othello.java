@@ -116,6 +116,12 @@ public class Othello {
         if(move[0] != -1) {
             getNextPieces(move, color);
             getNextTotalPieces();
+        } else {
+            for(int i = 0; i < ROW; ++i) {
+                for(int j = 0; j < COLUMN; ++j) {
+                    pieces[index][i][j] = pieces[1-index][i][j];
+                }
+            }
         }
         
         // if my turn, update puttable[][]

@@ -22,9 +22,12 @@ public class Message implements Serializable {
     private int[] put = {-1, -1};
 
     private int[] totalPieces = {-1, -1};
-    
+
     private String[][] history;
 
+    private int myPoint = 0;
+
+    private int opponentPoint = 0;
 
 
     public Type getType() { return type; }
@@ -76,4 +79,12 @@ public class Message implements Serializable {
 
     public String[][] getHistory() { return history; }
     public void setHistory(String[][] history) { this.history  = history; }
+
+    public int getMyPoint() { return myPoint; }
+
+    public void setMyPoint(int myPoint) { this.myPoint = myPoint; }
+
+    public int getOpponentPoint() { return opponentPoint; }
+
+    public void setOpponentPoint(int opponentPoint) { this.opponentPoint = opponentPoint; }
 }
